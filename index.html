@@ -4,191 +4,140 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dank Memer Tracker</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="theme-color" content="#0b0d12">
 
 <style>
 :root{
-  --bg:#080b12;
-  --bg2:#0d121c;
-  --panel:rgba(18,23,34,.84);
-  --panel2:rgba(25,31,45,.92);
-  --text:#f5f7fb;
-  --muted:#8e99ad;
-  --line:rgba(255,255,255,.09);
-  --accent:#7c5cff;
-  --accent2:#a084ff;
-  --good:#42d392;
-  --warn:#ffbf55;
-  --bad:#ff667a;
-  --cyan:#39d6ff;
-  --shadow:0 18px 55px rgba(0,0,0,.32);
-  --radius:20px;
+  --bg:#0b0d12;
+  --panel:#11151d;
+  --card:#171c26;
+  --card2:#1c2330;
+  --text:#f4f7fb;
+  --muted:#8d98aa;
+  --border:#293141;
+  --accent:#8b5cf6;
+  --green:#35d07f;
+  --yellow:#f5c451;
+  --red:#ff6678;
+  --blue:#55a7ff;
+  --glass:.78;
+  --radius:18px;
 }
 
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
-
 body{
   margin:0;
-  min-height:100vh;
-  color:var(--text);
   background:
-    radial-gradient(circle at 15% 10%,rgba(124,92,255,.18),transparent 32%),
-    radial-gradient(circle at 85% 85%,rgba(0,210,255,.08),transparent 30%),
+    radial-gradient(circle at 10% 0%,rgba(139,92,246,.12),transparent 30%),
+    radial-gradient(circle at 90% 10%,rgba(85,167,255,.08),transparent 28%),
     var(--bg);
-  font:15px/1.5 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background-image:var(--custom-bg,none);
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  opacity:var(--bg-opacity,0);
-  pointer-events:none;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 button,input,select{font:inherit}
 
 button{
-  cursor:pointer;
   border:0;
-  color:var(--text);
+  cursor:pointer;
 }
 
-input,select{
-  width:100%;
-  background:#0e1420;
-  border:1px solid var(--line);
-  color:var(--text);
-  padding:11px 13px;
-  border-radius:12px;
-  outline:none;
+.app{
+  min-height:100vh;
+  display:flex;
 }
-
-input:focus,select:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
-}
-
-button.primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  padding:11px 16px;
-  border-radius:12px;
-  font-weight:800;
-  box-shadow:0 8px 25px color-mix(in srgb,var(--accent) 25%,transparent);
-}
-
-button.secondary,
-button.small{
-  background:#20283a;
-  padding:10px 14px;
-  border-radius:11px;
-}
-
-button.small{
-  padding:8px 11px;
-  font-size:13px;
-  font-weight:750;
-}
-
-button.danger{
-  background:rgba(255,70,95,.12);
-  color:#ff8190;
-  padding:10px 12px;
-  border-radius:11px;
-}
-
-button:hover{filter:brightness(1.08)}
-button:active{transform:translateY(1px)}
-
-.app{display:flex;min-height:100vh}
 
 .sidebar{
-  width:245px;
-  position:fixed;
+  width:240px;
+  position:sticky;
   top:0;
-  bottom:0;
-  padding:24px 16px;
-  border-right:1px solid var(--line);
-  background:rgba(7,10,16,.8);
-  backdrop-filter:blur(22px);
-  z-index:20;
+  height:100vh;
+  padding:22px 16px;
+  border-right:1px solid var(--border);
+  background:rgba(11,13,18,.88);
+  backdrop-filter:blur(18px);
+  z-index:10;
 }
 
-.brand{
-  font-size:20px;
+.logo{
+  font-size:22px;
   font-weight:900;
-  padding:10px 12px 24px;
+  margin-bottom:28px;
 }
 
-.brand span{color:var(--accent)}
+.logo span{color:var(--accent)}
 
 .nav{
-  display:grid;
-  gap:7px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
 .nav button{
   background:transparent;
-  text-align:left;
-  padding:13px 14px;
-  border-radius:13px;
   color:var(--muted);
-  font-weight:750;
+  text-align:left;
+  padding:12px 14px;
+  border-radius:12px;
+  transition:.18s;
 }
 
 .nav button:hover,
 .nav button.active{
-  background:rgba(124,92,255,.13);
+  background:rgba(139,92,246,.14);
   color:var(--text);
 }
 
 .main{
-  margin-left:245px;
-  width:calc(100% - 245px);
-  padding:30px;
-  max-width:1550px;
+  flex:1;
+  min-width:0;
+  padding:26px;
+  max-width:1500px;
 }
 
-.top{
+.topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:18px;
-  margin-bottom:25px;
+  gap:15px;
+  margin-bottom:24px;
 }
 
-.top h1{
+h1{
   margin:0;
-  font-size:clamp(25px,3vw,38px);
-  letter-spacing:-1px;
+  font-size:30px;
 }
 
-.top p{
-  margin:5px 0 0;
+.subtitle{
   color:var(--muted);
+  margin-top:5px;
 }
 
-.status{
+.actions{
   display:flex;
-  align-items:center;
   gap:8px;
-  color:var(--muted);
-  font-size:13px;
+  flex-wrap:wrap;
 }
 
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--good);
-  box-shadow:0 0 13px var(--good);
+.btn{
+  padding:10px 14px;
+  border-radius:11px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.btn:hover{background:var(--card2)}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:white;
+}
+
+.btn.danger{
+  color:#ff8492;
 }
 
 .page{display:none}
@@ -196,48 +145,48 @@ button:active{transform:translateY(1px)}
 
 .stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:14px;
-  margin-bottom:20px;
-}
-
-.stat,
-.card,
-.item{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(16px);
+  margin-bottom:22px;
 }
 
 .stat{
   padding:18px;
+  background:rgba(17,21,29,var(--glass));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
 }
 
-.stat .num{
-  font-size:27px;
-  font-weight:900;
-  margin-top:3px;
-}
-
-.label{
+.stat-label{
   color:var(--muted);
   font-size:13px;
-  font-weight:700;
 }
 
-.card{
-  padding:20px;
-  margin-bottom:18px;
+.stat-value{
+  font-size:26px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.section{
+  background:rgba(17,21,29,var(--glass));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
 }
 
 .section-head{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:12px;
-  margin-bottom:16px;
+  margin-bottom:15px;
 }
 
 .section-head h2{
@@ -245,2916 +194,2085 @@ button:active{transform:translateY(1px)}
   font-size:19px;
 }
 
-.toolbar{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-}
-
-.toolbar>*{width:auto}
-
-.formgrid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr auto;
-  gap:10px;
-  align-items:end;
-}
-
-.field label{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  font-weight:800;
-  margin:0 0 6px;
-}
-
-.list{
+.cards{
   display:grid;
   gap:11px;
 }
 
-.item{
+.card{
+  background:rgba(23,28,38,.9);
+  border:1px solid var(--border);
+  border-radius:15px;
   padding:15px;
-  background:var(--panel2);
 }
 
-.item:hover{
-  border-color:rgba(124,92,255,.25);
-}
-
-.item-head{
+.card-row{
   display:flex;
-  justify-content:space-between;
-  gap:12px;
   align-items:flex-start;
+  gap:13px;
 }
 
-.item-title{
+.logo-box{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  border-radius:13px;
+  background:var(--card2);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-size:20px;
+  font-weight:900;
+}
+
+.logo-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-main{
+  flex:1;
+  min-width:0;
+}
+
+.card-title{
+  font-weight:850;
   font-size:16px;
+}
+
+.card-desc{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.card-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:var(--card2);
+  color:var(--muted);
+  font-size:12px;
+  border:1px solid var(--border);
+}
+
+.pill.good{color:var(--green)}
+.pill.warn{color:var(--yellow)}
+.pill.bad{color:var(--red)}
+.pill.blue{color:var(--blue)}
+
+.countdown{
   font-weight:850;
 }
 
-.item-meta{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:3px;
-}
-
-.actions{
+.card-actions{
   display:flex;
-  gap:7px;
   flex-wrap:wrap;
+  gap:7px;
   margin-top:12px;
 }
 
-.badge{
-  display:inline-flex;
-  padding:5px 8px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
-  white-space:nowrap;
+.small-btn{
+  padding:7px 10px;
+  border-radius:9px;
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-size:12px;
 }
 
-.active-b{
-  background:rgba(66,211,146,.12);
-  color:var(--good);
+.small-btn:hover{border-color:var(--accent)}
+
+.progress-wrap{
+  margin-top:12px;
 }
 
-.warn-b{
-  background:rgba(255,191,85,.12);
-  color:var(--warn);
-}
-
-.bad-b{
-  background:rgba(255,102,122,.12);
-  color:var(--bad);
-}
-
-.neutral-b{
-  background:#20283a;
-  color:#aeb8ca;
-}
-
-.countdown{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:.3px;
-  margin-top:7px;
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
 }
 
 .progress{
   height:8px;
-  background:#111827;
   border-radius:99px;
+  background:#272e3b;
   overflow:hidden;
-  margin-top:10px;
+  margin-top:7px;
 }
 
-.progress i{
-  display:block;
+.progress-bar{
   height:100%;
-  background:linear-gradient(90deg,var(--accent),var(--cyan));
+  background:var(--accent);
   border-radius:99px;
-  transition:width .3s;
+  transition:width .25s ease;
 }
 
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:30px 10px;
+.complete .progress-bar{
+  background:var(--green);
 }
 
-.two{
+.complete{
+  border-color:rgba(53,208,127,.4);
+}
+
+.tier{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.search{max-width:270px}
-
-.checkrow{
-  display:flex;
+  grid-template-columns:44px 1fr;
+  gap:10px;
   align-items:center;
-  gap:11px;
-  padding:12px 2px;
-  border-bottom:1px solid var(--line);
+  padding:10px;
+  margin-top:9px;
+  border:1px solid var(--border);
+  background:rgba(28,35,48,.7);
+  border-radius:12px;
 }
 
-.checkrow:last-child{border-bottom:0}
-
-.checkrow input{
-  width:18px;
-  height:18px;
-  accent-color:var(--accent);
+.tier-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  object-fit:contain;
 }
 
-.checkrow.done .checkname{
-  text-decoration:line-through;
-  color:#697489;
+.tier-info{
+  min-width:0;
 }
 
-.checkname{font-weight:700}
-
-.progress-wrap{margin-bottom:15px}
-
-.progress-line{
-  display:flex;
-  justify-content:space-between;
-  color:var(--muted);
+.tier-title{
+  font-weight:800;
   font-size:13px;
 }
 
-.hero{
+.controls{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.amount{
+  min-width:80px;
+  flex:1;
+  padding:7px 9px;
+  background:#0d1118;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:8px;
+  outline:none;
+}
+
+.amount:focus,
+input:focus,
+select:focus{
+  border-color:var(--accent);
+}
+
+.empty{
   padding:25px;
-  border-radius:24px;
-  background:
-    linear-gradient(135deg,rgba(124,92,255,.2),rgba(26,35,54,.75));
-  border:1px solid var(--line);
-  margin-bottom:18px;
-}
-
-.hero h2{
-  font-size:27px;
-  margin:0 0 4px;
-}
-
-.hero p{
-  margin:0;
+  text-align:center;
   color:var(--muted);
 }
-
-.settings{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.setting{
-  padding:15px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(255,255,255,.025);
-}
-
-.setting h3{
-  margin:0 0 10px;
-  font-size:15px;
-}
-
-.range{width:100%}
 
 .modal-backdrop{
   position:fixed;
   inset:0;
-  z-index:100;
-  background:rgba(0,0,0,.62);
-  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,.65);
   display:none;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  z-index:100;
+  padding:20px;
 }
 
 .modal-backdrop.show{display:flex}
 
 .modal{
-  width:min(500px,100%);
-  background:#121824;
-  border:1px solid var(--line);
-  border-radius:22px;
-  box-shadow:0 30px 100px rgba(0,0,0,.55);
-  padding:22px;
+  width:min(480px,100%);
+  background:#11151d;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 20px 70px rgba(0,0,0,.45);
 }
 
-.modal h2{
-  margin:0 0 5px;
+.modal h3{margin:0 0 14px}
+
+.field{
+  margin-bottom:13px;
 }
 
-.modal p{
-  margin:0 0 18px;
+.field label{
+  display:block;
+  font-size:12px;
   color:var(--muted);
+  margin-bottom:6px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  padding:11px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#0d1118;
+  color:var(--text);
+  outline:none;
 }
 
 .modal-actions{
   display:flex;
   justify-content:flex-end;
   gap:8px;
-  margin-top:18px;
-}
-
-.quick-days{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:10px;
-}
-
-.quick-days button{
-  background:#20283a;
-  padding:10px;
-  border-radius:10px;
-  font-weight:800;
+  margin-top:17px;
 }
 
 .toast{
   position:fixed;
   right:20px;
   bottom:20px;
-  z-index:150;
-  background:#171e2c;
-  border:1px solid var(--line);
-  padding:13px 16px;
-  border-radius:13px;
-  box-shadow:var(--shadow);
-  transform:translateY(120px);
+  background:#161c27;
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:12px 15px;
+  border-radius:12px;
   opacity:0;
-  transition:.25s;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.2s;
+  z-index:200;
 }
 
 .toast.show{
-  transform:none;
   opacity:1;
+  transform:translateY(0);
 }
 
-.mobile-nav{display:none}
-
-.compact .card{padding:14px}
-.compact .item{padding:11px}
-.compact .stat{padding:14px}
-
-.no-animations *,
-.no-animations *::before,
-.no-animations *::after{
-  animation:none!important;
-  transition:none!important;
+.settings{
+  display:grid;
+  gap:14px;
+  max-width:700px;
 }
 
-@media(max-width:900px){
+.range-row{
+  display:grid;
+  grid-template-columns:1fr 120px;
+  gap:10px;
+  align-items:center;
+}
+
+.color-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.color-row input{
+  width:55px;
+  height:40px;
+  padding:2px;
+}
+
+.mobile-nav{
+  display:none;
+}
+
+@media(max-width:950px){
   .sidebar{display:none}
-
   .mobile-nav{
     display:flex;
-    position:fixed;
-    bottom:12px;
-    left:12px;
-    right:12px;
-    z-index:30;
-    background:rgba(10,14,22,.9);
-    backdrop-filter:blur(20px);
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:7px;
-    gap:4px;
-    overflow:auto;
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(11,13,18,.94);
+    border-bottom:1px solid var(--border);
+    padding:10px;
+    gap:7px;
+    overflow-x:auto;
   }
-
   .mobile-nav button{
-    flex:1;
-    min-width:72px;
-    background:transparent;
+    white-space:nowrap;
+    background:var(--card);
     color:var(--muted);
-    padding:9px 6px;
-    border-radius:12px;
-    font-size:11px;
-    font-weight:800;
+    border:1px solid var(--border);
+    padding:9px 12px;
+    border-radius:10px;
   }
-
   .mobile-nav button.active{
-    background:rgba(124,92,255,.16);
-    color:#fff;
+    color:white;
+    background:var(--accent);
+    border-color:var(--accent);
   }
-
-  .main{
-    margin-left:0;
-    width:100%;
-    padding:20px 14px 100px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .formgrid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .formgrid button{
-    width:100%;
-  }
-
-  .two,
-  .settings{
-    grid-template-columns:1fr;
-  }
-
-  .top{align-items:flex-start}
-
-  .status{display:none}
+  .main{padding:18px}
 }
 
-@media(max-width:520px){
-  .stats{gap:9px}
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:1fr}
+  .topbar{align-items:flex-start;flex-direction:column}
+}
 
-  .stat{padding:14px}
-
-  .stat .num{font-size:22px}
-
-  .card{
-    padding:15px;
-    border-radius:17px;
-  }
-
-  .formgrid{
-    grid-template-columns:1fr;
-  }
-
-  .section-head{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .search{
-    max-width:none;
-  }
-
-  .toolbar{
-    width:100%;
-  }
-
-  .toolbar>*{
-    flex:1;
-  }
-
-  .item-head{
-    flex-direction:column;
-  }
-
-  .actions button{
-    flex:1;
-  }
-
-  .hero h2{
-    font-size:23px;
-  }
-
-  .quick-days{
-    grid-template-columns:repeat(2,1fr);
-  }
+@media(max-width:460px){
+  .main{padding:13px}
+  .stats{grid-template-columns:1fr}
+  h1{font-size:25px}
 }
 </style>
 </head>
 
 <body>
 
+<div class="mobile-nav" id="mobileNav"></div>
+
 <div class="app">
 
 <aside class="sidebar">
-  <div class="brand">💀 Dank <span>Tracker</span></div>
+  <div class="logo">Dank <span>Tracker</span></div>
 
   <nav class="nav">
     <button data-page="dashboard" class="active">📊 Dashboard</button>
-    <button data-page="grinders">💳 Grinder Fees</button>
-    <button data-page="heists">🔥 Heist Timer</button>
-    <button data-page="badges">🎖️ Badges</button>
-    <button data-page="achievements">🏆 Achievements</button>
-    <button data-page="customize">🎨 Customize</button>
+    <button data-page="grinders">💰 Grinder Fees</button>
+    <button data-page="heists">⏱️ Heist Timers</button>
+    <button data-page="badges">🏆 Badges</button>
+    <button data-page="achievements">🏅 Achievements</button>
+    <button data-page="settings">⚙️ Customize</button>
   </nav>
 </aside>
 
 <main class="main">
 
-<header class="top">
-  <div>
-    <h1 id="pageTitle">Dashboard</h1>
-    <p>Your Dank Memer grind, organized.</p>
+  <div class="topbar">
+    <div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div class="subtitle">Your Dank Memer progress, grinders and timers.</div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="refreshBtn">↻ Refresh</button>
+    </div>
   </div>
 
-  <div class="status">
-    <i class="dot"></i>
-    Cloud synced
-  </div>
-</header>
+  <!-- DASHBOARD -->
+  <section class="page active" id="page-dashboard">
 
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Active Grinders</div>
+        <div class="stat-value" id="statGrinders">0</div>
+      </div>
 
-<!-- DASHBOARD -->
+      <div class="stat">
+        <div class="stat-label">Active Heists</div>
+        <div class="stat-value" id="statHeists">0</div>
+      </div>
 
-<section id="dashboard" class="page active">
+      <div class="stat">
+        <div class="stat-label">Badge Progress</div>
+        <div class="stat-value" id="statBadges">0%</div>
+      </div>
 
-  <div class="hero">
-    <h2>Welcome back, grinder. 💀</h2>
-    <p>Everything you need for your servers, heists, badges and achievements in one place.</p>
-  </div>
-
-  <div class="stats">
-
-    <div class="stat">
-      <div class="label">ACTIVE GRINDERS</div>
-      <div class="num" id="sGrinders">0</div>
+      <div class="stat">
+        <div class="stat-label">Achievement Progress</div>
+        <div class="stat-value" id="statAchievements">0%</div>
+      </div>
     </div>
 
-    <div class="stat">
-      <div class="label">WEEKLY FEES</div>
-      <div class="num" id="sFees">0</div>
+    <div class="grid">
+
+      <div class="section">
+        <div class="section-head">
+          <h2>💰 Upcoming Payments</h2>
+          <button class="small-btn" data-go="grinders">View all</button>
+        </div>
+        <div class="cards" id="dashboardGrinders"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>⏱️ Heist Timers</h2>
+          <button class="small-btn" data-go="heists">View all</button>
+        </div>
+        <div class="cards" id="dashboardHeists"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>🏆 Closest Badges</h2>
+          <button class="small-btn" data-go="badges">View all</button>
+        </div>
+        <div class="cards" id="dashboardBadges"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>🏅 Closest Achievements</h2>
+          <button class="small-btn" data-go="achievements">View all</button>
+        </div>
+        <div class="cards" id="dashboardAchievements"></div>
+      </div>
+
     </div>
+  </section>
 
-    <div class="stat">
-      <div class="label">RUNNING HEISTS</div>
-      <div class="num" id="sHeists">0</div>
-    </div>
+  <!-- GRINDERS -->
+  <section class="page" id="page-grinders">
 
-    <div class="stat">
-      <div class="label">BADGE PROGRESS</div>
-      <div class="num" id="sBadges">0 / 0</div>
-    </div>
-
-  </div>
-
-  <div class="two">
-
-    <div class="card">
+    <div class="section">
       <div class="section-head">
-        <h2>⚠️ Expiring Soon</h2>
-        <button class="small" onclick="go('grinders')">View all</button>
+        <h2>💰 Grinder Fees</h2>
+        <button class="btn primary" id="addGrinderBtn">＋ Add Grinder</button>
       </div>
 
-      <div id="dashExpiring" class="list"></div>
+      <div class="cards" id="grinderList"></div>
     </div>
 
+  </section>
 
-    <div class="card">
+  <!-- HEISTS -->
+  <section class="page" id="page-heists">
+
+    <div class="section">
       <div class="section-head">
-        <h2>🔥 Active Heists</h2>
-        <button class="small" onclick="go('heists')">View all</button>
+        <h2>⏱️ Heist Timers</h2>
+        <button class="btn primary" id="addHeistBtn">＋ Add Timer</button>
       </div>
 
-      <div id="dashHeists" class="list"></div>
+      <div class="cards" id="heistList"></div>
     </div>
 
-  </div>
+  </section>
 
-</section>
+  <!-- BADGES -->
+  <section class="page" id="page-badges">
 
-
-<!-- GRINDERS -->
-
-<section id="grinders" class="page">
-
-  <div class="card">
-
-    <div class="section-head">
-
-      <h2>💳 Grinder Fees</h2>
-
-      <div class="toolbar">
-        <input
-          id="grinderSearch"
-          class="search"
-          placeholder="Search server..."
-          oninput="renderGrinders()"
-        >
+    <div class="section">
+      <div class="section-head">
+        <h2>🏆 Badges</h2>
+        <div class="pill" id="badgeProgress">0%</div>
       </div>
 
+      <div class="cards" id="badgeList"></div>
     </div>
 
+  </section>
 
-    <div class="formgrid">
+  <!-- ACHIEVEMENTS -->
+  <section class="page" id="page-achievements">
 
-      <div class="field">
-        <label>SERVER NAME</label>
-        <input id="gName" placeholder="e.g. Lunar Society">
+    <div class="section">
+      <div class="section-head">
+        <h2>🏅 Achievements</h2>
+        <div class="pill" id="achievementProgress">0%</div>
       </div>
 
-      <div class="field">
-        <label>FEE</label>
-        <input id="gFee" type="number" min="0" placeholder="49000000">
-      </div>
-
-      <div class="field">
-        <label>DURATION</label>
-
-        <select id="gDays">
-          <option value="7">7 days</option>
-          <option value="14">14 days</option>
-          <option value="30">30 days</option>
-          <option value="60">60 days</option>
-          <option value="90">90 days</option>
-          <option value="180">180 days</option>
-          <option value="365">365 days</option>
-        </select>
-
-      </div>
-
-      <button class="primary" onclick="addGrinder()">
-        ＋ Add Grinder
-      </button>
-
+      <div class="cards" id="achievementList"></div>
     </div>
 
-  </div>
+  </section>
 
+  <!-- SETTINGS -->
+  <section class="page" id="page-settings">
 
-  <div class="card">
+    <div class="section">
+      <div class="section-head">
+        <h2>⚙️ Customize</h2>
+      </div>
 
-    <div class="section-head">
-      <h2>Your Servers</h2>
-      <span class="label" id="gTotal"></span>
+      <div class="settings">
+
+        <div class="field">
+          <label>Accent color</label>
+          <div class="color-row">
+            <input type="color" id="accentInput" value="#8b5cf6">
+            <span class="muted">Choose your tracker accent.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Background image / GIF URL</label>
+          <input id="backgroundInput" placeholder="https://example.com/background.gif">
+        </div>
+
+        <div class="field">
+          <label>Background opacity</label>
+          <div class="range-row">
+            <input type="range" id="opacityInput" min="0.05" max="1" step="0.01" value=".78">
+            <span id="opacityValue">0.78</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Glass strength</label>
+          <div class="range-row">
+            <input type="range" id="glassInput" min="0.2" max="1" step="0.01" value=".78">
+            <span id="glassValue">0.78</span>
+          </div>
+        </div>
+
+        <button class="btn danger" id="resetThemeBtn">Reset appearance</button>
+
+      </div>
     </div>
 
-    <div id="grinderList" class="list"></div>
-
-  </div>
-
-</section>
-
-
-<!-- HEISTS -->
-
-<section id="heists" class="page">
-
-  <div class="card">
-
-    <div class="section-head">
-      <h2>🔥 Heist Timer</h2>
-    </div>
-
-
-    <div class="formgrid">
-
-      <div class="field">
-        <label>HEIST NAME</label>
-        <input id="hName" placeholder="e.g. Members Den">
-      </div>
-
-      <div class="field">
-        <label>MINUTES</label>
-        <input id="hMinutes" type="number" min="1" value="60">
-      </div>
-
-      <div></div>
-
-      <button class="primary" onclick="addHeist()">
-        ＋ Add Timer
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="section-head">
-      <h2>Your Timers</h2>
-    </div>
-
-    <div id="heistList" class="list"></div>
-
-  </div>
-
-</section>
-
-
-<!-- BADGES -->
-
-<section id="badges" class="page">
-
-  <div class="card">
-
-    <div class="section-head">
-
-      <h2>🎖️ Badges</h2>
-
-      <input
-        id="badgeSearch"
-        class="search"
-        placeholder="Search badges..."
-        oninput="renderBadges()"
-      >
-
-    </div>
-
-
-    <div class="progress-wrap">
-
-      <div class="progress-line">
-        <b id="badgeCount">0 / 0</b>
-        <span id="badgePercent">0%</span>
-      </div>
-
-      <div class="progress">
-        <i id="badgeBar" style="width:0%"></i>
-      </div>
-
-    </div>
-
-
-    <div id="badgeList"></div>
-
-  </div>
-
-</section>
-
-
-<!-- ACHIEVEMENTS -->
-
-<section id="achievements" class="page">
-
-  <div class="card">
-
-    <div class="section-head">
-
-      <h2>🏆 Achievements</h2>
-
-      <input
-        id="achievementSearch"
-        class="search"
-        placeholder="Search achievements..."
-        oninput="renderAchievements()"
-      >
-
-    </div>
-
-
-    <div class="progress-wrap">
-
-      <div class="progress-line">
-        <b id="achievementCount">0 / 0</b>
-        <span id="achievementPercent">0%</span>
-      </div>
-
-      <div class="progress">
-        <i id="achievementBar" style="width:0%"></i>
-      </div>
-
-    </div>
-
-
-    <div id="achievementList"></div>
-
-  </div>
-
-</section>
-
-
-<!-- CUSTOMIZE -->
-
-<section id="customize" class="page">
-
-  <div class="card">
-
-    <div class="section-head">
-
-      <h2>🎨 Customize</h2>
-
-      <button class="danger" onclick="resetTheme()">
-        Reset
-      </button>
-
-    </div>
-
-
-    <div class="settings">
-
-      <div class="setting">
-
-        <h3>Accent Color</h3>
-
-        <input
-          id="accent"
-          type="color"
-          value="#7c5cff"
-          onchange="saveTheme()"
-        >
-
-      </div>
-
-
-      <div class="setting">
-
-        <h3>Background Image / GIF URL</h3>
-
-        <input
-          id="bgUrl"
-          placeholder="https://..."
-          onchange="saveTheme()"
-        >
-
-      </div>
-
-
-      <div class="setting">
-
-        <h3>Background Opacity</h3>
-
-        <input
-          id="bgOpacity"
-          class="range"
-          type="range"
-          min="0"
-          max=".45"
-          step=".01"
-          value="0"
-          oninput="saveTheme()"
-        >
-
-      </div>
-
-
-      <div class="setting">
-
-        <h3>Card Glass Strength</h3>
-
-        <input
-          id="glass"
-          class="range"
-          type="range"
-          min=".45"
-          max="1"
-          step=".01"
-          value=".82"
-          oninput="saveTheme()"
-        >
-
-      </div>
-
-
-      <div class="setting">
-
-        <h3>Interface Density</h3>
-
-        <select id="density" onchange="saveTheme()">
-          <option value="normal">Normal</option>
-          <option value="compact">Compact</option>
-        </select>
-
-      </div>
-
-
-      <div class="setting">
-
-        <h3>Animations</h3>
-
-        <select id="animations" onchange="saveTheme()">
-          <option value="on">On</option>
-          <option value="off">Off</option>
-        </select>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
+  </section>
 
 </main>
 </div>
 
-
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-  <button data-page="dashboard" class="active">
-    📊<br>Home
-  </button>
-
-  <button data-page="grinders">
-    💳<br>Fees
-  </button>
-
-  <button data-page="heists">
-    🔥<br>Heists
-  </button>
-
-  <button data-page="badges">
-    🎖️<br>Badges
-  </button>
-
-  <button data-page="customize">
-    🎨<br>More
-  </button>
-
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal"></div>
 </div>
 
+<div class="toast" id="toast"></div>
 
-<!-- PAYMENT MODAL -->
-
-<div id="payModal" class="modal-backdrop">
-
-  <div class="modal">
-
-    <h2>💳 Pay Grinder</h2>
-
-    <p id="payModalText">
-      Choose how long you want to extend this server.
-    </p>
-
-    <div class="field">
-
-      <label>DAYS</label>
-
-      <input
-        id="customDays"
-        type="number"
-        min="1"
-        value="7"
-      >
-
-    </div>
-
-
-    <div class="quick-days">
-
-      <button onclick="setPayDays(7)">7 DAYS</button>
-      <button onclick="setPayDays(30)">30 DAYS</button>
-      <button onclick="setPayDays(60)">60 DAYS</button>
-      <button onclick="setPayDays(90)">90 DAYS</button>
-      <button onclick="setPayDays(180)">180 DAYS</button>
-      <button onclick="setPayDays(365)">365 DAYS</button>
-
-    </div>
-
-
-    <div class="modal-actions">
-
-      <button
-        class="secondary"
-        onclick="closePayModal()"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="primary"
-        onclick="confirmCustomPay()"
-      >
-        Confirm Payment
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- EDIT MODAL -->
-
-<div id="editModal" class="modal-backdrop">
-
-  <div class="modal">
-
-    <h2>✏️ Edit Grinder</h2>
-
-    <p>Update this server's information.</p>
-
-    <div class="field">
-
-      <label>SERVER NAME</label>
-
-      <input id="editName">
-
-    </div>
-
-    <br>
-
-    <div class="field">
-
-      <label>FEE</label>
-
-      <input id="editFee" type="number" min="0">
-
-    </div>
-
-    <br>
-
-    <div class="field">
-
-      <label>DEFAULT PAYMENT DAYS</label>
-
-      <select id="editDays">
-        <option value="7">7 days</option>
-        <option value="14">14 days</option>
-        <option value="30">30 days</option>
-        <option value="60">60 days</option>
-        <option value="90">90 days</option>
-        <option value="180">180 days</option>
-        <option value="365">365 days</option>
-      </select>
-
-    </div>
-
-
-    <div class="modal-actions">
-
-      <button
-        class="secondary"
-        onclick="closeEditModal()"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="primary"
-        onclick="saveEdit()"
-      >
-        Save Changes
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-const SUPABASE_URL =
-"https://acfbuegbalkdajregyhi.supabase.co";
+const SUPABASE_URL = "https://acfbuegbalkdajregyhi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
 
-const SUPABASE_KEY =
-"sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const db =
-supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const money = n =>
+  "⏣" + Number(n || 0).toLocaleString("en-US");
+
+const escapeHTML = value =>
+  String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+const clamp = (n,min,max) =>
+  Math.min(Math.max(Number(n) || 0,min),max);
+
+function toast(message){
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(
+    () => el.classList.remove("show"),
+    2300
+  );
+}
+
+function formatDate(date){
+  if(!date) return "—";
+
+  return new Intl.DateTimeFormat("en-US",{
+    month:"long",
+    day:"numeric",
+    year:"numeric"
+  }).format(new Date(date));
+}
+
+function remainingText(date){
+  if(!date) return "No date";
+
+  const diff = new Date(date).getTime() - Date.now();
+
+  if(diff <= 0) return "Due now";
+
+  const seconds = Math.floor(diff / 1000);
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+
+  if(days > 0) return `${days}d ${hours}h`;
+  if(hours > 0) return `${hours}h ${mins}m`;
+  return `${Math.max(mins,1)}m`;
+}
+
+function remainingMs(date){
+  if(!date) return Infinity;
+  return new Date(date).getTime() - Date.now();
+}
+
+function percentage(current,required){
+  if(!required) return 100;
+  return Math.min(100,(Number(current || 0) / Number(required)) * 100);
+}
+
+function progressText(current,required){
+  return `${Number(current || 0).toLocaleString("en-US")} / ${Number(required || 0).toLocaleString("en-US")}`;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const pages = [
+  ["dashboard","📊 Dashboard"],
+  ["grinders","💰 Grinder Fees"],
+  ["heists","⏱️ Heist Timers"],
+  ["badges","🏆 Badges"],
+  ["achievements","🏅 Achievements"],
+  ["settings","⚙️ Customize"]
+];
+
+function setupNavigation(){
+
+  const nav = document.querySelector(".nav");
+  const mobile = $("mobileNav");
+
+  mobile.innerHTML = "";
+
+  pages.forEach(([id,label]) => {
+
+    const desktopButton = nav.querySelector(`[data-page="${id}"]`);
+
+    if(desktopButton){
+      desktopButton.addEventListener("click",() => showPage(id));
+    }
+
+    const mobileButton = document.createElement("button");
+    mobileButton.textContent = label;
+    mobileButton.dataset.page = id;
+
+    mobileButton.addEventListener("click",() => showPage(id));
+
+    mobile.appendChild(mobileButton);
+  });
+
+  document.querySelectorAll("[data-go]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      showPage(button.dataset.go);
+    });
+  });
+}
+
+function showPage(id){
+
+  document.querySelectorAll(".page")
+    .forEach(page => page.classList.remove("active"));
+
+  $(`page-${id}`).classList.add("active");
+
+  document.querySelectorAll("[data-page]")
+    .forEach(button=>{
+      button.classList.toggle(
+        "active",
+        button.dataset.page === id
+      );
+    });
+
+  const title = pages.find(p=>p[0]===id)?.[1] || "Dashboard";
+
+  $("pageTitle").textContent =
+    title.replace(/^.\s/,"");
+}
+
+
+/* =========================================================
+   DATA
+========================================================= */
 
 let grinders = [];
 let heists = [];
 let badges = [];
 let achievements = [];
 
-let theme = {};
 
-let paymentTarget = null;
-let editTarget = null;
+/* =========================================================
+   GRINDER DEFAULTS FROM YOUR FILE
+========================================================= */
 
-
-/* =========================
-   HELPERS
-========================= */
-
-const $ = id =>
-  document.getElementById(id);
-
-
-function money(n){
-  return Number(n || 0)
-    .toLocaleString("en-US");
-}
-
-
-function esc(value){
-  return String(value ?? "")
-    .replace(/[&<>"']/g,m=>({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[m]));
-}
-
-
-function toast(message){
-
-  const el = $("toast");
-
-  el.textContent = message;
-
-  el.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer =
-    setTimeout(
-      ()=>el.classList.remove("show"),
-      2500
-    );
-}
-
-
-function formatDate(date){
-
-  return new Date(date)
-    .toLocaleString(
-      "en-MY",
-      {
-        dateStyle:"medium",
-        timeStyle:"short"
-      }
-    );
-}
-
-
-function timeLeft(ms){
-
-  if(ms <= 0)
-    return "Expired";
-
-  let seconds =
-    Math.floor(ms / 1000);
-
-  const days =
-    Math.floor(seconds / 86400);
-
-  seconds %= 86400;
-
-  const hours =
-    Math.floor(seconds / 3600);
-
-  seconds %= 3600;
-
-  const minutes =
-    Math.floor(seconds / 60);
-
-  seconds %= 60;
-
-  if(days > 0){
-
-    return `${days}d ` +
-           `${String(hours).padStart(2,"0")}h ` +
-           `${String(minutes).padStart(2,"0")}m`;
-
+const grinderDefaults = [
+  {
+    server_name:"Lunar Society",
+    fee:49000000,
+    paid_until:"2026-12-12T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"Heist Circle",
+    fee:45500000,
+    paid_until:"2026-12-15T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"Specials",
+    fee:56000000,
+    paid_until:"2026-12-12T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"The Dimension",
+    fee:49000000,
+    paid_until:"2026-12-16T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"Memers Den",
+    fee:42000000,
+    paid_until:"2026-12-12T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"The Kingdom",
+    fee:49000000,
+    paid_until:"2026-12-19T23:59:59",
+    duration_days:7,
+    description:"Heist at Saturday"
+  },
+  {
+    server_name:"Heavenly",
+    fee:49000000,
+    paid_until:"2026-10-11T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"REALM",
+    fee:49000000,
+    paid_until:"2026-10-09T23:59:59",
+    duration_days:7,
+    description:"2B heist"
+  },
+  {
+    server_name:"The Hideout",
+    fee:77000000,
+    paid_until:"2026-11-13T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"Dank Beast",
+    fee:84000000,
+    paid_until:"2026-10-12T23:59:59",
+    duration_days:7,
+    description:""
+  },
+  {
+    server_name:"Dank Craft",
+    fee:70000000,
+    paid_until:"2026-10-14T23:59:59",
+    duration_days:7,
+    description:""
   }
-
-  return (
-    `${String(hours).padStart(2,"0")}:` +
-    `${String(minutes).padStart(2,"0")}:` +
-    `${String(seconds).padStart(2,"0")}`
-  );
-}
+];
 
 
-/* =========================
-   NAVIGATION
-========================= */
+/* =========================================================
+   BADGES
+========================================================= */
 
-function go(page){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      x=>x.classList.remove("active")
-    );
-
-  const target = $(page);
-
-  if(!target) return;
-
-  target.classList.add("active");
-
-  document
-    .querySelectorAll("[data-page]")
-    .forEach(
-      x=>x.classList.toggle(
-        "active",
-        x.dataset.page === page
-      )
-    );
-
-  const titles = {
-
-    dashboard:"Dashboard",
-    grinders:"Grinder Fees",
-    heists:"Heist Timer",
-    badges:"Badges",
-    achievements:"Achievements",
-    customize:"Customize"
-
-  };
-
-  $("pageTitle").textContent =
-    titles[page] || page;
-
-  history.replaceState(
-    null,
-    "",
-    "#" + page
-  );
-}
+const badgeDefaults = [
+  ["Collector","Upkeep Required","Earned for completing all bundles. The most expensive badge to achieve.",0,28,"Earned for completing all regular achievements and non-upkeep gold badges.",42,99],
+  ["Daily Devotee","Upkeep Required",'Earned for a "high" daily streak.',36,420,null,36,666],
+  ["Poor Little Beggar","", "Earned for successfully begging.",1559,10000,"Earned for successfully begging.",1559,15000],
+  ["Hide and Seek Champion","","Earned for successfully searching.",4773,10000,"Earned for successfully searching.",4773,15000],
+  ["Crime Lord","","Earned for successfully committing a crime.",3687,10000,"Earned for successfully committing a crime.",3687,15000],
+  ["Meme Connoisseur","","Earned for posting trending memes.",174,2000,"Earned for posting trending memes.",174,3000],
+  ["Market Manipulator","","Earned for successfully completing other people's offers (sell/buy).",2745,5000,"Earned for successfully completing other people's offers (sell/buy).",2745,10000],
+  ["Charity Leader","","Earned for hosting global giveaways.",13,1000,"Earned for hosting global giveaways.",13,1500],
+  ["Pet Handling Expert","","Earned for having Prestige 1+ pets.",0,4,"Earned for having Prestige 1+ pets.",0,8],
+  ["BANG BANG BANG Expert","","Earned for catching dragons.",80,250,"Earned for catching dragons.",80,400],
+  ["Illegal Pet Fighter","","Earned for winning pet fights.",0,4000,"Earned for winning pet fights.",0,5000],
+  ["Seasoned Angler","Upkeep Required","Discover all NPCs and non-boss & non-mythical creatures (base variant).",84,85,"Earned for placing 1st, 2nd or 3rd on a daily fishing leaderboard.",0,1],
+  ["Master Baiter","Upkeep Required","Earned for completing all available skill challenges.",14,81,null,null,null],
+  ["Diggin It","","Earned for catching dig bosses.",22,250,"Earned for catching dig bosses.",22,400],
+  ["Business Savvy","","Earned for earning coins from /work.",55734965,20000000,"Earned for earning coins from /work.",55734965,100000000],
+  ["Slot Master","","Earned for winning games of /slots.",62,15000,"Earned for winning games of /slots.",62,20000],
+  ["Metal Tosser","","Earned for winnings games of /cointoss.",1,5000,"Earned for winnings games of /cointoss.",1,10000],
+  ["Slippery Snake","","Earned for winning games of /snakeeyes.",58,5000,"Earned for winning games of /snakeeyes.",58,10000],
+  ["Ball Spinning Pro","","Earned for winning games of /roulette.",197,5000,"Earned for winning games of /roulette.",197,10000],
+  ["BJ Master","","Earned for winning games of /blackjack.",231,5000,"Earned for winning games of /blackjack.",231,10000],
+  ["Always High","Upkeep Required","Earned for winning games of /highlow.",649,12500,"Earned for winning games of /highlow.",649,15000],
+  ["Rob Them Blind","","Earned for successfully robbing X coins.",239801935,50000000000,"Earned for successfully robbing X coins.",239801935,200000000000],
+  ["Disenfranchised Voter","","Earned for reaching the vote level goal X times (currently 90).",1,3,"Earned for reaching the vote level goal X times (currently 90).",1,6],
+  ["Bester Quester","","Earned for completing weekly quests.",9,20,"Earned for completing weekly quests.",9,40],
+  ["Bold Adventurer","","Earned for winning adventures.",439,500,"Earned for winning adventures.",439,1000],
+  ["Fighter","","Earned for advancing in the ranking.",3,3,"Earned for advancing in the ranking.",2,4],
+  ["Marital Marvel","Upkeep Required","Earned for being married for X weeks.",0,16,"Earned for being married for X weeks.",0,52],
+  ["XPlosion Expert","","Earned for gaining X XP.",153998,10000000,"Earned for gaining X XP.",153998,15000000],
+  ["Goldzilla","Upkeep Required","Earned for having a net worth of X.",0,100000000000,"Earned for having a net worth of X.",0,300000000000],
+  ["Farm Hand","","Earned for harvesting plants.",1553,25000,"Earned for harvesting diamonds.",0,100],
+  ["Skin Collector","","Earned for having 150 ITEM skins equipped.",82,150,"Earned for owning 75% of all skins.",154,370],
+  ["Maid Master","","Earned for successfully tidying up /tidy command.",427,5000,"Earned for successfully tidying up using brooms or vacuums.",427,5000],
+  ["Haunted","","Earned for trick or treating during Halloween.",0,20,null,null,null]
+];
 
 
-document
-  .querySelectorAll("[data-page]")
-  .forEach(
-    button =>
-      button.onclick =
-        ()=>go(button.dataset.page)
-  );
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+const achievementDefaults = [
+  ["Get 10 promotions at one job!",2,10],
+  ["Obtain 5 work stars!",0,5],
+  ["Obtain 25 work stars!",0,25],
+  ["Stream 50 days in a row!",9,50],
+  ["Stream 100 days in a row!",9,100],
+  ["Obtain Prestige 25!",0,25],
+
+  ["Obtain Pet Prestige 1!",0,1],
+  ["Obtain Pet Prestige 5!",0,5],
+  ["Obtain Pet Prestige 10!",0,10],
+  ["Obtain Pet Prestige 15!",0,15],
+
+  ["Obtain OMEGA 10!",2,10],
+
+  ["Turn in a bundle!",0,1],
+  ["Turn in 10 bundles!",0,10],
+
+  ["Reach a 69 daily streak!",36,69],
+  ["Obtain 10 badges!",7,10],
+  ["Die 1000 times!",943,1000],
+  ["Harvest 5,000 plants!",1600,5000],
+  ["Harvest a shiny surprise!",0,1],
+  ["Harvest 90 times for a friend!",0,90],
+  ["Complete 50 weekly quests!",9,50],
+  ["Have 100 visits on your farm!",2,100],
+  ["Win 10 quick fights in a row!",0,10],
+  ["Use 1,000 items!",966,1000],
+  ["Use 10,000 items!",966,10000],
+  ["Complete the fish guide book",0,1],
+  ["Catch all fish bosses",0,15],
+  ["Reach max reputation with 1 Fish NPC",440,700],
+  ["Reach min reputation with 1 Fish NPC",400,700],
+  ["Complete 30 Fish Pass Tasks",14,30],
+  ["Open 25 of any lootbox at once!",1,25],
+  ["Own 5 fishing buckets!",3,5]
+];
 
 
-if(
-  location.hash &&
-  $(location.hash.slice(1))
-){
-  go(location.hash.slice(1));
-}
-
-
-/* =========================
-   DATABASE
-========================= */
+/* =========================================================
+   LOAD / INITIALIZE
+========================================================= */
 
 async function loadAll(){
 
-  const results =
-    await Promise.all([
+  const [
+    grinderRes,
+    heistRes,
+    badgeRes,
+    achievementRes
+  ] = await Promise.all([
+    db.from("grinder_fees").select("*").order("paid_until",{ascending:true}),
+    db.from("heist_timers").select("*"),
+    db.from("badges").select("*").order("id"),
+    db.from("achievements").select("*").order("id")
+  ]);
 
-      db
-        .from("grinder_fees")
-        .select("*")
-        .order(
-          "paid_until",
-          {
-            ascending:true,
-            nullsFirst:false
-          }
-        ),
+  if(grinderRes.error){
+    console.error(grinderRes.error);
+    toast("Could not load grinder data");
+  }
 
-      db
-        .from("heist_timers")
-        .select("*")
-        .order(
-          "created_at",
-          {ascending:false}
-        ),
+  if(heistRes.error){
+    console.error(heistRes.error);
+  }
 
-      db
-        .from("badges")
-        .select("*")
-        .order("id"),
+  if(badgeRes.error){
+    console.error(badgeRes.error);
+  }
 
-      db
-        .from("achievements")
-        .select("*")
-        .order("id")
+  if(achievementRes.error){
+    console.error(achievementRes.error);
+  }
 
-    ]);
+  grinders = grinderRes.data || [];
+  heists = heistRes.data || [];
+  badges = badgeRes.data || [];
+  achievements = achievementRes.data || [];
 
+  /*
+    Seed defaults only when tables are empty.
+    If the database already contains data, it is never overwritten.
+  */
 
-  grinders =
-    results[0].data || [];
+  if(grinders.length === 0){
+    const {data,error} =
+      await db.from("grinder_fees")
+        .insert(grinderDefaults)
+        .select();
 
-  heists =
-    results[1].data || [];
+    if(!error) grinders = data || [];
+  }
 
-  badges =
-    results[2].data || [];
+  if(badges.length === 0){
+    const rows = badgeDefaults.map((b,index)=>({
+      name:b[0],
+      completed:false,
+      gold_current:b[3],
+      gold_required:b[4],
+      platinum_current:b[6],
+      platinum_required:b[7]
+    }));
 
-  achievements =
-    results[3].data || [];
+    /*
+      If the existing table doesn't have the extra progress
+      columns yet, the fallback below keeps the page usable.
+    */
 
+    const {data,error} =
+      await db.from("badges")
+        .insert(rows)
+        .select();
 
-  results.forEach(
-    result=>{
-      if(result.error)
-        console.error(result.error);
+    if(!error) badges = data || [];
+    else {
+      console.warn("Badge progress columns are not present yet.",error);
     }
-  );
+  }
 
+  if(achievements.length === 0){
+
+    const rows = achievementDefaults.map(a=>({
+      name:a[0],
+      completed:false,
+      current:a[1],
+      required:a[2]
+    }));
+
+    const {data,error} =
+      await db.from("achievements")
+        .insert(rows)
+        .select();
+
+    if(!error) achievements = data || [];
+    else {
+      console.warn("Achievement progress columns are not present yet.",error);
+    }
+  }
 
   renderAll();
 }
 
 
-/* =========================
-   GRINDERS
-========================= */
+/* =========================================================
+   GRINDER RENDER
+========================================================= */
 
-async function addGrinder(){
+function sortedGrinders(){
 
-  const name =
-    $("gName").value.trim();
-
-  const fee =
-    Number($("gFee").value);
-
-  const days =
-    Number($("gDays").value);
-
-
-  if(!name){
-
-    toast("Enter a server name.");
-
-    return;
-  }
-
-
-  if(
-    !Number.isFinite(fee) ||
-    fee < 0
-  ){
-
-    toast("Enter a valid fee.");
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("grinder_fees")
-      .insert({
-
-        server_name:name,
-        fee:fee,
-        duration_days:days,
-        paid_until:null
-
-      })
-      .select()
-      .single();
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  grinders.unshift(data);
-
-
-  $("gName").value="";
-  $("gFee").value="";
-
-
-  toast("Grinder added.");
-
-  renderAll();
-}
-
-
-function openPayModal(id){
-
-  paymentTarget = id;
-
-  const grinder =
-    grinders.find(
-      g=>g.id===id
-    );
-
-  if(!grinder) return;
-
-
-  $("payModalText").textContent =
-    `${grinder.server_name} · ${money(grinder.fee)} fee`;
-
-
-  $("customDays").value =
-    grinder.duration_days || 7;
-
-
-  $("payModal")
-    .classList.add("show");
-}
-
-
-function closePayModal(){
-
-  paymentTarget=null;
-
-  $("payModal")
-    .classList.remove("show");
-}
-
-
-function setPayDays(days){
-
-  $("customDays").value=days;
-}
-
-
-async function confirmCustomPay(){
-
-  if(!paymentTarget)
-    return;
-
-
-  const days =
-    Number($("customDays").value);
-
-
-  if(
-    !Number.isInteger(days) ||
-    days <= 0
-  ){
-
-    toast("Enter a valid number of days.");
-
-    return;
-  }
-
-
-  await payGrinder(
-    paymentTarget,
-    days
+  return [...grinders].sort((a,b)=>
+    remainingMs(a.paid_until) - remainingMs(b.paid_until)
   );
-
-
-  closePayModal();
 }
 
+function grinderHTML(g){
 
-async function payGrinder(id,days){
+  const remaining = remainingMs(g.paid_until);
 
-  const grinder =
-    grinders.find(
-      g=>g.id===id
-    );
+  let statusClass = "good";
 
-  if(!grinder) return;
+  if(remaining <= 0) statusClass = "bad";
+  else if(remaining < 86400000) statusClass = "warn";
 
+  return `
+    <div class="card">
+      <div class="card-row">
 
-  let base;
+        <div class="logo-box">
+          <span>${escapeHTML((g.server_name || "?").charAt(0).toUpperCase())}</span>
+        </div>
 
+        <div class="card-main">
 
-  if(
-    grinder.paid_until &&
-    new Date(grinder.paid_until) > new Date()
-  ){
+          <div class="card-title">${escapeHTML(g.server_name)}</div>
 
-    base =
-      new Date(grinder.paid_until);
+          ${
+            g.description
+              ? `<div class="card-desc">${escapeHTML(g.description)}</div>`
+              : ""
+          }
 
-  }else{
+          <div class="card-meta">
+            <span class="pill blue">${money(g.fee)} / ${g.duration_days || 7} days</span>
 
-    base =
-      new Date();
+            <span class="pill ${statusClass}">
+              Next payment:
+              <b>${formatDate(g.paid_until)}</b>
+            </span>
 
-  }
+            <span class="pill ${statusClass}">
+              <span class="countdown"
+                data-countdown="${escapeHTML(g.paid_until)}">
+                ${remainingText(g.paid_until)}
+              </span>
+            </span>
+          </div>
 
+          <div class="card-actions">
+            <button class="small-btn" onclick="payGrinder(${g.id})">💳 Pay / Extend</button>
+            <button class="small-btn" onclick="editGrinder(${g.id})">✏️ Edit</button>
+            <button class="small-btn" onclick="deleteGrinder(${g.id})">🗑️ Delete</button>
+          </div>
 
-  base.setDate(
-    base.getDate()+days
-  );
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("grinder_fees")
-      .update({
-
-        paid_until:
-          base.toISOString(),
-
-        duration_days:
-          days
-
-      })
-      .eq("id",id)
-      .select()
-      .single();
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  Object.assign(
-    grinder,
-    data
-  );
-
-
-  toast(
-    `${grinder.server_name} extended ${days} days.`
-  );
-
-
-  renderAll();
+        </div>
+      </div>
+    </div>
+  `;
 }
-
-
-function openEditModal(id){
-
-  editTarget=id;
-
-  const grinder =
-    grinders.find(
-      g=>g.id===id
-    );
-
-  if(!grinder) return;
-
-
-  $("editName").value =
-    grinder.server_name;
-
-  $("editFee").value =
-    grinder.fee;
-
-  $("editDays").value =
-    grinder.duration_days || 7;
-
-
-  $("editModal")
-    .classList.add("show");
-}
-
-
-function closeEditModal(){
-
-  editTarget=null;
-
-  $("editModal")
-    .classList.remove("show");
-}
-
-
-async function saveEdit(){
-
-  if(!editTarget)
-    return;
-
-
-  const name =
-    $("editName").value.trim();
-
-  const fee =
-    Number($("editFee").value);
-
-  const days =
-    Number($("editDays").value);
-
-
-  if(!name){
-
-    toast("Server name cannot be empty.");
-
-    return;
-  }
-
-
-  if(
-    !Number.isFinite(fee) ||
-    fee < 0
-  ){
-
-    toast("Invalid fee.");
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("grinder_fees")
-      .update({
-
-        server_name:name,
-        fee:fee,
-        duration_days:days
-
-      })
-      .eq("id",editTarget)
-      .select()
-      .single();
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  const grinder =
-    grinders.find(
-      g=>g.id===editTarget
-    );
-
-
-  if(grinder)
-    Object.assign(
-      grinder,
-      data
-    );
-
-
-  closeEditModal();
-
-  toast("Grinder updated.");
-
-  renderAll();
-}
-
-
-async function deleteGrinder(id){
-
-  if(
-    !confirm(
-      "Delete this grinder?"
-    )
-  ) return;
-
-
-  const {error} =
-    await db
-      .from("grinder_fees")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  grinders =
-    grinders.filter(
-      g=>g.id!==id
-    );
-
-
-  toast("Grinder deleted.");
-
-  renderAll();
-}
-
-
-function grinderStatus(grinder){
-
-  if(!grinder.paid_until){
-
-    return [
-      "NOT PAID",
-      "neutral-b"
-    ];
-
-  }
-
-
-  const ms =
-    new Date(
-      grinder.paid_until
-    ) - Date.now();
-
-
-  if(ms <= 0){
-
-    return [
-      "EXPIRED",
-      "bad-b"
-    ];
-
-  }
-
-
-  if(
-    ms <= 3*86400000
-  ){
-
-    return [
-      "EXPIRING SOON",
-      "warn-b"
-    ];
-
-  }
-
-
-  return [
-    "ACTIVE",
-    "active-b"
-  ];
-}
-
 
 function renderGrinders(){
 
-  const search =
-    (
-      $("grinderSearch").value ||
-      ""
-    ).toLowerCase();
+  const list = $("grinderList");
+  const data = sortedGrinders();
 
+  list.innerHTML =
+    data.length
+      ? data.map(grinderHTML).join("")
+      : `<div class="empty">No grinder fees yet.</div>`;
 
-  const filtered =
-    grinders
-      .filter(
-        g =>
-          g.server_name
-            .toLowerCase()
-            .includes(search)
-      )
-      .sort(
-        (a,b)=>{
-
-          const ad =
-            a.paid_until
-              ? new Date(a.paid_until)
-              : new Date(864e15);
-
-          const bd =
-            b.paid_until
-              ? new Date(b.paid_until)
-              : new Date(864e15);
-
-          return ad-bd;
-
-        }
-      );
-
-
-  $("gTotal").textContent =
-    `${filtered.length} server${filtered.length!==1?"s":""}`;
-
-
-  if(!filtered.length){
-
-    $("grinderList").innerHTML =
-      `<div class="empty">
-        No grinders yet. Add your first server above.
-      </div>`;
-
-    return;
-  }
-
-
-  $("grinderList").innerHTML =
-    filtered
-      .map(grinder=>{
-
-        const [
-          status,
-          statusClass
-        ] =
-          grinderStatus(grinder);
-
-
-        const ms =
-          grinder.paid_until
-            ? new Date(
-                grinder.paid_until
-              ) - Date.now()
-            : 0;
-
-
-        return `
-        <div class="item">
-
-          <div class="item-head">
-
-            <div>
-
-              <div class="item-title">
-                ${esc(grinder.server_name)}
-              </div>
-
-              <div class="item-meta">
-                Fee:
-                <b>${money(grinder.fee)}</b>
-                · Default:
-                ${grinder.duration_days || 7} days
-              </div>
-
-            </div>
-
-            <span class="badge ${statusClass}">
-              ${status}
-            </span>
-
-          </div>
-
-
-          <div
-            class="countdown"
-            data-expiry="${grinder.paid_until || ""}"
-          >
-            ${
-              grinder.paid_until
-                ? timeLeft(ms)
-                : "Not paid yet"
-            }
-          </div>
-
-
-          <div class="item-meta">
-
-            ${
-              grinder.paid_until
-                ? `Paid until ${formatDate(
-                    grinder.paid_until
-                  )}`
-                : "Pay this server to start its countdown."
-            }
-
-          </div>
-
-
-          <div class="actions">
-
-            <button
-              class="primary small"
-              onclick="payGrinder(
-                ${grinder.id},
-                ${grinder.duration_days || 7}
-              )"
-            >
-              PAY ${grinder.duration_days || 7} DAYS
-            </button>
-
-
-            <button
-              class="small"
-              onclick="openPayModal(${grinder.id})"
-            >
-              CUSTOM PAY
-            </button>
-
-
-            <button
-              class="small"
-              onclick="openEditModal(${grinder.id})"
-            >
-              EDIT
-            </button>
-
-
-            <button
-              class="danger small"
-              onclick="deleteGrinder(${grinder.id})"
-            >
-              DELETE
-            </button>
-
-          </div>
-
-        </div>
-        `;
-
-      })
-      .join("");
+  $("dashboardGrinders").innerHTML =
+    data.slice(0,5).map(grinderHTML).join("")
+    || `<div class="empty">No upcoming payments.</div>`;
 }
 
 
-/* =========================
-   HEISTS
-========================= */
+/* =========================================================
+   GRINDER MODAL
+========================================================= */
 
-async function addHeist(){
-
-  const name =
-    $("hName").value.trim();
-
-  const minutes =
-    Number($("hMinutes").value);
-
-
-  if(
-    !name ||
-    !Number.isFinite(minutes) ||
-    minutes <= 0
-  ){
-
-    toast(
-      "Enter a name and valid duration."
-    );
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("heist_timers")
-      .insert({
-
-        name:name,
-
-        duration_seconds:
-          Math.round(minutes*60),
-
-        end_time:null
-
-      })
-      .select()
-      .single();
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  heists.unshift(data);
-
-  $("hName").value="";
-
-  toast("Heist timer added.");
-
-  renderAll();
+function openModal(html){
+  $("modal").innerHTML = html;
+  $("modalBackdrop").classList.add("show");
 }
 
-
-async function startHeist(id){
-
-  const heist =
-    heists.find(
-      h=>h.id===id
-    );
-
-  if(!heist) return;
-
-
-  const end =
-    new Date(
-      Date.now() +
-      heist.duration_seconds*1000
-    ).toISOString();
-
-
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("heist_timers")
-      .update({
-        end_time:end
-      })
-      .eq("id",id)
-      .select()
-      .single();
-
-
-  if(error){
-
-    toast(error.message);
-
-    return;
-  }
-
-
-  Object.assign(
-    heist,
-    data
-  );
-
-
-  toast(
-    `${heist.name} started.`
-  );
-
-
-  renderAll();
+function closeModal(){
+  $("modalBackdrop").classList.remove("show");
 }
 
+$("modalBackdrop").addEventListener("click",e=>{
+  if(e.target === $("modalBackdrop")) closeModal();
+});
 
-async function resetHeist(id){
+function addGrinder(){
 
-  const heist =
-    heists.find(
-      h=>h.id===id
-    );
+  openModal(`
+    <h3>Add Grinder</h3>
 
-  if(!heist) return;
+    <form id="grinderForm">
 
+      <div class="field">
+        <label>Server name</label>
+        <input id="gName" required>
+      </div>
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from("heist_timers")
-      .update({
-        end_time:null
-      })
-      .eq("id",id)
-      .select()
-      .single();
+      <div class="field">
+        <label>Weekly fee</label>
+        <input id="gFee" type="number" min="0" required placeholder="49000000">
+      </div>
 
+      <div class="field">
+        <label>Next payment date</label>
+        <input id="gDate" type="date" required>
+      </div>
 
-  if(error){
+      <div class="field">
+        <label>Description</label>
+        <input id="gDesc" placeholder="Weekly 2B heist">
+      </div>
 
-    toast(error.message);
+      <div class="modal-actions">
+        <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+        <button class="btn primary">Add</button>
+      </div>
 
-    return;
-  }
+    </form>
+  `);
 
+  $("grinderForm").addEventListener("submit",async e=>{
+    e.preventDefault();
 
-  Object.assign(
-    heist,
-    data
-  );
+    const date = new Date($("gDate").value + "T23:59:59");
 
+    const {data,error} =
+      await db.from("grinder_fees")
+        .insert({
+          server_name:$("gName").value.trim(),
+          fee:Number($("gFee").value),
+          paid_until:date.toISOString(),
+          duration_days:7,
+          description:$("gDesc").value.trim()
+        })
+        .select()
+        .single();
 
-  toast(
-    `${heist.name} reset.`
-  );
+    if(error){
+      toast("Could not add grinder");
+      console.error(error);
+      return;
+    }
 
-
-  renderAll();
+    grinders.push(data);
+    closeModal();
+    renderAll();
+    toast("Grinder added");
+  });
 }
 
+$("addGrinderBtn").addEventListener("click",addGrinder);
 
-async function deleteHeist(id){
+async function deleteGrinder(id){
 
-  if(
-    !confirm(
-      "Delete this timer?"
-    )
-  ) return;
-
+  if(!confirm("Delete this grinder?")) return;
 
   const {error} =
-    await db
-      .from("heist_timers")
+    await db.from("grinder_fees")
       .delete()
       .eq("id",id);
 
-
   if(error){
-
-    toast(error.message);
-
+    toast("Delete failed");
     return;
   }
 
+  grinders = grinders.filter(g=>g.id !== id);
+  renderAll();
+  toast("Grinder deleted");
+}
 
-  heists =
-    heists.filter(
-      h=>h.id!==id
-    );
+function editGrinder(id){
+
+  const g = grinders.find(x=>x.id===id);
+  if(!g) return;
+
+  const localDate =
+    new Date(g.paid_until)
+      .toISOString()
+      .slice(0,10);
+
+  openModal(`
+    <h3>Edit Grinder</h3>
+
+    <form id="editGrinderForm">
+
+      <div class="field">
+        <label>Server name</label>
+        <input id="egName" value="${escapeHTML(g.server_name)}" required>
+      </div>
+
+      <div class="field">
+        <label>Weekly fee</label>
+        <input id="egFee" type="number" min="0"
+          value="${Number(g.fee)}" required>
+      </div>
+
+      <div class="field">
+        <label>Next payment date</label>
+        <input id="egDate" type="date" value="${localDate}" required>
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <input id="egDesc"
+          value="${escapeHTML(g.description || "")}">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+        <button class="btn primary">Save</button>
+      </div>
+
+    </form>
+  `);
+
+  $("editGrinderForm").addEventListener("submit",async e=>{
+    e.preventDefault();
+
+    const date =
+      new Date($("egDate").value + "T23:59:59");
+
+    const update = {
+      server_name:$("egName").value.trim(),
+      fee:Number($("egFee").value),
+      paid_until:date.toISOString(),
+      description:$("egDesc").value.trim()
+    };
+
+    const {data,error} =
+      await db.from("grinder_fees")
+        .update(update)
+        .eq("id",id)
+        .select()
+        .single();
+
+    if(error){
+      toast("Could not save");
+      return;
+    }
+
+    grinders =
+      grinders.map(x=>x.id===id ? data : x);
+
+    closeModal();
+    renderAll();
+    toast("Saved");
+  });
+}
+
+function payGrinder(id){
+
+  const g = grinders.find(x=>x.id===id);
+  if(!g) return;
+
+  openModal(`
+    <h3>Pay / Extend ${escapeHTML(g.server_name)}</h3>
+
+    <div class="field">
+      <label>Current payment ends</label>
+      <input value="${formatDate(g.paid_until)}" disabled>
+    </div>
+
+    <div class="field">
+      <label>Extend by</label>
+      <select id="payDays">
+        <option value="7">7 days</option>
+        <option value="30">30 days</option>
+        <option value="60">60 days</option>
+        <option value="90">90 days</option>
+        <option value="180">180 days</option>
+        <option value="365">365 days</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="confirmPay">Extend</button>
+    </div>
+  `);
+
+  $("confirmPay").addEventListener("click",async()=>{
+
+    const days = Number($("payDays").value);
+
+    const current = new Date(g.paid_until);
+    const now = new Date();
+
+    const base =
+      current > now
+        ? current
+        : now;
+
+    base.setDate(base.getDate()+days);
+
+    const {data,error} =
+      await db.from("grinder_fees")
+        .update({paid_until:base.toISOString()})
+        .eq("id",id)
+        .select()
+        .single();
+
+    if(error){
+      toast("Payment update failed");
+      return;
+    }
+
+    grinders =
+      grinders.map(x=>x.id===id ? data : x);
+
+    closeModal();
+    renderAll();
+    toast(`Extended by ${days} days`);
+  });
+}
 
 
-  toast("Timer deleted.");
+/* =========================================================
+   HEISTS
+========================================================= */
 
+function sortedHeists(){
+
+  return [...heists].sort((a,b)=>
+    remainingMs(a.end_time) - remainingMs(b.end_time)
+  );
+}
+
+function heistHTML(h){
+
+  return `
+    <div class="card">
+      <div class="card-title">${escapeHTML(h.name)}</div>
+
+      <div class="card-meta">
+        <span class="pill blue">
+          ${Number(h.duration_seconds || 0).toLocaleString("en-US")} seconds
+        </span>
+
+        <span class="pill ${remainingMs(h.end_time)<=0 ? "bad":"good"}">
+          <span class="countdown"
+            data-countdown="${escapeHTML(h.end_time)}">
+            ${remainingText(h.end_time)}
+          </span>
+        </span>
+      </div>
+
+      <div class="card-actions">
+        <button class="small-btn" onclick="restartHeist(${h.id})">↻ Restart</button>
+        <button class="small-btn" onclick="resetHeist(${h.id})">⏹ Reset</button>
+        <button class="small-btn" onclick="deleteHeist(${h.id})">🗑️ Delete</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderHeists(){
+
+  const data = sortedHeists();
+
+  $("heistList").innerHTML =
+    data.length
+      ? data.map(heistHTML).join("")
+      : `<div class="empty">No active heist timers.</div>`;
+
+  $("dashboardHeists").innerHTML =
+    data.slice(0,5).map(heistHTML).join("")
+    || `<div class="empty">No active heists.</div>`;
+}
+
+$("addHeistBtn").addEventListener("click",()=>{
+
+  openModal(`
+    <h3>Add Heist Timer</h3>
+
+    <form id="heistForm">
+
+      <div class="field">
+        <label>Name</label>
+        <input id="hName" required placeholder="Saturday 2B Heist">
+      </div>
+
+      <div class="field">
+        <label>Duration in seconds</label>
+        <input id="hDuration" type="number" min="1" required value="60">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+        <button class="btn primary">Start</button>
+      </div>
+
+    </form>
+  `);
+
+  $("heistForm").addEventListener("submit",async e=>{
+    e.preventDefault();
+
+    const duration =
+      Math.max(1,Number($("hDuration").value));
+
+    const end =
+      new Date(Date.now()+duration*1000).toISOString();
+
+    const {data,error} =
+      await db.from("heist_timers")
+        .insert({
+          name:$("hName").value.trim(),
+          duration_seconds:duration,
+          end_time:end
+        })
+        .select()
+        .single();
+
+    if(error){
+      toast("Could not create timer");
+      return;
+    }
+
+    heists.push(data);
+    closeModal();
+    renderAll();
+    toast("Heist timer started");
+  });
+});
+
+async function restartHeist(id){
+
+  const h = heists.find(x=>x.id===id);
+  if(!h) return;
+
+  const end =
+    new Date(Date.now()+Number(h.duration_seconds)*1000)
+      .toISOString();
+
+  const {data,error} =
+    await db.from("heist_timers")
+      .update({end_time:end})
+      .eq("id",id)
+      .select()
+      .single();
+
+  if(error){
+    toast("Could not restart");
+    return;
+  }
+
+  heists = heists.map(x=>x.id===id ? data : x);
+  renderAll();
+}
+
+async function resetHeist(id){
+
+  const {data,error} =
+    await db.from("heist_timers")
+      .update({end_time:null})
+      .eq("id",id)
+      .select()
+      .single();
+
+  if(error){
+    toast("Could not reset");
+    return;
+  }
+
+  heists = heists.map(x=>x.id===id ? data : x);
+  renderAll();
+}
+
+async function deleteHeist(id){
+
+  if(!confirm("Delete this timer?")) return;
+
+  const {error} =
+    await db.from("heist_timers")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+    toast("Delete failed");
+    return;
+  }
+
+  heists = heists.filter(x=>x.id!==id);
   renderAll();
 }
 
 
-function renderHeists(){
+/* =========================================================
+   BADGES
+========================================================= */
 
-  if(!heists.length){
+function badgeData(b,index){
 
-    $("heistList").innerHTML =
-      `<div class="empty">
-        No heist timers yet.
-      </div>`;
+  const raw = badgeDefaults[index];
 
-    return;
-  }
+  return {
+    id:b.id,
+    name:b.name || raw?.[0] || "Badge",
+    goldDesc:b.gold_desc ?? raw?.[2] ?? "",
+    goldCurrent:Number(b.gold_current ?? raw?.[3] ?? 0),
+    goldRequired:Number(b.gold_required ?? raw?.[4] ?? 0),
+    platDesc:b.platinum_desc ?? raw?.[5] ?? null,
+    platCurrent:
+      b.platinum_current == null
+        ? raw?.[6]
+        : Number(b.platinum_current),
+    platRequired:
+      b.platinum_required == null
+        ? raw?.[7]
+        : Number(b.platinum_required)
+  };
+}
 
+function badgeScore(b){
 
-  $("heistList").innerHTML =
-    heists
-      .map(heist=>{
+  const tiers = [];
 
-        const ms =
-          heist.end_time
-            ? new Date(
-                heist.end_time
-              ) - Date.now()
-            : 0;
+  if(b.goldRequired)
+    tiers.push(percentage(b.goldCurrent,b.goldRequired));
 
+  if(b.platRequired)
+    tiers.push(percentage(b.platCurrent,b.platRequired));
 
-        const finished =
-          heist.end_time &&
-          ms <= 0;
+  return tiers.length
+    ? tiers.reduce((a,c)=>a+c,0)/tiers.length
+    : 0;
+}
 
+function sortedBadges(){
 
-        return `
-        <div class="item">
+  return badges
+    .map((b,i)=>badgeData(b,i))
+    .sort((a,b)=>badgeScore(b)-badgeScore(a));
+}
 
-          <div class="item-head">
+function tierHTML(b,tier){
 
-            <div>
+  const gold = tier==="gold";
 
-              <div class="item-title">
-                ${esc(heist.name)}
-              </div>
+  const current = gold ? b.goldCurrent : b.platCurrent;
+  const required = gold ? b.goldRequired : b.platRequired;
+  const desc = gold ? b.goldDesc : b.platDesc;
 
-              <div class="item-meta">
-                ${Math.round(
-                  heist.duration_seconds/60
-                )} minute timer
-              </div>
+  if(required == null) return "";
 
+  const pct = percentage(current,required);
+  const complete = current >= required;
+
+  return `
+    <div class="tier ${complete ? "complete":""}">
+
+      <div class="tier-icon"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:${gold ? "rgba(245,196,81,.12)" : "rgba(139,92,246,.12)"};
+          color:${gold ? "#f5c451" : "#b89aff"};
+          font-size:20px;
+        ">
+        ${gold ? "🥇" : "💎"}
+      </div>
+
+      <div class="tier-info">
+
+        <div class="tier-title">
+          ${gold ? "Gold" : "Platinum"}
+          ${complete ? " — ✅ Completed" : ""}
+        </div>
+
+        ${
+          desc
+            ? `<div class="card-desc">${escapeHTML(desc)}</div>`
+            : ""
+        }
+
+        <div class="progress-wrap">
+
+          <div class="progress-top">
+            <span>${progressText(current,required)}</span>
+            <span>${Math.round(pct)}%</span>
+          </div>
+
+          <div class="progress">
+            <div class="progress-bar"
+              style="width:${Math.min(100,pct)}%">
             </div>
-
-
-            <span class="badge ${
-              finished
-                ? "bad-b"
-                : heist.end_time
-                  ? "active-b"
-                  : "neutral-b"
-            }">
-
-              ${
-                finished
-                  ? "FINISHED"
-                  : heist.end_time
-                    ? "RUNNING"
-                    : "READY"
-              }
-
-            </span>
-
           </div>
 
+          <div class="controls">
 
-          <div
-            class="countdown"
-            data-heist="${heist.id}"
-          >
-
-            ${
-              heist.end_time
-                ? timeLeft(ms)
-                : "Ready to start"
-            }
-
-          </div>
-
-
-          ${
-            heist.end_time
-              ? `<div class="item-meta">
-                  Ends ${formatDate(
-                    heist.end_time
-                  )}
-                </div>`
-              : ""
-          }
-
-
-          <div class="actions">
-
-            <button
-              class="primary small"
-              onclick="startHeist(${heist.id})"
-            >
-              START / RESTART
+            <button class="small-btn"
+              onclick="changeBadge(${b.id},'${tier}',-1)">
+              −1
             </button>
 
-
-            <button
-              class="secondary small"
-              onclick="resetHeist(${heist.id})"
-            >
-              RESET
+            <button class="small-btn"
+              onclick="changeBadge(${b.id},'${tier}',1)">
+              +1
             </button>
 
-
-            <button
-              class="danger small"
-              onclick="deleteHeist(${heist.id})"
+            <input
+              class="amount"
+              id="badge-${b.id}-${tier}"
+              type="number"
+              min="0"
+              placeholder="Set amount"
             >
-              DELETE
+
+            <button class="small-btn"
+              onclick="setBadge(${b.id},'${tier}')">
+              Set
             </button>
 
           </div>
 
         </div>
-        `;
 
-      })
-      .join("");
+      </div>
+    </div>
+  `;
+}
+
+function badgeHTML(b){
+
+  return `
+    <div class="card ${badgeScore(b)>=100 ? "complete":""}">
+
+      <div class="card-title">
+        ${escapeHTML(b.name)}
+      </div>
+
+      ${tierHTML(b,"gold")}
+      ${tierHTML(b,"platinum")}
+
+    </div>
+  `;
+}
+
+function renderBadges(){
+
+  const data = sortedBadges();
+
+  $("badgeList").innerHTML =
+    data.length
+      ? data.map(badgeHTML).join("")
+      : `<div class="empty">No badges yet.</div>`;
+
+  $("dashboardBadges").innerHTML =
+    data.slice(0,4).map(badgeHTML).join("")
+    || `<div class="empty">No badges yet.</div>`;
+
+  const total =
+    data.reduce((sum,b)=>sum+badgeScore(b),0);
+
+  const avg =
+    data.length
+      ? Math.round(total/data.length)
+      : 0;
+
+  $("badgeProgress").textContent = `${avg}%`;
+}
+
+async function updateBadgeDatabase(id,tier,current){
+
+  const field =
+    tier==="gold"
+      ? "gold_current"
+      : "platinum_current";
+
+  const {data,error} =
+    await db.from("badges")
+      .update({[field]:Math.max(0,Number(current)||0)})
+      .eq("id",id)
+      .select()
+      .single();
+
+  if(error){
+    console.error(error);
+    toast("Badge update failed");
+    return;
+  }
+
+  badges =
+    badges.map(x=>x.id===id ? data : x);
+
+  renderAll();
+}
+
+function changeBadge(id,tier,amount){
+
+  const b = badgeData(
+    badges.find(x=>x.id===id),
+    badges.findIndex(x=>x.id===id)
+  );
+
+  const current =
+    tier==="gold"
+      ? b.goldCurrent
+      : b.platCurrent;
+
+  updateBadgeDatabase(
+    id,
+    tier,
+    current + amount
+  );
+}
+
+function setBadge(id,tier){
+
+  const input = $(`badge-${id}-${tier}`);
+
+  if(!input) return;
+
+  const amount = Number(input.value);
+
+  if(!Number.isFinite(amount) || amount < 0){
+    toast("Enter a valid amount");
+    return;
+  }
+
+  updateBadgeDatabase(id,tier,amount);
 }
 
 
-/* =========================
-   BADGES / ACHIEVEMENTS
-========================= */
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
 
-async function toggle(
-  table,
-  id,
-  value
-){
+function achievementData(a,index){
 
-  const {
-    data,
-    error
-  } =
-    await db
-      .from(table)
+  const raw = achievementDefaults[index];
+
+  return {
+    id:a.id,
+    name:a.name || raw?.[0] || "Achievement",
+    current:Number(a.current ?? raw?.[1] ?? 0),
+    required:Number(a.required ?? raw?.[2] ?? 1)
+  };
+}
+
+function sortedAchievements(){
+
+  return achievements
+    .map((a,i)=>achievementData(a,i))
+    .sort((a,b)=>{
+      const ap=percentage(a.current,a.required);
+      const bp=percentage(b.current,b.required);
+      return bp-ap;
+    });
+}
+
+function achievementHTML(a){
+
+  const pct = percentage(a.current,a.required);
+  const complete = a.current >= a.required;
+
+  return `
+    <div class="card ${complete ? "complete":""}">
+
+      <div class="card-title">
+        ${escapeHTML(a.name)}
+        ${complete ? " — ✅ Completed" : ""}
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-top">
+          <span>${progressText(a.current,a.required)}</span>
+          <span>${Math.round(pct)}%</span>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar"
+            style="width:${Math.min(100,pct)}%">
+          </div>
+        </div>
+
+        <div class="controls">
+
+          <button class="small-btn"
+            onclick="changeAchievement(${a.id},-1)">
+            −1
+          </button>
+
+          <button class="small-btn"
+            onclick="changeAchievement(${a.id},1)">
+            +1
+          </button>
+
+          <input
+            class="amount"
+            id="achievement-${a.id}"
+            type="number"
+            min="0"
+            placeholder="Set amount"
+          >
+
+          <button class="small-btn"
+            onclick="setAchievement(${a.id})">
+            Set
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function renderAchievements(){
+
+  const data = sortedAchievements();
+
+  $("achievementList").innerHTML =
+    data.length
+      ? data.map(achievementHTML).join("")
+      : `<div class="empty">No achievements yet.</div>`;
+
+  $("dashboardAchievements").innerHTML =
+    data.slice(0,4).map(achievementHTML).join("")
+    || `<div class="empty">No achievements yet.</div>`;
+
+  const avg =
+    data.length
+      ? Math.round(
+          data.reduce(
+            (sum,a)=>sum+percentage(a.current,a.required),
+            0
+          ) / data.length
+        )
+      : 0;
+
+  $("achievementProgress").textContent = `${avg}%`;
+}
+
+async function updateAchievement(id,current){
+
+  const {data,error} =
+    await db.from("achievements")
       .update({
-        completed:value
+        current:Math.max(0,Number(current)||0)
       })
       .eq("id",id)
       .select()
       .single();
 
-
   if(error){
-
-    toast(error.message);
-
+    console.error(error);
+    toast("Achievement update failed");
     return;
   }
 
-
-  const list =
-    table === "badges"
-      ? badges
-      : achievements;
-
-
-  const item =
-    list.find(
-      x=>x.id===id
-    );
-
-
-  if(item)
-    Object.assign(
-      item,
-      data
-    );
-
+  achievements =
+    achievements.map(x=>x.id===id ? data : x);
 
   renderAll();
 }
 
+function changeAchievement(id,amount){
 
-function renderChecklist(
-  list,
-  table,
-  searchId,
-  listId,
-  countId,
-  percentId,
-  barId
-){
+  const a = achievements.find(x=>x.id===id);
+  if(!a) return;
 
-  const query =
-    (
-      $(searchId).value ||
-      ""
-    ).toLowerCase();
+  updateAchievement(
+    id,
+    Number(a.current || 0)+amount
+  );
+}
 
+function setAchievement(id){
 
-  const filtered =
-    list.filter(
-      x =>
-        x.name
-          .toLowerCase()
-          .includes(query)
-    );
+  const input = $(`achievement-${id}`);
 
+  if(!input) return;
 
-  const done =
-    list.filter(
-      x=>x.completed
-    ).length;
+  const amount = Number(input.value);
 
-
-  const total =
-    list.length;
-
-
-  const percent =
-    total
-      ? Math.round(
-          done/total*100
-        )
-      : 0;
-
-
-  $(countId).textContent =
-    `${done} / ${total}`;
-
-
-  $(percentId).textContent =
-    `${percent}%`;
-
-
-  $(barId).style.width =
-    percent+"%";
-
-
-  if(!filtered.length){
-
-    $(listId).innerHTML =
-      `<div class="empty">
-        ${
-          total
-            ? "No matching entries."
-            : "No entries yet."
-        }
-      </div>`;
-
+  if(!Number.isFinite(amount) || amount < 0){
+    toast("Enter a valid amount");
     return;
   }
 
-
-  $(listId).innerHTML =
-    filtered
-      .map(
-        item=>`
-
-        <label
-          class="checkrow ${
-            item.completed
-              ? "done"
-              : ""
-          }"
-        >
-
-          <input
-            type="checkbox"
-            ${
-              item.completed
-                ? "checked"
-                : ""
-            }
-
-            onchange="
-              toggle(
-                '${table}',
-                ${item.id},
-                this.checked
-              )
-            "
-          >
-
-          <span class="checkname">
-            ${esc(item.name)}
-          </span>
-
-        </label>
-
-        `
-      )
-      .join("");
+  updateAchievement(id,amount);
 }
 
 
-function renderBadges(){
+/* =========================================================
+   DASHBOARD / STATS
+========================================================= */
 
-  renderChecklist(
-    badges,
-    "badges",
-    "badgeSearch",
-    "badgeList",
-    "badgeCount",
-    "badgePercent",
-    "badgeBar"
-  );
+function renderStats(){
 
+  $("statGrinders").textContent =
+    grinders.length;
+
+  $("statHeists").textContent =
+    heists.filter(h=>remainingMs(h.end_time)>0).length;
+
+  const badgeScores =
+    badges.map((b,i)=>badgeScore(b));
+
+  $("statBadges").textContent =
+    badgeScores.length
+      ? Math.round(
+          badgeScores.reduce((a,b)=>a+b,0) /
+          badgeScores.length
+        ) + "%"
+      : "0%";
+
+  const achScores =
+    achievements.map((a,i)=>{
+      const d=achievementData(a,i);
+      return percentage(d.current,d.required);
+    });
+
+  $("statAchievements").textContent =
+    achScores.length
+      ? Math.round(
+          achScores.reduce((a,b)=>a+b,0) /
+          achScores.length
+        ) + "%"
+      : "0%";
 }
-
-
-function renderAchievements(){
-
-  renderChecklist(
-    achievements,
-    "achievements",
-    "achievementSearch",
-    "achievementList",
-    "achievementCount",
-    "achievementPercent",
-    "achievementBar"
-  );
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-function renderDashboard(){
-
-  const now =
-    Date.now();
-
-
-  const active =
-    grinders.filter(
-      grinder =>
-        grinder.paid_until &&
-        new Date(
-          grinder.paid_until
-        ) > now
-    );
-
-
-  const weeklyFees =
-    grinders.reduce(
-      (total, grinder)=>
-        total +
-        Number(
-          grinder.fee || 0
-        ),
-      0
-    );
-
-
-  const runningHeists =
-    heists.filter(
-      heist =>
-        heist.end_time &&
-        new Date(
-          heist.end_time
-        ) > now
-    ).length;
-
-
-  const completedBadges =
-    badges.filter(
-      x=>x.completed
-    ).length;
-
-
-  $("sGrinders").textContent =
-    active.length;
-
-
-  $("sFees").textContent =
-    money(weeklyFees);
-
-
-  $("sHeists").textContent =
-    runningHeists;
-
-
-  $("sBadges").textContent =
-    `${completedBadges} / ${badges.length}`;
-
-
-  const expiring =
-    grinders
-      .filter(
-        grinder => {
-
-          if(!grinder.paid_until)
-            return false;
-
-          const ms =
-            new Date(
-              grinder.paid_until
-            ) - now;
-
-          return (
-            ms > 0 &&
-            ms <= 3*86400000
-          );
-
-        }
-      )
-      .sort(
-        (a,b)=>
-          new Date(a.paid_until) -
-          new Date(b.paid_until)
-      )
-      .slice(0,4);
-
-
-  $("dashExpiring").innerHTML =
-    expiring.length
-
-      ? expiring
-          .map(
-            grinder=>`
-
-            <div class="item">
-
-              <div class="item-title">
-                ${esc(
-                  grinder.server_name
-                )}
-              </div>
-
-              <div class="item-meta">
-
-                ${timeLeft(
-                  new Date(
-                    grinder.paid_until
-                  ) - now
-                )}
-
-                · ${money(
-                  grinder.fee
-                )}
-
-              </div>
-
-            </div>
-
-            `
-          )
-          .join("")
-
-      : `<div class="empty">
-          Nothing expiring soon 🎉
-        </div>`;
-
-
-  const activeHeists =
-    heists
-      .filter(
-        heist =>
-          heist.end_time &&
-          new Date(
-            heist.end_time
-          ) > now
-      )
-      .slice(0,4);
-
-
-  $("dashHeists").innerHTML =
-    activeHeists.length
-
-      ? activeHeists
-          .map(
-            heist=>`
-
-            <div class="item">
-
-              <div class="item-title">
-                ${esc(
-                  heist.name
-                )}
-              </div>
-
-              <div
-                class="item-meta"
-                data-dashboard-heist="${heist.id}"
-              >
-                ${timeLeft(
-                  new Date(
-                    heist.end_time
-                  ) - now
-                )}
-              </div>
-
-            </div>
-
-            `
-          )
-          .join("")
-
-      : `<div class="empty">
-          No active heists.
-        </div>`;
-}
-
-
-/* =========================
-   LIVE UPDATES
-========================= */
-
-function updateLiveTimers(){
-
-  document
-    .querySelectorAll(
-      "[data-expiry]"
-    )
-    .forEach(
-      element=>{
-
-        if(!element.dataset.expiry)
-          return;
-
-
-        const ms =
-          new Date(
-            element.dataset.expiry
-          ) - Date.now();
-
-
-        element.textContent =
-          timeLeft(ms);
-
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      "[data-heist]"
-    )
-    .forEach(
-      element=>{
-
-        const heist =
-          heists.find(
-            x =>
-              x.id ==
-              element.dataset.heist
-          );
-
-
-        if(!heist)
-          return;
-
-
-        if(!heist.end_time){
-
-          element.textContent =
-            "Ready to start";
-
-          return;
-
-        }
-
-
-        element.textContent =
-          timeLeft(
-            new Date(
-              heist.end_time
-            ) - Date.now()
-          );
-
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      "[data-dashboard-heist]"
-    )
-    .forEach(
-      element=>{
-
-        const heist =
-          heists.find(
-            x =>
-              x.id ==
-              element.dataset
-                .dashboardHeist
-          );
-
-
-        if(
-          !heist ||
-          !heist.end_time
-        )
-          return;
-
-
-        element.textContent =
-          timeLeft(
-            new Date(
-              heist.end_time
-            ) - Date.now()
-          );
-
-      }
-    );
-
-}
-
-
-/* =========================
-   THEME
-========================= */
-
-function loadTheme(){
-
-  try{
-
-    theme =
-      JSON.parse(
-        localStorage.getItem(
-          "dankTheme"
-        ) || "{}"
-      );
-
-  }catch{
-
-    theme={};
-
-  }
-
-
-  $("accent").value =
-    theme.accent ||
-    "#7c5cff";
-
-
-  $("bgUrl").value =
-    theme.bgUrl ||
-    "";
-
-
-  $("bgOpacity").value =
-    theme.bgOpacity ??
-    0;
-
-
-  $("glass").value =
-    theme.glass ??
-    .82;
-
-
-  $("density").value =
-    theme.density ||
-    "normal";
-
-
-  $("animations").value =
-    theme.animations ||
-    "on";
-
-
-  applyTheme(false);
-}
-
-
-function saveTheme(){
-
-  theme = {
-
-    accent:
-      $("accent").value,
-
-    bgUrl:
-      $("bgUrl").value.trim(),
-
-    bgOpacity:
-      $("bgOpacity").value,
-
-    glass:
-      $("glass").value,
-
-    density:
-      $("density").value,
-
-    animations:
-      $("animations").value
-
-  };
-
-
-  applyTheme(true);
-
-  toast(
-    "Theme saved."
-  );
-}
-
-
-function applyTheme(
-  save=true
-){
-
-  const accent =
-    theme.accent ||
-    "#7c5cff";
-
-
-  const background =
-    theme.bgUrl
-      ? `url("${theme.bgUrl
-          .replace(/"/g,'\\"')}")`
-      : "none";
-
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--accent",
-      accent
-    );
-
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--custom-bg",
-      background
-    );
-
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--bg-opacity",
-      theme.bgOpacity ??
-      0
-    );
-
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--panel",
-      `rgba(
-        18,
-        23,
-        34,
-        ${theme.glass ?? .82}
-      )`
-    );
-
-
-  document.body.classList.toggle(
-    "compact",
-    theme.density === "compact"
-  );
-
-
-  document.body.classList.toggle(
-    "no-animations",
-    theme.animations === "off"
-  );
-
-
-  if(save){
-
-    localStorage.setItem(
-      "dankTheme",
-      JSON.stringify(theme)
-    );
-
-  }
-
-}
-
-
-function resetTheme(){
-
-  theme={};
-
-  localStorage.removeItem(
-    "dankTheme"
-  );
-
-  loadTheme();
-
-  toast(
-    "Theme reset."
-  );
-}
-
-
-/* =========================
-   RENDER
-========================= */
 
 function renderAll(){
 
   renderGrinders();
-
   renderHeists();
-
   renderBadges();
-
   renderAchievements();
-
-  renderDashboard();
-
+  renderStats();
 }
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   LIVE COUNTDOWNS
+========================================================= */
 
-document.addEventListener(
-  "keydown",
-  event=>{
+function updateCountdowns(){
 
-    if(event.key==="Escape"){
+  document.querySelectorAll("[data-countdown]")
+    .forEach(el=>{
+      el.textContent =
+        remainingText(el.dataset.countdown);
+    });
 
-      closePayModal();
+  /*
+    Re-sort when a grinder/heist crosses a time threshold.
+    Rendering once per minute is enough for ordering while
+    avoiding unnecessary database calls.
+  */
 
-      closeEditModal();
+  const minute =
+    Math.floor(Date.now()/60000);
 
-    }
+  if(window.lastSortMinute !== minute){
+    window.lastSortMinute = minute;
 
+    renderGrinders();
+    renderHeists();
+    renderStats();
   }
-);
+}
+
+setInterval(updateCountdowns,1000);
 
 
-$("payModal")
-  .addEventListener(
-    "click",
-    event=>{
+/* =========================================================
+   REFRESH
+========================================================= */
 
-      if(
-        event.target ===
-        $("payModal")
-      ){
+$("refreshBtn").addEventListener("click",async()=>{
+  $("refreshBtn").textContent = "↻ Loading...";
+  await loadAll();
+  $("refreshBtn").textContent = "↻ Refresh";
+  toast("Tracker refreshed");
+});
 
-        closePayModal();
+setInterval(loadAll,30000);
 
-      }
 
-    }
+/* =========================================================
+   CUSTOMIZATION
+========================================================= */
+
+const savedTheme =
+  JSON.parse(localStorage.getItem("dankTrackerTheme") || "{}");
+
+function applyTheme(){
+
+  if(savedTheme.accent){
+    document.documentElement
+      .style.setProperty("--accent",savedTheme.accent);
+
+    $("accentInput").value=savedTheme.accent;
+  }
+
+  if(savedTheme.opacity){
+    document.documentElement
+      .style.setProperty("--glass",savedTheme.opacity);
+
+    $("opacityInput").value=savedTheme.opacity;
+    $("opacityValue").textContent=savedTheme.opacity;
+  }
+
+  if(savedTheme.glass){
+    document.documentElement
+      .style.setProperty("--glass",savedTheme.glass);
+
+    $("glassInput").value=savedTheme.glass;
+    $("glassValue").textContent=savedTheme.glass;
+  }
+
+  if(savedTheme.background){
+    document.body.style.backgroundImage =
+      `linear-gradient(rgba(11,13,18,.72),rgba(11,13,18,.72)),url("${savedTheme.background}")`;
+
+    $("backgroundInput").value=savedTheme.background;
+  }
+}
+
+function saveTheme(){
+
+  localStorage.setItem(
+    "dankTrackerTheme",
+    JSON.stringify(savedTheme)
   );
+}
+
+$("accentInput").addEventListener("input",e=>{
+  savedTheme.accent=e.target.value;
+
+  document.documentElement
+    .style.setProperty("--accent",e.target.value);
+
+  saveTheme();
+});
+
+$("backgroundInput").addEventListener("change",e=>{
+  savedTheme.background=e.target.value.trim();
+
+  if(savedTheme.background){
+    document.body.style.backgroundImage =
+      `linear-gradient(rgba(11,13,18,.72),rgba(11,13,18,.72)),url("${savedTheme.background}")`;
+  }else{
+    document.body.style.backgroundImage="";
+  }
+
+  saveTheme();
+});
+
+$("opacityInput").addEventListener("input",e=>{
+  savedTheme.opacity=e.target.value;
+
+  $("opacityValue").textContent=e.target.value;
+
+  document.documentElement
+    .style.setProperty("--glass",e.target.value);
+
+  saveTheme();
+});
+
+$("glassInput").addEventListener("input",e=>{
+  savedTheme.glass=e.target.value;
+
+  $("glassValue").textContent=e.target.value;
+
+  saveTheme();
+});
+
+$("resetThemeBtn").addEventListener("click",()=>{
+  localStorage.removeItem("dankTrackerTheme");
+  location.reload();
+});
 
 
-$("editModal")
-  .addEventListener(
-    "click",
-    event=>{
+/* =========================================================
+   START
+========================================================= */
 
-      if(
-        event.target ===
-        $("editModal")
-      ){
-
-        closeEditModal();
-
-      }
-
-    }
-  );
-
-
-loadTheme();
-
+setupNavigation();
+applyTheme();
 loadAll();
-
-
-/*
-  Update countdowns every second.
-*/
-setInterval(
-  updateLiveTimers,
-  1000
-);
-
-
-/*
-  Refresh cloud data every 30 seconds.
-*/
-setInterval(
-  loadAll,
-  30000
-);
 
 </script>
 
