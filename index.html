@@ -9,23 +9,20 @@
 
 <style>
 :root{
-  --bg:#090b10;
-  --bg2:#0d1017;
-  --panel:#12161f;
-  --panel2:#171c26;
-  --panel3:#1b212d;
-  --border:#272e3b;
-  --border2:#323a4a;
-  --text:#f4f6f8;
-  --muted:#8f99aa;
+  --bg:#080a0f;
+  --panel:#11141c;
+  --panel2:#171b25;
+  --panel3:#1d2230;
+  --border:#292f3d;
+  --text:#f4f6fa;
+  --muted:#8f98aa;
   --accent:#5865f2;
-  --accent2:#7280ff;
+  --accent2:#7c83ff;
   --green:#43d17a;
   --yellow:#f4c95d;
   --red:#ff6262;
   --blue:#55aaff;
-  --purple:#b678ff;
-  --shadow:0 12px 35px rgba(0,0,0,.28);
+  --shadow:0 15px 40px rgba(0,0,0,.28);
 }
 
 *{
@@ -38,18 +35,17 @@ html{
 
 body{
   margin:0;
-  font-family:Inter,Arial,Helvetica,sans-serif;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(circle at 15% 0%,rgba(88,101,242,.08),transparent 28%),
-    radial-gradient(circle at 90% 10%,rgba(114,128,255,.05),transparent 25%),
+    radial-gradient(circle at 80% 0%,rgba(88,101,242,.13),transparent 30%),
     var(--bg);
   color:var(--text);
 }
 
 button,
 input,
-textarea,
-select{
+select,
+textarea{
   font:inherit;
 }
 
@@ -57,95 +53,80 @@ button{
   cursor:pointer;
 }
 
-button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
+.hidden{
+  display:none!important;
 }
 
-.app{
-  min-height:100vh;
-}
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
+/* SIDEBAR */
 
 .sidebar{
-  width:235px;
-  background:rgba(12,15,21,.96);
-  border-right:1px solid var(--border);
-  padding:18px 14px;
   position:fixed;
   left:0;
   top:0;
   bottom:0;
+  width:235px;
+  background:rgba(13,16,23,.96);
+  border-right:1px solid var(--border);
+  padding:22px 14px;
   z-index:50;
-  backdrop-filter:blur(18px);
+  backdrop-filter:blur(15px);
 }
 
-.logo{
+.brand{
   display:flex;
   align-items:center;
-  gap:9px;
-  font-size:20px;
+  gap:12px;
+  padding:8px 10px 25px;
+}
+
+.brand-logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--accent),#8b5cf6);
+  display:grid;
+  place-items:center;
   font-weight:900;
-  margin:5px 10px 28px;
+  font-size:19px;
+  box-shadow:0 8px 25px rgba(88,101,242,.3);
 }
 
-.logo-dot{
-  width:31px;
-  height:31px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--accent),#7c87ff);
-  box-shadow:0 7px 20px rgba(88,101,242,.25);
-}
-
-.nav-section{
-  color:#626c7d;
-  font-size:10px;
+.brand-title{
+  font-size:16px;
   font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  margin:20px 11px 8px;
 }
 
-.nav-btn{
-  width:100%;
+.brand-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.nav button{
   border:0;
   background:transparent;
   color:var(--muted);
-  text-align:left;
-  padding:11px 13px;
+  padding:12px 13px;
   border-radius:11px;
-  margin-bottom:4px;
-  display:flex;
-  align-items:center;
-  gap:11px;
-  transition:.18s;
+  text-align:left;
+  transition:.2s;
 }
 
-.nav-btn:hover{
-  background:#171c26;
-  color:white;
+.nav button:hover{
+  background:var(--panel2);
+  color:var(--text);
 }
 
-.nav-btn.active{
-  background:linear-gradient(
-    90deg,
-    rgba(88,101,242,.22),
-    rgba(88,101,242,.08)
-  );
-  color:white;
-  box-shadow:inset 2px 0 0 var(--accent);
-}
-
-.nav-icon{
-  width:21px;
-  text-align:center;
-  font-size:15px;
+.nav button.active{
+  background:rgba(88,101,242,.16);
+  color:#fff;
+  box-shadow:inset 3px 0 var(--accent);
 }
 
 .sidebar-bottom{
@@ -155,108 +136,79 @@ button:disabled{
   bottom:18px;
 }
 
-.db-status{
-  padding:11px 12px;
-  background:#11151d;
+.connection{
+  background:var(--panel);
   border:1px solid var(--border);
-  border-radius:11px;
+  border-radius:12px;
+  padding:12px;
   font-size:12px;
-  color:var(--muted);
 }
 
-.status-line{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.status-dot{
-  width:7px;
-  height:7px;
+.connection-dot{
+  display:inline-block;
+  width:8px;
+  height:8px;
   border-radius:50%;
+  margin-right:6px;
+  background:var(--yellow);
+}
+
+.connection.ok .connection-dot{
   background:var(--green);
-  box-shadow:0 0 9px rgba(67,209,122,.7);
 }
 
-.status-dot.offline{
+.connection.bad .connection-dot{
   background:var(--red);
-  box-shadow:0 0 9px rgba(255,98,98,.7);
 }
 
-/* =========================================================
-   MAIN
-========================================================= */
+/* MAIN */
 
 .main{
   margin-left:235px;
-  width:calc(100% - 235px);
-  padding:30px;
-  max-width:1700px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-  animation:pageIn .2s ease;
-}
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(4px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
+  min-height:100vh;
+  padding:28px;
 }
 
 .topbar{
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:18px;
+  gap:15px;
   margin-bottom:24px;
 }
 
-.topbar-left h1{
+.page-title{
+  font-size:27px;
+  font-weight:850;
   margin:0;
-  font-size:29px;
-  letter-spacing:-.03em;
 }
 
-.subtitle{
+.page-subtitle{
   color:var(--muted);
-  margin-top:6px;
-  font-size:14px;
+  font-size:13px;
+  margin-top:5px;
 }
 
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.actions{
+.top-actions{
   display:flex;
   gap:8px;
-  margin-top:15px;
   flex-wrap:wrap;
 }
 
+/* BUTTONS */
+
 .btn{
   border:1px solid var(--border);
-  background:#191e28;
-  color:white;
-  padding:8px 12px;
+  background:var(--panel2);
+  color:var(--text);
+  padding:9px 13px;
   border-radius:9px;
-  transition:.15s;
+  transition:.2s;
 }
 
 .btn:hover{
-  background:#222936;
-  border-color:var(--border2);
+  background:var(--panel3);
+  border-color:#3a4253;
 }
 
 .btn.primary{
@@ -268,170 +220,83 @@ button:disabled{
   background:var(--accent2);
 }
 
-.btn.success{
-  color:#8af0af;
-  border-color:rgba(67,209,122,.2);
-}
-
 .btn.danger{
   color:#ff8585;
 }
 
-.btn.small-btn{
-  padding:6px 9px;
+.btn.small{
+  padding:7px 10px;
   font-size:12px;
 }
 
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.search-wrap{
-  position:relative;
-  min-width:250px;
-}
-
-.search-wrap input{
-  width:100%;
-  background:#11151d;
-  border:1px solid var(--border);
-  color:white;
-  border-radius:11px;
-  padding:10px 13px 10px 37px;
-  outline:none;
-}
-
-.search-wrap input:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(88,101,242,.1);
-}
-
-.search-icon{
-  position:absolute;
-  left:13px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--muted);
-}
-
-/* =========================================================
-   DASHBOARD HERO
-========================================================= */
+/* HERO */
 
 .hero{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(88,101,242,.16),
-      rgba(17,21,29,.9) 55%
-    );
-  border:1px solid rgba(88,101,242,.2);
-  border-radius:20px;
-  padding:24px;
-  margin-bottom:18px;
   position:relative;
   overflow:hidden;
+  background:
+    linear-gradient(135deg,rgba(88,101,242,.19),rgba(124,92,246,.06)),
+    var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:26px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
 }
 
-.hero::after{
+.hero:after{
   content:"";
   position:absolute;
-  width:220px;
-  height:220px;
-  right:-70px;
-  top:-100px;
+  width:230px;
+  height:230px;
   border-radius:50%;
-  background:rgba(88,101,242,.08);
-  filter:blur(10px);
+  background:rgba(88,101,242,.12);
+  right:-90px;
+  top:-110px;
+  filter:blur(5px);
 }
 
-.hero-content{
-  position:relative;
-  z-index:1;
+.hero h2{
+  margin:0 0 8px;
+  font-size:25px;
 }
 
-.hero-title{
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:-.04em;
+.hero p{
+  color:var(--muted);
+  margin:0;
+  max-width:650px;
 }
 
-.hero-subtitle{
-  color:#aeb6c5;
-  margin-top:7px;
-  max-width:680px;
-}
-
-.priority-row{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:17px;
-}
-
-.priority-chip{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 10px;
-  background:rgba(8,10,15,.42);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:9px;
-  color:#dce1ea;
-  font-size:12px;
-}
-
-.priority-chip.red{
-  color:#ff9999;
-}
-
-.priority-chip.yellow{
-  color:#ffe18b;
-}
-
-.priority-chip.green{
-  color:#8af0af;
-}
-
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:13px;
-  margin-bottom:23px;
-}
-
-.stat{
-  background:linear-gradient(145deg,var(--panel),#10141b);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:16px;
-  min-width:0;
-}
-
-.stat-top{
+.hero-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:20px;
 }
 
-.stat-icon{
-  width:30px;
-  height:30px;
-  border-radius:9px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#1b2130;
+.hero-date{
+  position:relative;
+  z-index:1;
+  text-align:right;
+  color:var(--muted);
+  font-size:12px;
 }
 
-.stat-value{
-  font-size:25px;
-  font-weight:900;
-  margin-top:10px;
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  box-shadow:var(--shadow);
 }
 
 .stat-label{
@@ -439,89 +304,177 @@ button:disabled{
   font-size:12px;
 }
 
-.stat-extra{
-  color:#697487;
+.stat-value{
+  font-size:25px;
+  font-weight:850;
+  margin-top:7px;
+}
+
+.stat-note{
+  color:var(--muted);
   font-size:11px;
-  margin-top:4px;
+  margin-top:5px;
 }
 
-/* =========================================================
-   SECTION
-========================================================= */
+/* GRID */
 
-.section{
-  margin-top:25px;
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-.section-heading{
+.section-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.section-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
-  margin-bottom:12px;
+  gap:12px;
+  margin-bottom:15px;
 }
 
-.section-heading h2{
+.section-head h3{
   margin:0;
-  font-size:18px;
+  font-size:16px;
 }
 
-.section-link{
-  color:var(--accent2);
-  font-size:12px;
-  border:0;
-  background:none;
+.section-head span{
+  color:var(--muted);
+  font-size:11px;
 }
 
-/* =========================================================
-   GRID / CARDS
-========================================================= */
+/* LIST */
 
-.grid{
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:11px 12px;
+}
+
+.list-main{
+  min-width:0;
+}
+
+.list-title{
+  font-weight:700;
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.list-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.countdown{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.countdown.urgent{
+  color:var(--red);
+}
+
+.countdown.warning{
+  color:var(--yellow);
+}
+
+.countdown.safe{
+  color:var(--green);
+}
+
+/* TOOLBAR */
+
+.toolbar{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+
+.search{
+  flex:1;
+  min-width:220px;
+}
+
+.input,
+.select,
+.textarea{
+  width:100%;
+  background:#0d1017;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:10px 11px;
+  outline:none;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(88,101,242,.12);
+}
+
+.textarea{
+  resize:vertical;
+  min-height:80px;
+}
+
+/* CARDS */
+
+.cards{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(285px,1fr));
-  gap:13px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
 }
 
 .card{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(18,22,31,.98),
-      rgba(15,19,26,.98)
-    );
+  background:var(--panel);
   border:1px solid var(--border);
   border-radius:15px;
   padding:16px;
   box-shadow:var(--shadow);
-  transition:
-    transform .16s,
-    border-color .16s,
-    background .16s;
+  transition:.2s;
 }
 
 .card:hover{
-  border-color:#343d4e;
   transform:translateY(-1px);
+  border-color:#394153;
 }
 
-.card.compact{
-  padding:14px;
+.card.urgent{
+  border-color:rgba(255,98,98,.4);
 }
 
-.card.completed-card{
-  border-color:rgba(67,209,122,.2);
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
 }
 
-.card.warning-card{
-  border-color:rgba(244,201,93,.25);
-}
-
-.card.danger-card{
-  border-color:rgba(255,98,98,.28);
-}
-
-.server-head{
+.server-info{
   display:flex;
   align-items:center;
   gap:12px;
@@ -531,391 +484,184 @@ button:disabled{
 .server-icon-wrap{
   width:48px;
   height:48px;
-  flex-shrink:0;
-  position:relative;
+  min-width:48px;
+  border-radius:13px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#5865f2,#7c3aed);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.08);
 }
 
 .server-icon{
-  width:48px;
-  height:48px;
-  border-radius:50%;
+  width:100%;
+  height:100%;
   object-fit:cover;
-  background:#252b38;
   display:block;
-  border:1px solid rgba(255,255,255,.06);
 }
 
 .server-fallback{
-  width:48px;
-  height:48px;
-  border-radius:50%;
+  width:100%;
+  height:100%;
+  display:flex;
   align-items:center;
   justify-content:center;
-  background:
-    linear-gradient(135deg,#252b38,#1c222e);
   font-weight:900;
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.server-name{
-  font-size:17px;
-  font-weight:800;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.small{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.amount{
-  font-size:21px;
-  font-weight:900;
-  margin-top:15px;
-  letter-spacing:-.02em;
-}
-
-.amount-label{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:2px;
-}
-
-.timer{
-  font-size:13px;
-  margin-top:7px;
-  color:var(--yellow);
-}
-
-.timer.green{
-  color:var(--green);
-}
-
-.timer.red{
-  color:var(--red);
-}
-
-.timer.blue{
-  color:var(--blue);
-}
-
-.description{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:10px;
-  line-height:1.45;
-}
-
-.card-footer{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-top:14px;
-}
-
-.badge-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-}
-
-.badge-name{
-  font-weight:800;
-  line-height:1.35;
-}
-
-.pill{
-  font-size:11px;
-  padding:4px 8px;
-  border-radius:99px;
-  background:#222838;
-  color:var(--muted);
-  white-space:nowrap;
-}
-
-.pill.green{
-  color:#8af0af;
-  background:rgba(67,209,122,.09);
-}
-
-.pill.yellow{
-  color:#ffe18b;
-  background:rgba(244,201,93,.09);
-}
-
-.pill.red{
-  color:#ff9999;
-  background:rgba(255,98,98,.09);
-}
-
-.progress-wrap{
-  margin-top:14px;
-}
-
-.progress-label{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:6px;
-}
-
-.progress{
-  height:8px;
-  border-radius:99px;
-  background:#252a35;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  border-radius:99px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  transition:width .3s;
-}
-
-.progress-bar.green{
-  background:linear-gradient(90deg,#35bd6b,#63e993);
-}
-
-.progress-bar.yellow{
-  background:linear-gradient(90deg,#dcae3e,#f7d878);
-}
-
-.progress-bar.red{
-  background:linear-gradient(90deg,#df4c4c,#ff7777);
-}
-
-.status-row{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.status-mini{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-}
-
-.status-mini.green{
-  background:var(--green);
-}
-
-.status-mini.yellow{
-  background:var(--yellow);
-}
-
-.status-mini.red{
-  background:var(--red);
-}
-
-.status-mini.blue{
-  background:var(--blue);
-}
-
-/* =========================================================
-   FILTERS
-========================================================= */
-
-.toolbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:17px;
-  flex-wrap:wrap;
-}
-
-.filters{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.filter-btn{
-  border:1px solid var(--border);
-  background:#121720;
-  color:var(--muted);
-  padding:7px 11px;
-  border-radius:9px;
-  font-size:12px;
-}
-
-.filter-btn:hover{
+  font-size:18px;
   color:white;
 }
 
-.filter-btn.active{
-  color:white;
-  background:#222a3b;
-  border-color:#3c4660;
+.card-title{
+  font-weight:800;
+  font-size:15px;
 }
 
-/* =========================================================
-   TABLE-LIKE STATS
-========================================================= */
-
-.stat-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:13px;
-}
-
-.big-stat{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:18px;
-}
-
-.big-stat-value{
-  font-size:28px;
-  font-weight:900;
-  margin-top:7px;
-}
-
-.big-stat-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-.history-list{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.history-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  background:#11151d;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:11px 13px;
-}
-
-.history-main{
-  min-width:0;
-}
-
-.history-name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.history-date{
+.card-sub{
   color:var(--muted);
   font-size:11px;
   margin-top:3px;
 }
 
-.history-fee{
+.badge-status{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:10px;
   font-weight:800;
-  color:#8af0af;
+  background:rgba(141,150,167,.12);
+  color:var(--muted);
+  white-space:nowrap;
 }
 
-/* =========================================================
-   EMPTY
-========================================================= */
+.badge-status.green{
+  color:var(--green);
+  background:rgba(67,209,122,.1);
+}
+
+.badge-status.yellow{
+  color:var(--yellow);
+  background:rgba(244,201,93,.1);
+}
+
+.badge-status.red{
+  color:var(--red);
+  background:rgba(255,98,98,.1);
+}
+
+.card-body{
+  margin-top:14px;
+}
+
+.card-line{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  color:var(--muted);
+  font-size:12px;
+  margin:7px 0;
+}
+
+.card-line strong{
+  color:var(--text);
+}
+
+.card-actions{
+  display:flex;
+  gap:7px;
+  margin-top:14px;
+}
+
+/* PROGRESS */
+
+.progress{
+  height:8px;
+  background:#0b0e14;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:9px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--accent),#8b5cf6);
+  border-radius:999px;
+  transition:width .25s;
+}
+
+.progress-bar.complete{
+  background:var(--green);
+}
+
+.progress-text{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+/* EMPTY */
 
 .empty{
-  color:var(--muted);
+  padding:35px 15px;
   text-align:center;
-  padding:40px 20px;
+  color:var(--muted);
+  background:var(--panel);
   border:1px dashed var(--border);
-  border-radius:14px;
-  grid-column:1/-1;
+  border-radius:15px;
 }
 
-.empty-icon{
-  font-size:25px;
-  margin-bottom:7px;
+.empty strong{
+  color:var(--text);
+  display:block;
+  margin-bottom:5px;
 }
 
-/* =========================================================
-   MODALS
-========================================================= */
+/* MODAL */
 
-.modal-bg{
-  display:none;
+.modal-backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:100;
+  background:rgba(0,0,0,.65);
+  display:none;
   align-items:center;
   justify-content:center;
+  z-index:100;
   padding:20px;
-  backdrop-filter:blur(7px);
+  backdrop-filter:blur(5px);
 }
 
-.modal-bg.show{
+.modal-backdrop.show{
   display:flex;
 }
 
 .modal{
-  width:min(540px,100%);
-  background:#12161f;
-  border:1px solid var(--border2);
-  border-radius:17px;
-  padding:20px;
+  width:min(520px,100%);
   max-height:90vh;
   overflow:auto;
-  box-shadow:0 25px 80px rgba(0,0,0,.55);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  padding:20px;
 }
 
-.modal-title{
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:18px;
+.modal h3{
+  margin:0 0 17px;
 }
 
-.field{
-  margin-bottom:13px;
+.form-grid{
+  display:grid;
+  gap:13px;
 }
 
-.field label{
+.form-label{
   display:block;
   color:var(--muted);
-  font-size:12px;
-  margin-bottom:6px;
-}
-
-.field input,
-.field textarea,
-.field select{
-  width:100%;
-  background:#0d1016;
-  border:1px solid var(--border);
-  color:white;
-  border-radius:9px;
-  padding:10px;
-  outline:none;
-}
-
-.field input:focus,
-.field textarea:focus,
-.field select:focus{
-  border-color:var(--accent);
-}
-
-.field textarea{
-  min-height:80px;
-  resize:vertical;
+  font-size:11px;
+  margin-bottom:5px;
 }
 
 .modal-actions{
@@ -925,70 +671,82 @@ button:disabled{
   margin-top:18px;
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* TOAST */
+
+.toast-container{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.toast{
+  min-width:250px;
+  max-width:360px;
+  background:#181d27;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px 14px;
+  box-shadow:var(--shadow);
+  font-size:12px;
+  animation:toastIn .2s ease;
+}
+
+.toast.success{
+  border-color:rgba(67,209,122,.35);
+}
+
+.toast.error{
+  border-color:rgba(255,98,98,.35);
+}
+
+@keyframes toastIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* MOBILE */
 
 .mobile-nav{
   display:none;
 }
 
-@media(max-width:1050px){
+@media(max-width:1000px){
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
 }
 
-@media(max-width:800px){
-
+@media(max-width:750px){
   .sidebar{
     display:none;
   }
 
   .main{
     margin-left:0;
-    width:100%;
     padding:17px;
-    padding-bottom:90px;
-  }
-
-  .topbar{
-    align-items:stretch;
-    flex-direction:column;
-  }
-
-  .search-wrap{
-    width:100%;
-    min-width:0;
-  }
-
-  .hero{
-    padding:20px;
-  }
-
-  .hero-title{
-    font-size:25px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .grid{
-    grid-template-columns:1fr;
+    padding-bottom:85px;
   }
 
   .mobile-nav{
-    display:flex;
     position:fixed;
+    display:flex;
     bottom:0;
     left:0;
     right:0;
-    background:rgba(14,17,23,.97);
-    border-top:1px solid var(--border);
     z-index:80;
-    backdrop-filter:blur(18px);
-    padding-bottom:env(safe-area-inset-bottom);
+    background:rgba(12,15,21,.97);
+    border-top:1px solid var(--border);
+    padding:7px;
+    gap:5px;
+    backdrop-filter:blur(15px);
   }
 
   .mobile-nav button{
@@ -996,24 +754,39 @@ button:disabled{
     border:0;
     background:transparent;
     color:var(--muted);
-    padding:11px 3px 10px;
+    border-radius:9px;
+    padding:9px 4px;
     font-size:10px;
   }
 
   .mobile-nav button.active{
-    color:white;
+    color:#fff;
+    background:rgba(88,101,242,.16);
   }
 
-  .mobile-icon{
-    display:block;
-    font-size:16px;
-    margin-bottom:3px;
+  .hero-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .hero-date{
+    text-align:left;
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
   }
 }
 
-@media(max-width:450px){
+@media(max-width:500px){
   .stats{
-    gap:8px;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
   }
 
   .stat{
@@ -1024,8 +797,8 @@ button:disabled{
     font-size:21px;
   }
 
-  .hero{
-    border-radius:15px;
+  .card{
+    padding:13px;
   }
 }
 </style>
@@ -1033,971 +806,267 @@ button:disabled{
 
 <body>
 
-<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="logo">
-      <div class="logo-dot">💰</div>
-      <span>Dank Tracker</span>
+  <div class="brand">
+    <div class="brand-logo">D</div>
+    <div>
+      <div class="brand-title">Dank Tracker</div>
+      <div class="brand-sub">Personal progress tracker</div>
     </div>
+  </div>
 
-    <div class="nav-section">Overview</div>
+  <nav class="nav">
+    <button onclick="showPage('dashboard')" data-page="dashboard">⌂ Dashboard</button>
+    <button onclick="showPage('grinders')" data-page="grinders">💰 Grinders</button>
+    <button onclick="showPage('heists')" data-page="heists">💣 Heists</button>
+    <button onclick="showPage('badges')" data-page="badges">🏅 Badges</button>
+    <button onclick="showPage('achievements')" data-page="achievements">🎯 Achievements</button>
+  </nav>
 
-    <button class="nav-btn active" data-page="dashboard">
-      <span class="nav-icon">🏠</span>
-      Dashboard
-    </button>
-
-    <button class="nav-btn" data-page="stats">
-      <span class="nav-icon">📊</span>
-      Statistics
-    </button>
-
-    <div class="nav-section">Tracker</div>
-
-    <button class="nav-btn" data-page="grinders">
-      <span class="nav-icon">💰</span>
-      Grinders
-    </button>
-
-    <button class="nav-btn" data-page="heists">
-      <span class="nav-icon">💥</span>
-      Heists
-    </button>
-
-    <button class="nav-btn" data-page="badges">
-      <span class="nav-icon">🏆</span>
-      Badges
-    </button>
-
-    <button class="nav-btn" data-page="achievements">
-      <span class="nav-icon">🎯</span>
-      Achievements
-    </button>
-
-    <div class="sidebar-bottom">
-
-      <div class="db-status">
-        <div class="status-line">
-          <span class="status-dot" id="dbDot"></span>
-          <span id="dbStatus">Connected</span>
-        </div>
-      </div>
-
+  <div class="sidebar-bottom">
+    <div class="connection" id="connectionBox">
+      <span class="connection-dot"></span>
+      <span id="connectionText">Connecting...</span>
     </div>
+  </div>
 
-  </aside>
+</aside>
 
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- =====================================================
-         DASHBOARD
-    ====================================================== -->
-
-    <section id="dashboard" class="page active">
-
-      <div class="hero">
-
-        <div class="hero-content">
-
-          <div class="hero-title">
-            Dank Memer Tracker
-          </div>
-
-          <div class="hero-subtitle">
-            Keep your grinders, heists, badges and achievements under control.
-          </div>
-
-          <div class="priority-row" id="priorityRow"></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <div class="stat-top">
-            <div class="stat-label">Grinders</div>
-            <div class="stat-icon">💰</div>
-          </div>
-
-          <div class="stat-value" id="statGrinders">0</div>
-
-          <div class="stat-extra" id="statGrinderCost">
-            0 weekly
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-top">
-            <div class="stat-label">Payments Soon</div>
-            <div class="stat-icon">⏰</div>
-          </div>
-
-          <div class="stat-value" id="statPayments">0</div>
-
-          <div class="stat-extra">
-            Within 7 days
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-top">
-            <div class="stat-label">Badges</div>
-            <div class="stat-icon">🏆</div>
-          </div>
-
-          <div class="stat-value" id="statBadges">0</div>
-
-          <div class="stat-extra" id="statBadgeProgress">
-            0% average
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-top">
-            <div class="stat-label">Achievements</div>
-            <div class="stat-icon">🎯</div>
-          </div>
-
-          <div class="stat-value" id="statAchievements">0</div>
-
-          <div class="stat-extra" id="statAchievementProgress">
-            0% average
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="section">
-
-        <div class="section-heading">
-
-          <h2>Payments coming up</h2>
-
-          <button
-            class="section-link"
-            onclick="switchPage('grinders')"
-          >
-            View all →
-          </button>
-
-        </div>
-
-        <div id="dashboardGrinders" class="grid"></div>
-
-      </div>
-
-
-      <div class="section">
-
-        <div class="section-heading">
-
-          <h2>Badge progress</h2>
-
-          <button
-            class="section-link"
-            onclick="switchPage('badges')"
-          >
-            View all →
-          </button>
-
-        </div>
-
-        <div id="dashboardBadges" class="grid"></div>
-
-      </div>
-
-
-      <div class="section">
-
-        <div class="section-heading">
-
-          <h2>Achievements</h2>
-
-          <button
-            class="section-link"
-            onclick="switchPage('achievements')"
-          >
-            View all →
-          </button>
-
-        </div>
-
-        <div id="dashboardAchievements" class="grid"></div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         STATISTICS
-    ====================================================== -->
-
-    <section id="stats" class="page">
-
-      <div class="topbar">
-
-        <div class="topbar-left">
-          <h1>Statistics</h1>
-          <div class="subtitle">
-            Overview of your current tracker data
-          </div>
-        </div>
-
-      </div>
-
-
-      <div class="stat-grid">
-
-        <div class="big-stat">
-          <div class="big-stat-label">Weekly grinder cost</div>
-          <div class="big-stat-value" id="weeklyCost">0</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Estimated monthly cost</div>
-          <div class="big-stat-value" id="monthlyCost">0</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Badge completion</div>
-          <div class="big-stat-value" id="badgeCompletion">0%</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Achievement completion</div>
-          <div class="big-stat-value" id="achievementCompletion">0%</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Completed badges</div>
-          <div class="big-stat-value" id="completedBadges">0</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Completed achievements</div>
-          <div class="big-stat-value" id="completedAchievements">0</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Active heists</div>
-          <div class="big-stat-value" id="activeHeists">0</div>
-        </div>
-
-        <div class="big-stat">
-          <div class="big-stat-label">Total grinder servers</div>
-          <div class="big-stat-value" id="totalServers">0</div>
-        </div>
-
-      </div>
-
-
-      <div class="section">
-
-        <div class="section-heading">
-          <h2>Recent payment history</h2>
-
-          <button
-            class="btn small-btn danger"
-            onclick="clearPaymentHistory()"
-          >
-            Clear history
-          </button>
-        </div>
-
-        <div id="paymentHistory" class="history-list"></div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         GRINDERS
-    ====================================================== -->
-
-    <section id="grinders" class="page">
-
-      <div class="topbar">
-
-        <div class="topbar-left">
-          <h1>Grinders</h1>
-          <div class="subtitle">
-            Sorted by nearest payment due
-          </div>
-        </div>
-
-        <div class="search-wrap">
-          <span class="search-icon">🔎</span>
-          <input
-            id="grinderSearch"
-            placeholder="Search grinders..."
-            oninput="renderGrinders()"
-          >
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="openGrinderModal()"
-        >
-          + Add Grinder
-        </button>
-
-      </div>
-
-      <div id="grinderList" class="grid"></div>
-
-    </section>
-
-
-    <!-- =====================================================
-         HEISTS
-    ====================================================== -->
-
-    <section id="heists" class="page">
-
-      <div class="topbar">
-
-        <div class="topbar-left">
-          <h1>Heists</h1>
-          <div class="subtitle">
-            Sorted by nearest ending time
-          </div>
-        </div>
-
-        <div class="search-wrap">
-          <span class="search-icon">🔎</span>
-          <input
-            id="heistSearch"
-            placeholder="Search heists..."
-            oninput="renderHeists()"
-          >
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="openHeistModal()"
-        >
-          + Add Heist
-        </button>
-
-      </div>
-
-      <div id="heistList" class="grid"></div>
-
-    </section>
-
-
-    <!-- =====================================================
-         BADGES
-    ====================================================== -->
-
-    <section id="badges" class="page">
-
-      <div class="topbar">
-
-        <div class="topbar-left">
-          <h1>Badges</h1>
-          <div class="subtitle">
-            Closest to completion first
-          </div>
-        </div>
-
-        <div class="search-wrap">
-          <span class="search-icon">🔎</span>
-          <input
-            id="badgeSearch"
-            placeholder="Search badges..."
-            oninput="renderBadges()"
-          >
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="openBadgeModal()"
-        >
-          + Add Badge
-        </button>
-
-      </div>
-
-
-      <div class="toolbar">
-
-        <div class="filters">
-
-          <button
-            class="filter-btn active"
-            data-badge-filter="all"
-            onclick="setBadgeFilter('all')"
-          >
-            All
-          </button>
-
-          <button
-            class="filter-btn"
-            data-badge-filter="progress"
-            onclick="setBadgeFilter('progress')"
-          >
-            In Progress
-          </button>
-
-          <button
-            class="filter-btn"
-            data-badge-filter="completed"
-            onclick="setBadgeFilter('completed')"
-          >
-            Completed
-          </button>
-
-          <button
-            class="filter-btn"
-            data-badge-filter="notstarted"
-            onclick="setBadgeFilter('notstarted')"
-          >
-            Not Started
-          </button>
-
-        </div>
-
-      </div>
-
-      <div id="badgeList" class="grid"></div>
-
-    </section>
-
-
-    <!-- =====================================================
-         ACHIEVEMENTS
-    ====================================================== -->
-
-    <section id="achievements" class="page">
-
-      <div class="topbar">
-
-        <div class="topbar-left">
-          <h1>Achievements</h1>
-          <div class="subtitle">
-            Closest to completion first
-          </div>
-        </div>
-
-        <div class="search-wrap">
-          <span class="search-icon">🔎</span>
-          <input
-            id="achievementSearch"
-            placeholder="Search achievements..."
-            oninput="renderAchievements()"
-          >
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="openAchievementModal()"
-        >
-          + Add Achievement
-        </button>
-
-      </div>
-
-
-      <div class="toolbar">
-
-        <div class="filters">
-
-          <button
-            class="filter-btn active"
-            data-achievement-filter="all"
-            onclick="setAchievementFilter('all')"
-          >
-            All
-          </button>
-
-          <button
-            class="filter-btn"
-            data-achievement-filter="progress"
-            onclick="setAchievementFilter('progress')"
-          >
-            In Progress
-          </button>
-
-          <button
-            class="filter-btn"
-            data-achievement-filter="completed"
-            onclick="setAchievementFilter('completed')"
-          >
-            Completed
-          </button>
-
-          <button
-            class="filter-btn"
-            data-achievement-filter="notstarted"
-            onclick="setAchievementFilter('notstarted')"
-          >
-            Not Started
-          </button>
-
-        </div>
-
-      </div>
-
-      <div id="achievementList" class="grid"></div>
-
-    </section>
-
-  </main>
-</div>
-
-
-<!-- =========================================================
-     MOBILE NAV
-========================================================== -->
-
+<!-- MOBILE NAV -->
 <div class="mobile-nav">
-
-  <button data-page="dashboard" class="active">
-    <span class="mobile-icon">🏠</span>
-    Home
-  </button>
-
-  <button data-page="grinders">
-    <span class="mobile-icon">💰</span>
-    Grinders
-  </button>
-
-  <button data-page="heists">
-    <span class="mobile-icon">💥</span>
-    Heists
-  </button>
-
-  <button data-page="badges">
-    <span class="mobile-icon">🏆</span>
-    Badges
-  </button>
-
-  <button data-page="achievements">
-    <span class="mobile-icon">🎯</span>
-    Achievements
-  </button>
-
+  <button onclick="showPage('dashboard')" data-page="dashboard">⌂<br>Home</button>
+  <button onclick="showPage('grinders')" data-page="grinders">💰<br>Grinders</button>
+  <button onclick="showPage('heists')" data-page="heists">💣<br>Heists</button>
+  <button onclick="showPage('badges')" data-page="badges">🏅<br>Badges</button>
+  <button onclick="showPage('achievements')" data-page="achievements">🎯<br>Goals</button>
 </div>
 
+<main class="main">
 
-<!-- =========================================================
-     GRINDER MODAL
-========================================================== -->
-
-<div id="grinderModal" class="modal-bg">
-
-  <div class="modal">
-
-    <div class="modal-title" id="grinderModalTitle">
-      Add Grinder
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      <div class="page-subtitle" id="pageSubtitle">
+        Your Dank Memer progress at a glance
+      </div>
     </div>
 
-    <input type="hidden" id="grinderId">
-
-    <div class="field">
-      <label>Server Name</label>
-      <input id="grinderServer" placeholder="Lunar Society">
+    <div class="top-actions">
+      <button class="btn" onclick="refreshAll()">↻ Refresh</button>
+      <button class="btn primary" onclick="quickAdd()">＋ Add</button>
     </div>
-
-    <div class="field">
-      <label>Weekly Fee</label>
-      <input id="grinderFee" type="number" placeholder="49000000">
-    </div>
-
-    <div class="field">
-      <label>Paid Until</label>
-      <input id="grinderPaidUntil" type="datetime-local">
-    </div>
-
-    <div class="field">
-      <label>Duration (days)</label>
-      <input id="grinderDuration" type="number" value="7">
-    </div>
-
-    <div class="field">
-      <label>Description</label>
-      <textarea id="grinderDescription" placeholder="Optional"></textarea>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn" onclick="closeModal('grinderModal')">
-        Cancel
-      </button>
-
-      <button class="btn primary" onclick="saveGrinder()">
-        Save
-      </button>
-    </div>
-
   </div>
 
+  <!-- DASHBOARD -->
+  <section id="page-dashboard">
+
+    <div class="hero">
+      <div class="hero-row">
+        <div>
+          <h2>Tracker Overview</h2>
+          <p>
+            Keep your grinder payments, heists, badges and achievements
+            organized automatically by urgency and progress.
+          </p>
+        </div>
+
+        <div class="hero-date">
+          <div id="currentDate"></div>
+          <div id="lastUpdated">Not updated yet</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">GRINDERS</div>
+        <div class="stat-value" id="statGrinders">0</div>
+        <div class="stat-note" id="statWeekly">RM 0 / week</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">DUE SOON</div>
+        <div class="stat-value" id="statDue">0</div>
+        <div class="stat-note">Next 7 days</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">BADGES</div>
+        <div class="stat-value" id="statBadges">0%</div>
+        <div class="stat-note" id="statBadgesDone">0 completed</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">ACHIEVEMENTS</div>
+        <div class="stat-value" id="statAchievements">0%</div>
+        <div class="stat-note" id="statAchievementsDone">0 completed</div>
+      </div>
+
+    </div>
+
+    <div class="grid-2">
+
+      <div class="section-card">
+        <div class="section-head">
+          <h3>⚠️ Upcoming Grinder Payments</h3>
+          <span>Nearest first</span>
+        </div>
+        <div class="list" id="dashboardGrinders"></div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-head">
+          <h3>💣 Upcoming Heists</h3>
+          <span>Ending soonest</span>
+        </div>
+        <div class="list" id="dashboardHeists"></div>
+      </div>
+
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+
+      <div class="section-card">
+        <div class="section-head">
+          <h3>🏅 Badge Progress</h3>
+          <span>Closest to completion</span>
+        </div>
+        <div class="list" id="dashboardBadges"></div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-head">
+          <h3>🎯 Achievement Progress</h3>
+          <span>Closest to completion</span>
+        </div>
+        <div class="list" id="dashboardAchievements"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- GRINDERS -->
+  <section id="page-grinders" class="hidden">
+
+    <div class="toolbar">
+      <div class="search">
+        <input class="input" id="grinderSearch"
+          placeholder="Search grinders..."
+          oninput="renderGrinders()">
+      </div>
+
+      <select class="select" id="grinderFilter" onchange="renderGrinders()" style="width:180px">
+        <option value="all">All</option>
+        <option value="overdue">Overdue</option>
+        <option value="soon">Due within 7 days</option>
+        <option value="later">Later</option>
+      </select>
+
+      <button class="btn primary" onclick="openGrinderModal()">＋ Add Grinder</button>
+    </div>
+
+    <div class="cards" id="grinderCards"></div>
+
+  </section>
+
+  <!-- HEISTS -->
+  <section id="page-heists" class="hidden">
+
+    <div class="toolbar">
+      <div class="search">
+        <input class="input" id="heistSearch"
+          placeholder="Search heists..."
+          oninput="renderHeists()">
+      </div>
+
+      <button class="btn primary" onclick="openHeistModal()">＋ Add Heist</button>
+    </div>
+
+    <div class="cards" id="heistCards"></div>
+
+  </section>
+
+  <!-- BADGES -->
+  <section id="page-badges" class="hidden">
+
+    <div class="toolbar">
+      <div class="search">
+        <input class="input" id="badgeSearch"
+          placeholder="Search badges..."
+          oninput="renderBadges()">
+      </div>
+
+      <select class="select" id="badgeFilter" onchange="renderBadges()" style="width:190px">
+        <option value="all">All badges</option>
+        <option value="near">Near completion</option>
+        <option value="progress">In progress</option>
+        <option value="notstarted">Not started</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <button class="btn primary" onclick="openBadgeModal()">＋ Add Badge</button>
+    </div>
+
+    <div class="cards" id="badgeCards"></div>
+
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="page-achievements" class="hidden">
+
+    <div class="toolbar">
+      <div class="search">
+        <input class="input" id="achievementSearch"
+          placeholder="Search achievements..."
+          oninput="renderAchievements()">
+      </div>
+
+      <select class="select" id="achievementFilter" onchange="renderAchievements()" style="width:190px">
+        <option value="all">All achievements</option>
+        <option value="near">Near completion</option>
+        <option value="progress">In progress</option>
+        <option value="notstarted">Not started</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <button class="btn primary" onclick="openAchievementModal()">＋ Add Achievement</button>
+    </div>
+
+    <div class="cards" id="achievementCards"></div>
+
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="backdropClick(event)">
+  <div class="modal" id="modal"></div>
 </div>
 
-
-<!-- =========================================================
-     HEIST MODAL
-========================================================== -->
-
-<div id="heistModal" class="modal-bg">
-
-  <div class="modal">
-
-    <div class="modal-title" id="heistModalTitle">
-      Add Heist
-    </div>
-
-    <input type="hidden" id="heistId">
-
-    <div class="field">
-      <label>Heist Name</label>
-      <input id="heistName" placeholder="Lunar Society Heist">
-    </div>
-
-    <div class="field">
-      <label>End Time</label>
-      <input id="heistEnd" type="datetime-local">
-    </div>
-
-    <div class="field">
-      <label>Amount</label>
-      <input id="heistAmount" type="number" placeholder="2000000000">
-    </div>
-
-    <div class="field">
-      <label>Description</label>
-      <textarea id="heistDescription"></textarea>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn" onclick="closeModal('heistModal')">
-        Cancel
-      </button>
-
-      <button class="btn primary" onclick="saveHeist()">
-        Save
-      </button>
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================================
-     BADGE MODAL
-========================================================== -->
-
-<div id="badgeModal" class="modal-bg">
-
-  <div class="modal">
-
-    <div class="modal-title" id="badgeModalTitle">
-      Add Badge
-    </div>
-
-    <input type="hidden" id="badgeId">
-
-    <div class="field">
-      <label>Badge Name</label>
-      <input id="badgeName">
-    </div>
-
-    <div class="field">
-      <label>Gold Current</label>
-      <input id="badgeGoldCurrent" type="number">
-    </div>
-
-    <div class="field">
-      <label>Gold Required</label>
-      <input id="badgeGoldRequired" type="number">
-    </div>
-
-    <div class="field">
-      <label>Platinum Current</label>
-      <input id="badgePlatCurrent" type="number">
-    </div>
-
-    <div class="field">
-      <label>Platinum Required</label>
-      <input id="badgePlatRequired" type="number">
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn" onclick="closeModal('badgeModal')">
-        Cancel
-      </button>
-
-      <button class="btn primary" onclick="saveBadge()">
-        Save
-      </button>
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================================
-     ACHIEVEMENT MODAL
-========================================================== -->
-
-<div id="achievementModal" class="modal-bg">
-
-  <div class="modal">
-
-    <div class="modal-title" id="achievementModalTitle">
-      Add Achievement
-    </div>
-
-    <input type="hidden" id="achievementId">
-
-    <div class="field">
-      <label>Achievement</label>
-      <input id="achievementName">
-    </div>
-
-    <div class="field">
-      <label>Current</label>
-      <input id="achievementCurrent" type="number">
-    </div>
-
-    <div class="field">
-      <label>Required</label>
-      <input id="achievementRequired" type="number">
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn" onclick="closeModal('achievementModal')">
-        Cancel
-      </button>
-
-      <button class="btn primary" onclick="saveAchievement()">
-        Save
-      </button>
-    </div>
-
-  </div>
-
-</div>
-
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
-
 /* =========================================================
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL =
-  "https://acfbuegbalkdajregyhi.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
+const SUPABASE_URL = "https://acfbuegbalkdajregyhi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
 
 const supabaseClient =
-  supabase.createClient(
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
-
 /* =========================================================
-   DEFAULT DATA
-========================================================= */
-
-const grinderDefaults = [
-
-  {
-    server_name:"Lunar Society",
-    fee:49000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"Heist Circle",
-    fee:45500000,
-    paid_until:"2026-12-15T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"Specials",
-    fee:56000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"The Dimension",
-    fee:49000000,
-    paid_until:"2026-12-16T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"Memers Den",
-    fee:42000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"The Kingdom",
-    fee:49000000,
-    paid_until:"2026-12-19T23:59:59",
-    duration_days:7,
-    description:"Heist at Saturday"
-  },
-
-  {
-    server_name:"Heavenly",
-    fee:49000000,
-    paid_until:"2026-10-11T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"REALM",
-    fee:49000000,
-    paid_until:"2026-10-09T23:59:59",
-    duration_days:7,
-    description:"2B heist"
-  },
-
-  {
-    server_name:"The Hideout",
-    fee:77000000,
-    paid_until:"2026-11-13T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"Dank Beast",
-    fee:84000000,
-    paid_until:"2026-10-12T23:59:59",
-    duration_days:7,
-    description:""
-  },
-
-  {
-    server_name:"Dank Craft",
-    fee:70000000,
-    paid_until:"2026-10-14T23:59:59",
-    duration_days:7,
-    description:""
-  }
-
-];
-
-
-const badgeDefaults = [
-
-  ["Collector",0,28,42,99],
-  ["Daily Devotee",36,420,36,666],
-  ["Poor Little Beggar",1559,10000,1559,15000],
-  ["Hide and Seek Champion",4773,10000,4773,15000],
-  ["Crime Lord",3687,10000,3687,15000],
-  ["Meme Connoisseur",174,2000,174,3000],
-  ["Market Manipulator",2745,5000,2745,10000],
-  ["Charity Leader",13,1000,13,1500],
-  ["Pet Handling Expert",0,4,0,8],
-  ["BANG BANG BANG Expert",80,250,80,400],
-  ["Illegal Pet Fighter",0,4000,0,5000],
-  ["Seasoned Angler",84,85,0,1],
-  ["Master Baiter",14,81,null,null],
-  ["Diggin It",22,250,22,400],
-  ["Business Savvy",55734965,20000000,55734965,100000000],
-  ["Slot Master",62,15000,62,20000],
-  ["Metal Tosser",1,5000,1,10000],
-  ["Slippery Snake",58,5000,58,10000],
-  ["Ball Spinning Pro",197,5000,197,10000],
-  ["BJ Master",231,5000,231,10000],
-  ["Always High",649,12500,649,15000],
-  ["Rob Them Blind",239801935,50000000000,239801935,200000000000],
-  ["Disenfranchised Voter",1,3,1,6],
-  ["Bester Quester",9,20,9,40],
-  ["Bold Adventurer",439,500,439,1000],
-  ["Fighter",3,3,2,4],
-  ["Marital Marvel",0,16,0,52],
-  ["XPlosion Expert",153998,10000000,153998,15000000],
-  ["Goldzilla",0,100000000000,0,300000000000],
-  ["Farm Hand",1553,25000,0,100],
-  ["Skin Collector",82,150,154,370],
-  ["Maid Master",427,5000,427,5000],
-  ["Haunted",0,20,null,null]
-
-];
-
-
-const achievementDefaults = [
-
-  ["Get 10 promotions at one job!",2,10],
-  ["Obtain 5 work stars!",0,5],
-  ["Obtain 25 work stars!",0,25],
-  ["Stream 50 days in a row!",9,50],
-  ["Stream 100 days in a row!",9,100],
-  ["Obtain Prestige 25!",0,25],
-  ["Obtain Pet Prestige 1!",0,1],
-  ["Obtain Pet Prestige 5!",0,5],
-  ["Obtain Pet Prestige 10!",0,10],
-  ["Obtain Pet Prestige 15!",0,15],
-  ["Obtain OMEGA 10!",2,10],
-  ["Turn in a bundle!",0,1],
-  ["Turn in 10 bundles!",0,10],
-  ["Reach a 69 daily streak!",36,69],
-  ["Obtain 10 badges!",7,10],
-  ["Die 1000 times!",943,1000],
-  ["Harvest 5,000 plants!",1600,5000],
-  ["Harvest a shiny surprise!",0,1],
-  ["Harvest 90 times for a friend!",0,90],
-  ["Complete 50 weekly quests!",9,50],
-  ["Have 100 visits on your farm!",2,100],
-  ["Win 10 quick fights in a row!",0,10],
-  ["Use 1,000 items!",966,1000],
-  ["Use 10,000 items!",966,10000],
-  ["Complete the fish guide book",0,1],
-  ["Catch all fish bosses",0,15],
-  ["Reach max reputation with 1 Fish NPC",440,700],
-  ["Reach min reputation with 1 Fish NPC",400,700],
-  ["Complete 30 Fish Pass Tasks",14,30],
-  ["Open 25 of any lootbox at once!",1,25],
-  ["Own 5 fishing buckets!",3,5]
-
-];
-
-
-/* =========================================================
-   GLOBAL STATE
+   STATE
 ========================================================= */
 
 let grinders = [];
@@ -2005,66 +1074,126 @@ let heists = [];
 let badges = [];
 let achievements = [];
 
-let badgeFilter = "all";
-let achievementFilter = "all";
+let currentPage = "dashboard";
+let editingId = null;
 
-let paymentHistory =
-  JSON.parse(
-    localStorage.getItem("dankPaymentHistory") || "[]"
-  );
+/* =========================================================
+   DEFAULTS
+========================================================= */
 
+const grinderDefaults = [
+  {server_name:"Lunar Society",fee:49000000,paid_until:"2026-12-12T23:59:59",duration_days:7,description:""},
+  {server_name:"Heist Circle",fee:45500000,paid_until:"2026-12-15T23:59:59",duration_days:7,description:""},
+  {server_name:"Specials",fee:56000000,paid_until:"2026-12-12T23:59:59",duration_days:7,description:""},
+  {server_name:"The Dimension",fee:49000000,paid_until:"2026-12-16T23:59:59",duration_days:7,description:""},
+  {server_name:"Memers Den",fee:42000000,paid_until:"2026-12-12T23:59:59",duration_days:7,description:""},
+  {server_name:"The Kingdom",fee:49000000,paid_until:"2026-12-19T23:59:59",duration_days:7,description:"Heist at Saturday"},
+  {server_name:"Heavenly",fee:49000000,paid_until:"2026-10-11T23:59:59",duration_days:7,description:""},
+  {server_name:"REALM",fee:49000000,paid_until:"2026-10-09T23:59:59",duration_days:7,description:"2B heist"},
+  {server_name:"The Hideout",fee:77000000,paid_until:"2026-11-13T23:59:59",duration_days:7,description:""},
+  {server_name:"Dank Beast",fee:84000000,paid_until:"2026-10-12T23:59:59",duration_days:7,description:""},
+  {server_name:"Dank Craft",fee:70000000,paid_until:"2026-10-14T23:59:59",duration_days:7,description:""}
+];
+
+const badgeDefaults = [
+["Collector",0,28,42,99],
+["Daily Devotee",36,420,36,666],
+["Poor Little Beggar",1559,10000,1559,15000],
+["Hide and Seek Champion",4773,10000,4773,15000],
+["Crime Lord",3687,10000,3687,15000],
+["Meme Connoisseur",174,2000,174,3000],
+["Market Manipulator",2745,5000,2745,10000],
+["Charity Leader",13,1000,13,1500],
+["Pet Handling Expert",0,4,0,8],
+["BANG BANG BANG Expert",80,250,80,400],
+["Illegal Pet Fighter",0,4000,0,5000],
+["Seasoned Angler",84,85,0,1],
+["Master Baiter",14,81,null,null],
+["Diggin It",22,250,22,400],
+["Business Savvy",55734965,20000000,55734965,100000000],
+["Slot Master",62,15000,62,20000],
+["Metal Tosser",1,5000,1,10000],
+["Slippery Snake",58,5000,58,10000],
+["Ball Spinning Pro",197,5000,197,10000],
+["BJ Master",231,5000,231,10000],
+["Always High",649,12500,649,15000],
+["Rob Them Blind",239801935,50000000000,239801935,200000000000],
+["Disenfranchised Voter",1,3,1,6],
+["Bester Quester",9,20,9,40],
+["Bold Adventurer",439,500,439,1000],
+["Fighter",3,3,2,4],
+["Marital Marvel",0,16,0,52],
+["XPlosion Expert",153998,10000000,153998,15000000],
+["Goldzilla",0,100000000000,0,300000000000],
+["Farm Hand",1553,25000,0,100],
+["Skin Collector",82,150,154,370],
+["Maid Master",427,5000,427,5000],
+["Haunted",0,20,null,null]
+];
+
+const achievementDefaults = [
+["Get 10 promotions at one job!",2,10],
+["Obtain 5 work stars!",0,5],
+["Obtain 25 work stars!",0,25],
+["Stream 50 days in a row!",9,50],
+["Stream 100 days in a row!",9,100],
+["Obtain Prestige 25!",0,25],
+["Obtain Pet Prestige 1!",0,1],
+["Obtain Pet Prestige 5!",0,5],
+["Obtain Pet Prestige 10!",0,10],
+["Obtain Pet Prestige 15!",0,15],
+["Obtain OMEGA 10!",2,10],
+["Turn in a bundle!",0,1],
+["Turn in 10 bundles!",0,10],
+["Reach a 69 daily streak!",36,69],
+["Obtain 10 badges!",7,10],
+["Die 1000 times!",943,1000],
+["Harvest 5,000 plants!",1600,5000],
+["Harvest a shiny surprise!",0,1],
+["Harvest 90 times for a friend!",0,90],
+["Complete 50 weekly quests!",9,50],
+["Have 100 visits on your farm!",2,100],
+["Win 10 quick fights in a row!",0,10],
+["Use 1,000 items!",966,1000],
+["Use 10,000 items!",966,10000],
+["Complete the fish guide book",0,1],
+["Catch all fish bosses",0,15],
+["Reach max reputation with 1 Fish NPC",440,700],
+["Reach min reputation with 1 Fish NPC",400,700],
+["Complete 30 Fish Pass Tasks",14,30],
+["Open 25 of any lootbox at once!",1,25],
+["Own 5 fishing buckets!",3,5]
+];
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function escapeHTML(value){
-
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
-
 
 function money(value){
-
-  return Number(value || 0).toLocaleString();
-
-}
-
-
-function shortMoney(value){
-
   const n = Number(value || 0);
 
-  if(n >= 1e12)
-    return (n / 1e12).toFixed(2).replace(/\.00$/,"") + "T";
-
-  if(n >= 1e9)
-    return (n / 1e9).toFixed(2).replace(/\.00$/,"") + "B";
-
-  if(n >= 1e6)
-    return (n / 1e6).toFixed(2).replace(/\.00$/,"") + "M";
-
-  if(n >= 1e3)
-    return (n / 1e3).toFixed(1).replace(/\.0$/,"") + "K";
+  if(n >= 1e12) return (n/1e12).toFixed(2).replace(/\.00$/,"")+"T";
+  if(n >= 1e9) return (n/1e9).toFixed(2).replace(/\.00$/,"")+"B";
+  if(n >= 1e6) return (n/1e6).toFixed(2).replace(/\.00$/,"")+"M";
+  if(n >= 1e3) return (n/1e3).toFixed(2).replace(/\.00$/,"")+"K";
 
   return n.toLocaleString();
-
 }
 
-
 function percentage(current,required){
-
   current = Number(current || 0);
   required = Number(required || 0);
 
-  if(required <= 0)
-    return 100;
+  if(required <= 0) return current > 0 ? 100 : 0;
 
   return Math.min(
     100,
@@ -2073,3154 +1202,68 @@ function percentage(current,required){
       (current / required) * 100
     )
   );
-
 }
-
 
 function remainingMs(date){
-
   return new Date(date).getTime() - Date.now();
-
 }
-
 
 function countdown(date){
-
   let ms = remainingMs(date);
 
-  if(ms <= 0)
-    return "Due now";
+  if(ms <= 0) return "OVERDUE";
 
-  const days =
-    Math.floor(ms / 86400000);
+  const day = 86400000;
+  const hour = 3600000;
+  const min = 60000;
 
-  ms %= 86400000;
+  const d = Math.floor(ms/day);
+  ms %= day;
 
-  const hours =
-    Math.floor(ms / 3600000);
+  const h = Math.floor(ms/hour);
+  ms %= hour;
 
-  ms %= 3600000;
+  const m = Math.floor(ms/min);
 
-  const minutes =
-    Math.floor(ms / 60000);
+  if(d > 0) return `${d}d ${h}h`;
+  if(h > 0) return `${h}h ${m}m`;
 
-  if(days > 0)
-    return `${days}d ${hours}h ${minutes}m`;
-
-  if(hours > 0)
-    return `${hours}h ${minutes}m`;
-
-  return `${minutes}m`;
-
+  return `${m}m`;
 }
 
+function countdownClass(date){
+  const ms = remainingMs(date);
 
-function formatDate(date){
+  if(ms <= 0) return "urgent";
+  if(ms <= 2 * 86400000) return "warning";
 
-  if(!date)
-    return "—";
+  return "safe";
+}
+
+function dateText(date){
+  if(!date) return "No date";
 
   return new Date(date).toLocaleString(
     undefined,
     {
-      year:"numeric",
+      day:"2-digit",
       month:"short",
-      day:"numeric",
+      year:"numeric",
       hour:"2-digit",
       minute:"2-digit"
     }
   );
-
 }
 
-
-function serverSlug(name){
-
+function slugify(name){
   return String(name || "")
     .toLowerCase()
     .trim()
     .replace(/&/g,"and")
     .replace(/[^a-z0-9]+/g,"-")
     .replace(/^-+|-+$/g,"");
-
 }
 
-
-/* =========================================================
-   SERVER ICONS
-   FIXED VERSION
-========================================================= */
-
-function handleIconError(img,base){
-
-  const extensions =
-    ["png","jpg","jpeg","webp"];
-
-  let index =
-    Number(img.dataset.iconIndex || 0);
-
-  index++;
-
-  if(index >= extensions.length){
-
-    img.style.display = "none";
-
-    const fallback =
-      img.parentElement.querySelector(
-        ".server-fallback"
-      );
-
-    if(fallback)
-      fallback.style.display = "flex";
-
-    return;
-
-  }
-
-  img.dataset.iconIndex = index;
-
-  img.src =
-    `${base}.${extensions[index]}`;
-
-}
-
-
-function grinderIcon(g){
-
-  const name =
-    g.server_name || "Server";
-
-  const slug =
-    serverSlug(name);
-
-  const base =
-    `server-icons/${slug}`;
-
-  const initial =
-    escapeHTML(
-      name.charAt(0).toUpperCase()
-    );
-
-  return `
-
-    <div class="server-icon-wrap">
-
-      <img
-        class="server-icon"
-        src="${base}.png"
-        alt="${escapeHTML(name)}"
-        loading="lazy"
-        data-icon-index="0"
-        onerror="handleIconError(this,'${base}')"
-      >
-
-      <div
-        class="server-fallback"
-        style="display:none"
-      >
-        ${initial}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   STATUS HELPERS
-========================================================= */
-
-function grinderStatus(g){
-
-  const ms =
-    remainingMs(g.paid_until);
-
-  if(ms <= 0){
-
-    return {
-      type:"red",
-      label:"Payment due"
-    };
-
-  }
-
-  if(ms <= 24 * 3600000){
-
-    return {
-      type:"red",
-      label:"Due today"
-    };
-
-  }
-
-  if(ms <= 3 * 86400000){
-
-    return {
-      type:"yellow",
-      label:"Due soon"
-    };
-
-  }
-
-  return {
-    type:"green",
-    label:"Active"
-  };
-
-}
-
-
-function progressClass(pct){
-
-  if(pct >= 100)
-    return "green";
-
-  if(pct >= 75)
-    return "yellow";
-
-  return "";
-
-}
-
-
-/* =========================================================
-   SORTING
-========================================================= */
-
-function sortedGrinders(){
-
-  return [...grinders].sort(
-    (a,b) =>
-      remainingMs(a.paid_until) -
-      remainingMs(b.paid_until)
-  );
-
-}
-
-
-function sortedHeists(){
-
-  return [...heists].sort(
-    (a,b) =>
-      remainingMs(a.end_time) -
-      remainingMs(b.end_time)
-  );
-
-}
-
-
-function badgeScore(b){
-
-  const gold =
-    percentage(
-      b.gold_current,
-      b.gold_required
-    );
-
-  const platinum =
-    b.platinum_required
-      ? percentage(
-          b.platinum_current,
-          b.platinum_required
-        )
-      : gold;
-
-  return Math.max(
-    gold,
-    platinum
-  );
-
-}
-
-
-function sortedBadges(){
-
-  return [...badges].sort(
-    (a,b) =>
-      badgeScore(b) -
-      badgeScore(a)
-  );
-
-}
-
-
-function sortedAchievements(){
-
-  return [...achievements].sort(
-    (a,b) =>
-      percentage(
-        b.current,
-        b.required
-      ) -
-      percentage(
-        a.current,
-        a.required
-      )
-  );
-
-}
-
-
-/* =========================================================
-   FILTERS
-========================================================= */
-
-function setBadgeFilter(filter){
-
-  badgeFilter = filter;
-
-  document
-    .querySelectorAll("[data-badge-filter]")
-    .forEach(btn => {
-
-      btn.classList.toggle(
-        "active",
-        btn.dataset.badgeFilter === filter
-      );
-
-    });
-
-  renderBadges();
-
-}
-
-
-function setAchievementFilter(filter){
-
-  achievementFilter = filter;
-
-  document
-    .querySelectorAll(
-      "[data-achievement-filter]"
-    )
-    .forEach(btn => {
-
-      btn.classList.toggle(
-        "active",
-        btn.dataset.achievementFilter === filter
-      );
-
-    });
-
-  renderAchievements();
-
-}
-
-
-function matchesProgressFilter(pct,filter){
-
-  if(filter === "completed")
-    return pct >= 100;
-
-  if(filter === "notstarted")
-    return pct <= 0;
-
-  if(filter === "progress")
-    return pct > 0 && pct < 100;
-
-  return true;
-
-}
-
-
-/* =========================================================
-   GRINDER CARD
-========================================================= */
-
-function grinderHTML(g){
-
-  const due =
-    remainingMs(g.paid_until);
-
-  const status =
-    grinderStatus(g);
-
-  const cardClass =
-    status.type === "red"
-      ? "danger-card"
-      : status.type === "yellow"
-        ? "warning-card"
-        : "";
-
-  return `
-
-    <div class="card ${cardClass}">
-
-      <div class="server-head">
-
-        ${grinderIcon(g)}
-
-        <div style="min-width:0">
-
-          <div class="server-name">
-            ${escapeHTML(g.server_name)}
-          </div>
-
-          <div class="small">
-            Paid until ${formatDate(g.paid_until)}
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="amount">
-        ${shortMoney(g.fee)}
-      </div>
-
-      <div class="amount-label">
-        ${money(g.fee)} weekly
-      </div>
-
-
-      <div class="timer ${status.type}">
-        ${due <= 0 ? "⚠️ Payment due" : "⏳ " + countdown(g.paid_until)}
-      </div>
-
-
-      <div class="status-row" style="margin-top:8px">
-
-        <span class="status-mini ${status.type}"></span>
-
-        ${status.label}
-
-      </div>
-
-
-      ${
-        g.description
-          ?
-          `<div class="description">
-            ${escapeHTML(g.description)}
-          </div>`
-          :
-          ""
-      }
-
-
-      <div class="actions">
-
-        <button
-          class="btn success"
-          onclick="markGrinderPaid('${g.id}')"
-        >
-          ✓ Mark Paid
-        </button>
-
-        <button
-          class="btn"
-          onclick="editGrinder('${g.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteGrinder('${g.id}')"
-        >
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   GRINDERS RENDER
-========================================================= */
-
-function renderGrinders(){
-
-  const list =
-    document.getElementById("grinderList");
-
-  const search =
-    (
-      document.getElementById("grinderSearch")?.value
-      || ""
-    )
-    .trim()
-    .toLowerCase();
-
-  let sorted =
-    sortedGrinders();
-
-  if(search){
-
-    sorted =
-      sorted.filter(
-        g =>
-          String(g.server_name || "")
-            .toLowerCase()
-            .includes(search)
-          ||
-          String(g.description || "")
-            .toLowerCase()
-            .includes(search)
-      );
-
-  }
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">💰</div>
-        No grinders found.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(grinderHTML).join("");
-
-}
-
-
-function renderDashboardGrinders(){
-
-  const list =
-    document.getElementById(
-      "dashboardGrinders"
-    );
-
-  const sorted =
-    sortedGrinders().slice(0,6);
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">💰</div>
-        No grinder payments.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(grinderHTML).join("");
-
-}
-
-
-/* =========================================================
-   HEISTS
-========================================================= */
-
-function heistHTML(h){
-
-  const remaining =
-    remainingMs(h.end_time);
-
-  let type = "green";
-  let label = "Active";
-
-  if(remaining <= 0){
-
-    type = "red";
-    label = "Ended";
-
-  }else if(remaining <= 3600000){
-
-    type = "red";
-    label = "Ending soon";
-
-  }else if(remaining <= 3 * 3600000){
-
-    type = "yellow";
-    label = "Ending soon";
-
-  }
-
-  const cardClass =
-    type === "red"
-      ? "danger-card"
-      : type === "yellow"
-        ? "warning-card"
-        : "";
-
-  return `
-
-    <div class="card ${cardClass}">
-
-      <div class="badge-row">
-
-        <div class="server-name">
-          ${escapeHTML(h.name || "Heist")}
-        </div>
-
-        <div class="pill ${type}">
-          ${label}
-        </div>
-
-      </div>
-
-
-      <div class="amount">
-        ${shortMoney(h.amount)}
-      </div>
-
-      <div class="amount-label">
-        ${money(h.amount)}
-      </div>
-
-
-      <div class="timer ${type}">
-        ${
-          remaining <= 0
-            ? "⚠️ Ended"
-            : "⏳ " + countdown(h.end_time)
-        }
-      </div>
-
-
-      <div class="small" style="margin-top:6px">
-        Ends ${formatDate(h.end_time)}
-      </div>
-
-
-      ${
-        h.description
-          ?
-          `<div class="description">
-            ${escapeHTML(h.description)}
-          </div>`
-          :
-          ""
-      }
-
-
-      <div class="actions">
-
-        <button
-          class="btn"
-          onclick="editHeist('${h.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteHeist('${h.id}')"
-        >
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-function renderHeists(){
-
-  const list =
-    document.getElementById("heistList");
-
-  const search =
-    (
-      document.getElementById("heistSearch")?.value
-      || ""
-    )
-    .trim()
-    .toLowerCase();
-
-  let sorted =
-    sortedHeists();
-
-  if(search){
-
-    sorted =
-      sorted.filter(
-        h =>
-          String(h.name || "")
-            .toLowerCase()
-            .includes(search)
-          ||
-          String(h.description || "")
-            .toLowerCase()
-            .includes(search)
-      );
-
-  }
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">💥</div>
-        No heists found.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(heistHTML).join("");
-
-}
-
-
-/* =========================================================
-   BADGE CARD
-========================================================= */
-
-function badgeHTML(b){
-
-  const goldPct =
-    percentage(
-      b.gold_current,
-      b.gold_required
-    );
-
-  const hasPlat =
-    b.platinum_required !== null &&
-    b.platinum_required !== undefined &&
-    Number(b.platinum_required) > 0;
-
-  const platPct =
-    hasPlat
-      ? percentage(
-          b.platinum_current,
-          b.platinum_required
-        )
-      : null;
-
-  const score =
-    badgeScore(b);
-
-  const completed =
-    score >= 100;
-
-  const cardClass =
-    completed
-      ? "completed-card"
-      : "";
-
-  return `
-
-    <div class="card ${cardClass}">
-
-      <div class="badge-row">
-
-        <div class="badge-name">
-          ${escapeHTML(b.badge_name)}
-        </div>
-
-        <div class="pill ${completed ? "green" : ""}">
-          ${Math.round(score)}%
-        </div>
-
-      </div>
-
-
-      <div class="progress-wrap">
-
-        <div class="progress-label">
-
-          <span>Gold</span>
-
-          <span>
-            ${money(b.gold_current)}
-            /
-            ${money(b.gold_required)}
-          </span>
-
-        </div>
-
-        <div class="progress">
-
-          <div
-            class="progress-bar ${progressClass(goldPct)}"
-            style="width:${goldPct}%"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      ${
-        hasPlat
-          ?
-          `
-            <div class="progress-wrap">
-
-              <div class="progress-label">
-
-                <span>Platinum</span>
-
-                <span>
-                  ${money(b.platinum_current)}
-                  /
-                  ${money(b.platinum_required)}
-                </span>
-
-              </div>
-
-              <div class="progress">
-
-                <div
-                  class="progress-bar ${progressClass(platPct)}"
-                  style="width:${platPct}%"
-                ></div>
-
-              </div>
-
-            </div>
-          `
-          :
-          ""
-      }
-
-
-      <div class="card-footer">
-
-        <div class="status-row">
-
-          <span class="status-mini ${
-            completed
-              ? "green"
-              : score > 0
-                ? "yellow"
-                : "red"
-          }"></span>
-
-          ${
-            completed
-              ? "Completed"
-              : score > 0
-                ? "In progress"
-                : "Not started"
-          }
-
-        </div>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          class="btn"
-          onclick="editBadge('${b.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteBadge('${b.id}')"
-        >
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   BADGES RENDER
-========================================================= */
-
-function renderBadges(){
-
-  const list =
-    document.getElementById("badgeList");
-
-  const search =
-    (
-      document.getElementById("badgeSearch")?.value
-      || ""
-    )
-    .trim()
-    .toLowerCase();
-
-  let sorted =
-    sortedBadges();
-
-  sorted =
-    sorted.filter(b => {
-
-      const pct =
-        badgeScore(b);
-
-      const matchesFilter =
-        matchesProgressFilter(
-          pct,
-          badgeFilter
-        );
-
-      const matchesSearch =
-        !search
-        ||
-        String(b.badge_name || "")
-          .toLowerCase()
-          .includes(search);
-
-      return (
-        matchesFilter &&
-        matchesSearch
-      );
-
-    });
-
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">🏆</div>
-        No badges match this filter.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(badgeHTML).join("");
-
-}
-
-
-/* =========================================================
-   ACHIEVEMENT CARD
-========================================================= */
-
-function achievementHTML(a){
-
-  const pct =
-    percentage(
-      a.current,
-      a.required
-    );
-
-  const completed =
-    pct >= 100;
-
-  const cardClass =
-    completed
-      ? "completed-card"
-      : "";
-
-  return `
-
-    <div class="card ${cardClass}">
-
-      <div class="badge-row">
-
-        <div class="badge-name">
-          ${escapeHTML(a.name)}
-        </div>
-
-        <div class="pill ${completed ? "green" : ""}">
-          ${Math.round(pct)}%
-        </div>
-
-      </div>
-
-
-      <div class="progress-wrap">
-
-        <div class="progress-label">
-
-          <span>
-            ${money(a.current)}
-            /
-            ${money(a.required)}
-          </span>
-
-          <span>
-            ${
-              completed
-                ? "Completed"
-                : ""
-            }
-          </span>
-
-        </div>
-
-
-        <div class="progress">
-
-          <div
-            class="progress-bar ${progressClass(pct)}"
-            style="width:${pct}%"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card-footer">
-
-        <div class="status-row">
-
-          <span class="status-mini ${
-            completed
-              ? "green"
-              : pct > 0
-                ? "yellow"
-                : "red"
-          }"></span>
-
-          ${
-            completed
-              ? "Completed"
-              : pct > 0
-                ? "In progress"
-                : "Not started"
-          }
-
-        </div>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          class="btn"
-          onclick="editAchievement('${a.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteAchievement('${a.id}')"
-        >
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   ACHIEVEMENTS RENDER
-========================================================= */
-
-function renderAchievements(){
-
-  const list =
-    document.getElementById(
-      "achievementList"
-    );
-
-  const search =
-    (
-      document.getElementById(
-        "achievementSearch"
-      )?.value
-      || ""
-    )
-    .trim()
-    .toLowerCase();
-
-  let sorted =
-    sortedAchievements();
-
-  sorted =
-    sorted.filter(a => {
-
-      const pct =
-        percentage(
-          a.current,
-          a.required
-        );
-
-      const matchesFilter =
-        matchesProgressFilter(
-          pct,
-          achievementFilter
-        );
-
-      const matchesSearch =
-        !search
-        ||
-        String(a.name || "")
-          .toLowerCase()
-          .includes(search);
-
-      return (
-        matchesFilter &&
-        matchesSearch
-      );
-
-    });
-
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">🎯</div>
-        No achievements match this filter.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(achievementHTML).join("");
-
-}
-
-
-/* =========================================================
-   DASHBOARD BADGES
-========================================================= */
-
-function renderDashboardBadges(){
-
-  const list =
-    document.getElementById(
-      "dashboardBadges"
-    );
-
-  const sorted =
-    sortedBadges().slice(0,4);
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        No badge data.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(badgeHTML).join("");
-
-}
-
-
-/* =========================================================
-   DASHBOARD ACHIEVEMENTS
-========================================================= */
-
-function renderDashboardAchievements(){
-
-  const list =
-    document.getElementById(
-      "dashboardAchievements"
-    );
-
-  const sorted =
-    sortedAchievements().slice(0,4);
-
-  if(!sorted.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        No achievement data.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  list.innerHTML =
-    sorted.map(achievementHTML).join("");
-
-}
-
-
-/* =========================================================
-   CALCULATIONS
-========================================================= */
-
-function averageBadgeProgress(){
-
-  if(!badges.length)
-    return 0;
-
-  return (
-    badges.reduce(
-      (sum,b) =>
-        sum + badgeScore(b),
-      0
-    ) / badges.length
-  );
-
-}
-
-
-function averageAchievementProgress(){
-
-  if(!achievements.length)
-    return 0;
-
-  return (
-    achievements.reduce(
-      (sum,a) =>
-        sum +
-        percentage(
-          a.current,
-          a.required
-        ),
-      0
-    ) / achievements.length
-  );
-
-}
-
-
-function completedBadgeCount(){
-
-  return badges.filter(
-    b => badgeScore(b) >= 100
-  ).length;
-
-}
-
-
-function completedAchievementCount(){
-
-  return achievements.filter(
-    a =>
-      percentage(
-        a.current,
-        a.required
-      ) >= 100
-  ).length;
-
-}
-
-
-function weeklyGrinderCost(){
-
-  return grinders.reduce(
-    (sum,g) =>
-      sum + Number(g.fee || 0),
-    0
-  );
-
-}
-
-
-function monthlyGrinderCost(){
-
-  return weeklyGrinderCost() *
-    52 / 12;
-
-}
-
-
-/* =========================================================
-   STATS
-========================================================= */
-
-function renderStats(){
-
-  const weekly =
-    weeklyGrinderCost();
-
-  const monthly =
-    monthlyGrinderCost();
-
-  const badgeAvg =
-    averageBadgeProgress();
-
-  const achievementAvg =
-    averageAchievementProgress();
-
-
-  document.getElementById(
-    "statGrinders"
-  ).textContent =
-    grinders.length;
-
-
-  document.getElementById(
-    "statPayments"
-  ).textContent =
-    grinders.filter(
-      g =>
-        remainingMs(g.paid_until)
-        <=
-        7 * 86400000
-    ).length;
-
-
-  document.getElementById(
-    "statBadges"
-  ).textContent =
-    badges.length;
-
-
-  document.getElementById(
-    "statAchievements"
-  ).textContent =
-    achievements.length;
-
-
-  document.getElementById(
-    "statGrinderCost"
-  ).textContent =
-    shortMoney(weekly) +
-    " weekly";
-
-
-  document.getElementById(
-    "statBadgeProgress"
-  ).textContent =
-    Math.round(badgeAvg) +
-    "% average";
-
-
-  document.getElementById(
-    "statAchievementProgress"
-  ).textContent =
-    Math.round(achievementAvg) +
-    "% average";
-
-
-  document.getElementById(
-    "weeklyCost"
-  ).textContent =
-    shortMoney(weekly);
-
-
-  document.getElementById(
-    "monthlyCost"
-  ).textContent =
-    shortMoney(monthly);
-
-
-  document.getElementById(
-    "badgeCompletion"
-  ).textContent =
-    Math.round(badgeAvg) + "%";
-
-
-  document.getElementById(
-    "achievementCompletion"
-  ).textContent =
-    Math.round(achievementAvg) + "%";
-
-
-  document.getElementById(
-    "completedBadges"
-  ).textContent =
-    `${completedBadgeCount()} / ${badges.length}`;
-
-
-  document.getElementById(
-    "completedAchievements"
-  ).textContent =
-    `${completedAchievementCount()} / ${achievements.length}`;
-
-
-  document.getElementById(
-    "activeHeists"
-  ).textContent =
-    heists.filter(
-      h => remainingMs(h.end_time) > 0
-    ).length;
-
-
-  document.getElementById(
-    "totalServers"
-  ).textContent =
-    grinders.length;
-
-}
-
-
-/* =========================================================
-   DASHBOARD PRIORITIES
-========================================================= */
-
-function renderPriority(){
-
-  const row =
-    document.getElementById(
-      "priorityRow"
-    );
-
-  const chips = [];
-
-
-  const urgentGrinders =
-    sortedGrinders()
-      .filter(
-        g =>
-          remainingMs(g.paid_until)
-          <=
-          3 * 86400000
-      )
-      .slice(0,2);
-
-
-  urgentGrinders.forEach(g => {
-
-    chips.push(`
-      <div class="priority-chip ${
-        remainingMs(g.paid_until) <= 0
-          ? "red"
-          : "yellow"
-      }">
-        💰
-        ${escapeHTML(g.server_name)}
-        ·
-        ${remainingMs(g.paid_until) <= 0
-          ? "Due"
-          : countdown(g.paid_until)}
-      </div>
-    `);
-
-  });
-
-
-  const almostBadge =
-    sortedBadges()
-      .find(
-        b =>
-          badgeScore(b) >= 90 &&
-          badgeScore(b) < 100
-      );
-
-
-  if(almostBadge){
-
-    chips.push(`
-      <div class="priority-chip green">
-        🏆
-        ${escapeHTML(almostBadge.badge_name)}
-        ·
-        ${Math.round(badgeScore(almostBadge))}%
-      </div>
-    `);
-
-  }
-
-
-  const almostAchievement =
-    sortedAchievements()
-      .find(
-        a =>
-          percentage(
-            a.current,
-            a.required
-          ) >= 90 &&
-          percentage(
-            a.current,
-            a.required
-          ) < 100
-      );
-
-
-  if(almostAchievement){
-
-    chips.push(`
-      <div class="priority-chip green">
-        🎯
-        ${escapeHTML(almostAchievement.name)}
-        ·
-        ${Math.round(
-          percentage(
-            almostAchievement.current,
-            almostAchievement.required
-          )
-        )}%
-      </div>
-    `);
-
-  }
-
-
-  if(!chips.length){
-
-    chips.push(`
-      <div class="priority-chip green">
-        ✓ Everything looks good
-      </div>
-    `);
-
-  }
-
-
-  row.innerHTML =
-    chips.join("");
-
-}
-
-
-/* =========================================================
-   PAYMENT HISTORY
-========================================================= */
-
-function savePaymentHistory(){
-
-  localStorage.setItem(
-    "dankPaymentHistory",
-    JSON.stringify(
-      paymentHistory
-    )
-  );
-
-}
-
-
-function addPaymentHistory(g){
-
-  paymentHistory.unshift({
-
-    server_name:g.server_name,
-
-    fee:Number(g.fee || 0),
-
-    paid_at:new Date().toISOString()
-
-  });
-
-
-  paymentHistory =
-    paymentHistory.slice(0,50);
-
-  savePaymentHistory();
-
-}
-
-
-function renderPaymentHistory(){
-
-  const list =
-    document.getElementById(
-      "paymentHistory"
-    );
-
-  if(!paymentHistory.length){
-
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">💸</div>
-        No payment history yet.
-        <br>
-        Use "Mark Paid" on a grinder to start tracking.
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    paymentHistory
-      .slice(0,20)
-      .map(item => `
-
-        <div class="history-item">
-
-          <div class="history-main">
-
-            <div class="history-name">
-              ${escapeHTML(item.server_name)}
-            </div>
-
-            <div class="history-date">
-              ${formatDate(item.paid_at)}
-            </div>
-
-          </div>
-
-          <div class="history-fee">
-            ${shortMoney(item.fee)}
-          </div>
-
-        </div>
-
-      `)
-      .join("");
-
-}
-
-
-function clearPaymentHistory(){
-
-  if(!paymentHistory.length)
-    return;
-
-  if(
-    !confirm(
-      "Clear all local payment history?"
-    )
-  )
-    return;
-
-  paymentHistory = [];
-
-  savePaymentHistory();
-
-  renderPaymentHistory();
-
-}
-
-
-/* =========================================================
-   MARK GRINDER PAID
-========================================================= */
-
-async function markGrinderPaid(id){
-
-  const g =
-    grinders.find(
-      x => String(x.id) === String(id)
-    );
-
-  if(!g)
-    return;
-
-
-  const duration =
-    Number(
-      g.duration_days || 7
-    );
-
-
-  let current =
-    new Date(g.paid_until);
-
-
-  const now =
-    new Date();
-
-
-  /*
-    If payment is already expired,
-    start from now.
-
-    Otherwise extend the existing
-    paid-until date.
-  */
-
-  if(current < now)
-    current = now;
-
-
-  current.setDate(
-    current.getDate() + duration
-  );
-
-
-  const newDate =
-    current.toISOString();
-
-
-  const {data,error} =
-    await supabaseClient
-      .from("grinder_fees")
-      .update({
-        paid_until:newDate
-      })
-      .eq("id",id)
-      .select("*")
-      .single();
-
-
-  if(error){
-
-    alert(error.message);
-    return;
-
-  }
-
-
-  grinders =
-    grinders.map(
-      x =>
-        String(x.id) === String(id)
-          ? data
-          : x
-    );
-
-
-  addPaymentHistory(g);
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-function openModal(id){
-
-  document
-    .getElementById(id)
-    .classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("show");
-
-}
-
-
-/* =========================================================
-   GRINDER CRUD
-========================================================= */
-
-function openGrinderModal(){
-
-  document.getElementById(
-    "grinderModalTitle"
-  ).textContent = "Add Grinder";
-
-  document.getElementById(
-    "grinderId"
-  ).value = "";
-
-  document.getElementById(
-    "grinderServer"
-  ).value = "";
-
-  document.getElementById(
-    "grinderFee"
-  ).value = "";
-
-  document.getElementById(
-    "grinderPaidUntil"
-  ).value = "";
-
-  document.getElementById(
-    "grinderDuration"
-  ).value = "7";
-
-  document.getElementById(
-    "grinderDescription"
-  ).value = "";
-
-  openModal("grinderModal");
-
-}
-
-
-function editGrinder(id){
-
-  const g =
-    grinders.find(
-      x => String(x.id) === String(id)
-    );
-
-  if(!g)
-    return;
-
-
-  document.getElementById(
-    "grinderModalTitle"
-  ).textContent = "Edit Grinder";
-
-
-  document.getElementById(
-    "grinderId"
-  ).value = g.id;
-
-
-  document.getElementById(
-    "grinderServer"
-  ).value =
-    g.server_name || "";
-
-
-  document.getElementById(
-    "grinderFee"
-  ).value =
-    g.fee || "";
-
-
-  document.getElementById(
-    "grinderPaidUntil"
-  ).value =
-    g.paid_until
-      ? new Date(g.paid_until)
-          .toISOString()
-          .slice(0,16)
-      : "";
-
-
-  document.getElementById(
-    "grinderDuration"
-  ).value =
-    g.duration_days || 7;
-
-
-  document.getElementById(
-    "grinderDescription"
-  ).value =
-    g.description || "";
-
-
-  openModal("grinderModal");
-
-}
-
-
-async function saveGrinder(){
-
-  const id =
-    document.getElementById(
-      "grinderId"
-    ).value;
-
-
-  const payload = {
-
-    server_name:
-      document.getElementById(
-        "grinderServer"
-      ).value.trim(),
-
-    fee:
-      Number(
-        document.getElementById(
-          "grinderFee"
-        ).value || 0
-      ),
-
-    paid_until:
-      document.getElementById(
-        "grinderPaidUntil"
-      ).value,
-
-    duration_days:
-      Number(
-        document.getElementById(
-          "grinderDuration"
-        ).value || 7
-      ),
-
-    description:
-      document.getElementById(
-        "grinderDescription"
-      ).value.trim()
-
-  };
-
-
-  if(!payload.server_name){
-
-    alert(
-      "Enter a server name."
-    );
-
-    return;
-
-  }
-
-
-  let result;
-
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("grinder_fees")
-        .update(payload)
-        .eq("id",id)
-        .select("*")
-        .single();
-
-  }else{
-
-    result =
-      await supabaseClient
-        .from("grinder_fees")
-        .insert(payload)
-        .select("*")
-        .single();
-
-  }
-
-
-  if(result.error){
-
-    alert(result.error.message);
-
-    return;
-
-  }
-
-
-  if(id){
-
-    grinders =
-      grinders.map(
-        x =>
-          String(x.id) === String(id)
-            ? result.data
-            : x
-      );
-
-  }else{
-
-    grinders.push(
-      result.data
-    );
-
-  }
-
-
-  closeModal(
-    "grinderModal"
-  );
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   DELETE GRINDER
-========================================================= */
-
-async function deleteGrinder(id){
-
-  if(
-    !confirm(
-      "Delete this grinder?"
-    )
-  )
-    return;
-
-
-  const {error} =
-    await supabaseClient
-      .from("grinder_fees")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    alert(error.message);
-
-    return;
-
-  }
-
-
-  grinders =
-    grinders.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   HEIST CRUD
-========================================================= */
-
-function openHeistModal(){
-
-  document.getElementById(
-    "heistModalTitle"
-  ).textContent = "Add Heist";
-
-  document.getElementById(
-    "heistId"
-  ).value = "";
-
-  document.getElementById(
-    "heistName"
-  ).value = "";
-
-  document.getElementById(
-    "heistEnd"
-  ).value = "";
-
-  document.getElementById(
-    "heistAmount"
-  ).value = "";
-
-  document.getElementById(
-    "heistDescription"
-  ).value = "";
-
-  openModal(
-    "heistModal"
-  );
-
-}
-
-
-function editHeist(id){
-
-  const h =
-    heists.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-  if(!h)
-    return;
-
-
-  document.getElementById(
-    "heistModalTitle"
-  ).textContent =
-    "Edit Heist";
-
-
-  document.getElementById(
-    "heistId"
-  ).value =
-    h.id;
-
-
-  document.getElementById(
-    "heistName"
-  ).value =
-    h.name || "";
-
-
-  document.getElementById(
-    "heistEnd"
-  ).value =
-    h.end_time
-      ? new Date(h.end_time)
-          .toISOString()
-          .slice(0,16)
-      : "";
-
-
-  document.getElementById(
-    "heistAmount"
-  ).value =
-    h.amount || "";
-
-
-  document.getElementById(
-    "heistDescription"
-  ).value =
-    h.description || "";
-
-
-  openModal(
-    "heistModal"
-  );
-
-}
-
-
-async function saveHeist(){
-
-  const id =
-    document.getElementById(
-      "heistId"
-    ).value;
-
-
-  const payload = {
-
-    name:
-      document.getElementById(
-        "heistName"
-      ).value.trim(),
-
-    end_time:
-      document.getElementById(
-        "heistEnd"
-      ).value,
-
-    amount:
-      Number(
-        document.getElementById(
-          "heistAmount"
-        ).value || 0
-      ),
-
-    description:
-      document.getElementById(
-        "heistDescription"
-      ).value.trim()
-
-  };
-
-
-  let result;
-
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("heists")
-        .update(payload)
-        .eq("id",id)
-        .select("*")
-        .single();
-
-  }else{
-
-    result =
-      await supabaseClient
-        .from("heists")
-        .insert(payload)
-        .select("*")
-        .single();
-
-  }
-
-
-  if(result.error){
-
-    alert(
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  if(id){
-
-    heists =
-      heists.map(
-        x =>
-          String(x.id) === String(id)
-            ? result.data
-            : x
-      );
-
-  }else{
-
-    heists.push(
-      result.data
-    );
-
-  }
-
-
-  closeModal(
-    "heistModal"
-  );
-
-  renderAll();
-
-}
-
-
-async function deleteHeist(id){
-
-  if(
-    !confirm(
-      "Delete this heist?"
-    )
-  )
-    return;
-
-
-  const {error} =
-    await supabaseClient
-      .from("heists")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    alert(
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  heists =
-    heists.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   BADGE CRUD
-========================================================= */
-
-function openBadgeModal(){
-
-  document.getElementById(
-    "badgeModalTitle"
-  ).textContent =
-    "Add Badge";
-
-
-  document.getElementById(
-    "badgeId"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgeName"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgeGoldCurrent"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgeGoldRequired"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgePlatCurrent"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgePlatRequired"
-  ).value = "";
-
-
-  openModal(
-    "badgeModal"
-  );
-
-}
-
-
-function editBadge(id){
-
-  const b =
-    badges.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!b)
-    return;
-
-
-  document.getElementById(
-    "badgeModalTitle"
-  ).textContent =
-    "Edit Badge";
-
-
-  document.getElementById(
-    "badgeId"
-  ).value =
-    b.id;
-
-
-  document.getElementById(
-    "badgeName"
-  ).value =
-    b.badge_name || "";
-
-
-  document.getElementById(
-    "badgeGoldCurrent"
-  ).value =
-    b.gold_current ?? "";
-
-
-  document.getElementById(
-    "badgeGoldRequired"
-  ).value =
-    b.gold_required ?? "";
-
-
-  document.getElementById(
-    "badgePlatCurrent"
-  ).value =
-    b.platinum_current ?? "";
-
-
-  document.getElementById(
-    "badgePlatRequired"
-  ).value =
-    b.platinum_required ?? "";
-
-
-  openModal(
-    "badgeModal"
-  );
-
-}
-
-
-async function saveBadge(){
-
-  const id =
-    document.getElementById(
-      "badgeId"
-    ).value;
-
-
-  const payload = {
-
-    badge_name:
-      document.getElementById(
-        "badgeName"
-      ).value.trim(),
-
-    gold_current:
-      Number(
-        document.getElementById(
-          "badgeGoldCurrent"
-        ).value || 0
-      ),
-
-    gold_required:
-      Number(
-        document.getElementById(
-          "badgeGoldRequired"
-        ).value || 0
-      ),
-
-    platinum_current:
-      document.getElementById(
-        "badgePlatCurrent"
-      ).value === ""
-        ? null
-        : Number(
-            document.getElementById(
-              "badgePlatCurrent"
-            ).value
-          ),
-
-    platinum_required:
-      document.getElementById(
-        "badgePlatRequired"
-      ).value === ""
-        ? null
-        : Number(
-            document.getElementById(
-              "badgePlatRequired"
-            ).value
-          )
-
-  };
-
-
-  let result;
-
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("badges")
-        .update(payload)
-        .eq("id",id)
-        .select("*")
-        .single();
-
-  }else{
-
-    result =
-      await supabaseClient
-        .from("badges")
-        .insert(payload)
-        .select("*")
-        .single();
-
-  }
-
-
-  if(result.error){
-
-    alert(
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  if(id){
-
-    badges =
-      badges.map(
-        x =>
-          String(x.id) === String(id)
-            ? result.data
-            : x
-      );
-
-  }else{
-
-    badges.push(
-      result.data
-    );
-
-  }
-
-
-  closeModal(
-    "badgeModal"
-  );
-
-  renderAll();
-
-}
-
-
-async function deleteBadge(id){
-
-  if(
-    !confirm(
-      "Delete this badge?"
-    )
-  )
-    return;
-
-
-  const {error} =
-    await supabaseClient
-      .from("badges")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    alert(
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  badges =
-    badges.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   ACHIEVEMENT CRUD
-========================================================= */
-
-function openAchievementModal(){
-
-  document.getElementById(
-    "achievementModalTitle"
-  ).textContent =
-    "Add Achievement";
-
-
-  document.getElementById(
-    "achievementId"
-  ).value = "";
-
-
-  document.getElementById(
-    "achievementName"
-  ).value = "";
-
-
-  document.getElementById(
-    "achievementCurrent"
-  ).value = "";
-
-
-  document.getElementById(
-    "achievementRequired"
-  ).value = "";
-
-
-  openModal(
-    "achievementModal"
-  );
-
-}
-
-
-function editAchievement(id){
-
-  const a =
-    achievements.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!a)
-    return;
-
-
-  document.getElementById(
-    "achievementModalTitle"
-  ).textContent =
-    "Edit Achievement";
-
-
-  document.getElementById(
-    "achievementId"
-  ).value =
-    a.id;
-
-
-  document.getElementById(
-    "achievementName"
-  ).value =
-    a.name || "";
-
-
-  document.getElementById(
-    "achievementCurrent"
-  ).value =
-    a.current ?? "";
-
-
-  document.getElementById(
-    "achievementRequired"
-  ).value =
-    a.required ?? "";
-
-
-  openModal(
-    "achievementModal"
-  );
-
-}
-
-
-async function saveAchievement(){
-
-  const id =
-    document.getElementById(
-      "achievementId"
-    ).value;
-
-
-  const payload = {
-
-    name:
-      document.getElementById(
-        "achievementName"
-      ).value.trim(),
-
-    current:
-      Number(
-        document.getElementById(
-          "achievementCurrent"
-        ).value || 0
-      ),
-
-    required:
-      Number(
-        document.getElementById(
-          "achievementRequired"
-        ).value || 1
-      )
-
-  };
-
-
-  let result;
-
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("achievements")
-        .update(payload)
-        .eq("id",id)
-        .select("*")
-        .single();
-
-  }else{
-
-    result =
-      await supabaseClient
-        .from("achievements")
-        .insert(payload)
-        .select("*")
-        .single();
-
-  }
-
-
-  if(result.error){
-
-    alert(
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  if(id){
-
-    achievements =
-      achievements.map(
-        x =>
-          String(x.id) === String(id)
-            ? result.data
-            : x
-      );
-
-  }else{
-
-    achievements.push(
-      result.data
-    );
-
-  }
-
-
-  closeModal(
-    "achievementModal"
-  );
-
-  renderAll();
-
-}
-
-
-async function deleteAchievement(id){
-
-  if(
-    !confirm(
-      "Delete this achievement?"
-    )
-  )
-    return;
-
-
-  const {error} =
-    await supabaseClient
-      .from("achievements")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    alert(
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  achievements =
-    achievements.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function switchPage(page){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      x =>
-        x.classList.toggle(
-          "active",
-          x.id === page
-        )
-    );
-
-
-  document
-    .querySelectorAll(
-      ".nav-btn,.mobile-nav button"
-    )
-    .forEach(
-      x =>
-        x.classList.toggle(
-          "active",
-          x.dataset.page === page
-        )
-    );
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-document
-  .querySelectorAll(
-    ".nav-btn,.mobile-nav button"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () =>
-        switchPage(
-          button.dataset.page
-        )
-    );
-
-  });
-
-
-/* =========================================================
-   MODAL BACKGROUND
-========================================================= */
-
-document
-  .querySelectorAll(".modal-bg")
-  .forEach(bg => {
-
-    bg.addEventListener(
-      "click",
-      event => {
-
-        if(event.target === bg){
-
-          bg.classList.remove(
-            "show"
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
-  renderStats();
-
-  renderPriority();
-
-  renderDashboardGrinders();
-
-  renderDashboardBadges();
-
-  renderDashboardAchievements();
-
-  renderGrinders();
-
-  renderHeists();
-
-  renderBadges();
-
-  renderAchievements();
-
-  renderPaymentHistory();
-
-}
-
-
-/* =========================================================
-   DATABASE LOAD
-========================================================= */
-
-async function loadAll(){
-
-  try{
-
-    const [
-
-      grinderResult,
-      heistResult,
-      badgeResult,
-      achievementResult
-
-    ] =
-      await Promise.all([
-
-        supabaseClient
-          .from("grinder_fees")
-          .select("*"),
-
-        supabaseClient
-          .from("heists")
-          .select("*"),
-
-        supabaseClient
-          .from("badges")
-          .select("*"),
-
-        supabaseClient
-          .from("achievements")
-          .select("*")
-
-      ]);
-
-
-    if(
-      grinderResult.error ||
-      heistResult.error ||
-      badgeResult.error ||
-      achievementResult.error
-    ){
-
-      document.getElementById(
-        "dbDot"
-      ).classList.add("offline");
-
-      document.getElementById(
-        "dbStatus"
-      ).textContent =
-        "Database error";
-
-    }else{
-
-      document.getElementById(
-        "dbDot"
-      ).classList.remove("offline");
-
-      document.getElementById(
-        "dbStatus"
-      ).textContent =
-        "Connected";
-
-    }
-
-
-    if(grinderResult.error)
-      console.error(
-        "Grinder error:",
-        grinderResult.error
-      );
-
-
-    if(heistResult.error)
-      console.error(
-        "Heist error:",
-        heistResult.error
-      );
-
-
-    if(badgeResult.error)
-      console.error(
-        "Badge error:",
-        badgeResult.error
-      );
-
-
-    if(achievementResult.error)
-      console.error(
-        "Achievement error:",
-        achievementResult.error
-      );
-
-
-    grinders =
-      grinderResult.data || [];
-
-
-    heists =
-      heistResult.data || [];
-
-
-    badges =
-      badgeResult.data || [];
-
-
-    achievements =
-      achievementResult.data || [];
-
-
-    /* =====================================================
-       SEED GRINDERS
-    ====================================================== */
-
-    if(
-      !grinderResult.error &&
-      grinders.length === 0
-    ){
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("grinder_fees")
-          .insert(
-            grinderDefaults
-          )
-          .select("*");
-
-
-      if(error){
-
-        console.error(
-          "Default grinder insert error:",
-          error
-        );
-
-      }else{
-
-        grinders =
-          data || [];
-
-      }
-
-    }
-
-
-    /* =====================================================
-       SEED BADGES
-    ====================================================== */
-
-    if(
-      !badgeResult.error &&
-      badges.length === 0
-    ){
-
-      const rows =
-        badgeDefaults.map(
-          x => ({
-
-            badge_name:x[0],
-
-            gold_current:x[1],
-
-            gold_required:x[2],
-
-            platinum_current:x[3],
-
-            platinum_required:x[4]
-
-          })
-        );
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("badges")
-          .insert(rows)
-          .select("*");
-
-
-      if(error){
-
-        console.error(
-          "Default badge insert error:",
-          error
-        );
-
-      }else{
-
-        badges =
-          data || [];
-
-      }
-
-    }
-
-
-    /* =====================================================
-       SEED ACHIEVEMENTS
-    ====================================================== */
-
-    if(
-      !achievementResult.error &&
-      achievements.length === 0
-    ){
-
-      const rows =
-        achievementDefaults.map(
-          x => ({
-
-            name:x[0],
-
-            current:x[1],
-
-            required:x[2]
-
-          })
-        );
-
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("achievements")
-          .insert(rows)
-          .select("*");
-
-
-      if(error){
-
-        console.error(
-          "Default achievement insert error:",
-          error
-        );
-
-      }else{
-
-        achievements =
-          data || [];
-
-      }
-
-    }
-
-
-    renderAll();
-
-  }catch(error){
-
-    console.error(
-      "Load error:",
-      error
-    );
-
-
-    document.getElementById(
-      "dbDot"
-    ).classList.add(
-      "offline"
-    );
-
-
-    document.getElementById(
-      "dbStatus"
-    ).textContent =
-      "Connection error";
-
-  }
-
-}
-
-
-/* =========================================================
-   LIVE REFRESH
-========================================================= */
-
-setInterval(
-  () => {
-
-    renderPriority();
-
-    renderDashboardGrinders();
-
-    renderDashboardBadges();
-
-    renderDashboardAchievements();
-
-    renderGrinders();
-
-    renderHeists();
-
-    renderStats();
-
-  },
-  30000
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadAll();
-
-</script>
-
-</body>
-</html>
+/*
+  Known icon names.
+  Put
