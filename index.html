@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dank Memer Tracker</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -16,15 +18,17 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #0b0f19;
-    color: #fff;
+    background:
+        radial-gradient(circle at top right, #202b55, transparent 35%),
+        #080b13;
+    color: white;
     min-height: 100vh;
 }
 
 header {
     padding: 25px;
-    background: #111827;
-    border-bottom: 1px solid #273449;
+    background: rgba(17,24,39,.85);
+    border-bottom: 1px solid #26324a;
 }
 
 header h1 {
@@ -33,23 +37,24 @@ header h1 {
 
 header p {
     color: #8d99ae;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
 nav {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     padding: 15px 25px;
-    background: #0f1522;
+    background: rgba(10,14,24,.95);
+    border-bottom: 1px solid #202a3c;
     overflow-x: auto;
 }
 
 nav button {
-    background: #1a2333;
+    background: #171e2d;
     color: white;
-    border: 1px solid #2d3a50;
-    padding: 10px 16px;
-    border-radius: 8px;
+    border: 1px solid #2b3850;
+    padding: 10px 15px;
+    border-radius: 9px;
     cursor: pointer;
     white-space: nowrap;
 }
@@ -79,31 +84,33 @@ h2 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 15px;
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
 }
 
 .card {
-    background: #111827;
+    background: rgba(17,24,39,.88);
     border: 1px solid #273449;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
 .card h3 {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .card p {
     color: #aeb8c8;
-    margin: 7px 0;
+    margin: 8px 0;
 }
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 11px;
     margin: 6px 0;
-    border-radius: 7px;
+    border-radius: 8px;
     border: 1px solid #344158;
     background: #0b0f19;
     color: white;
@@ -111,28 +118,9 @@ input {
 
 button {
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     padding: 9px 13px;
     cursor: pointer;
-}
-
-.primary {
-    background: #5865f2;
-    color: white;
-}
-
-.green {
-    background: #23a55a;
-    color: white;
-}
-
-.red {
-    background: #ed4245;
-    color: white;
-}
-
-.gray {
-    background: #374151;
     color: white;
 }
 
@@ -140,8 +128,28 @@ button:hover {
     opacity: .85;
 }
 
+.primary {
+    background: #5865f2;
+}
+
+.green {
+    background: #23a55a;
+}
+
+.red {
+    background: #ed4245;
+}
+
+.gray {
+    background: #374151;
+}
+
+form {
+    margin-bottom: 25px;
+}
+
 .timer {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
     margin: 12px 0;
     color: #8ea7ff;
@@ -152,16 +160,27 @@ button:hover {
 }
 
 .paid {
-    color: #23a55a;
+    color: #23a55a !important;
+}
+
+.warning {
+    color: #f0b232 !important;
 }
 
 .expired {
-    color: #ed4245;
+    color: #ed4245 !important;
 }
 
 .progress {
+    font-size: 19px;
+    margin-bottom: 18px;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-top: 15px;
-    font-size: 18px;
 }
 
 .empty {
@@ -169,9 +188,39 @@ button:hover {
     padding: 20px 0;
 }
 
-form {
-    margin-bottom: 25px;
+.dashboard-number {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 8px;
 }
+
+@media (max-width: 600px) {
+
+    main {
+        padding: 15px;
+    }
+
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    nav {
+        padding: 12px 15px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .timer {
+        font-size: 19px;
+    }
+}
+
 </style>
 </head>
 
@@ -183,82 +232,204 @@ form {
 </header>
 
 <nav>
-    <button class="active" onclick="showSection('dashboard', this)">🏠 Dashboard</button>
-    <button onclick="showSection('grinders', this)">💳 Grinder Fees</button>
-    <button onclick="showSection('heists', this)">🔥 Heist Timer</button>
-    <button onclick="showSection('badges', this)">🎖️ Badges</button>
-    <button onclick="showSection('achievements', this)">🏆 Achievements</button>
+
+    <button
+        class="active"
+        onclick="showSection('dashboard', this)">
+        🏠 Dashboard
+    </button>
+
+    <button
+        onclick="showSection('grinders', this)">
+        💳 Grinder Fees
+    </button>
+
+    <button
+        onclick="showSection('heists', this)">
+        🔥 Heist Timer
+    </button>
+
+    <button
+        onclick="showSection('badges', this)">
+        🎖️ Badges
+    </button>
+
+    <button
+        onclick="showSection('achievements', this)">
+        🏆 Achievements
+    </button>
+
 </nav>
 
 <main>
 
+<!-- ================= DASHBOARD ================= -->
+
 <section id="dashboard" class="section active">
+
     <h2>Dashboard</h2>
 
     <div class="grid">
+
         <div class="card">
             <h3>💳 Grinder Fees</h3>
-            <p id="grinderCount">Loading...</p>
+            <div
+                id="grinderCount"
+                class="dashboard-number">
+                0
+            </div>
         </div>
 
         <div class="card">
-            <h3>🔥 Active Heists</h3>
-            <p id="heistCount">Loading...</p>
+            <h3>🔥 Heist Timers</h3>
+            <div
+                id="heistCount"
+                class="dashboard-number">
+                0
+            </div>
         </div>
 
         <div class="card">
             <h3>🎖️ Badges</h3>
-            <p id="badgeCount">Loading...</p>
+            <div
+                id="badgeCount"
+                class="dashboard-number">
+                0/0
+            </div>
         </div>
 
         <div class="card">
             <h3>🏆 Achievements</h3>
-            <p id="achievementCount">Loading...</p>
+            <div
+                id="achievementCount"
+                class="dashboard-number">
+                0/0
+            </div>
         </div>
+
     </div>
+
 </section>
 
 
+<!-- ================= GRINDERS ================= -->
+
 <section id="grinders" class="section">
+
     <h2>💳 Grinder Fees</h2>
 
     <form onsubmit="addGrinder(event)">
-        <input id="serverName" placeholder="Server name" required>
-        <input id="fee" type="number" placeholder="Fee amount" required>
-        <input id="duration" type="number" placeholder="Duration in days" value="7" required>
-        <button class="primary">+ Add Grinder</button>
+
+        <input
+            id="serverName"
+            placeholder="Server name"
+            required
+        >
+
+        <input
+            id="fee"
+            type="number"
+            min="0"
+            placeholder="Fee amount"
+            required
+        >
+
+        <input
+            id="duration"
+            type="number"
+            min="1"
+            value="7"
+            placeholder="Default duration (days)"
+            required
+        >
+
+        <button class="primary">
+            + Add Grinder
+        </button>
+
     </form>
 
-    <div id="grinderList" class="grid"></div>
+    <div
+        id="grinderList"
+        class="grid">
+    </div>
+
 </section>
 
 
+<!-- ================= HEISTS ================= -->
+
 <section id="heists" class="section">
+
     <h2>🔥 Heist Timer</h2>
 
     <form onsubmit="addHeist(event)">
-        <input id="heistName" placeholder="Heist name" required>
-        <input id="heistDuration" type="number" placeholder="Duration in seconds" required>
-        <button class="primary">+ Add Heist</button>
+
+        <input
+            id="heistName"
+            placeholder="Heist name"
+            required
+        >
+
+        <input
+            id="heistDuration"
+            type="number"
+            min="1"
+            placeholder="Duration in seconds"
+            required
+        >
+
+        <button class="primary">
+            + Add Heist
+        </button>
+
     </form>
 
-    <div id="heistList" class="grid"></div>
+    <div
+        id="heistList"
+        class="grid">
+    </div>
+
 </section>
 
+
+<!-- ================= BADGES ================= -->
 
 <section id="badges" class="section">
+
     <h2>🎖️ Badges</h2>
 
-    <div class="progress" id="badgeProgress"></div>
-    <div id="badgeList" class="grid"></div>
+    <div
+        id="badgeProgress"
+        class="progress">
+        0 / 0
+    </div>
+
+    <div
+        id="badgeList"
+        class="grid">
+    </div>
+
 </section>
 
 
+<!-- ================= ACHIEVEMENTS ================= -->
+
 <section id="achievements" class="section">
+
     <h2>🏆 Achievements</h2>
 
-    <div class="progress" id="achievementProgress"></div>
-    <div id="achievementList" class="grid"></div>
+    <div
+        id="achievementProgress"
+        class="progress">
+        0 / 0
+    </div>
+
+    <div
+        id="achievementList"
+        class="grid">
+    </div>
+
 </section>
 
 </main>
@@ -266,499 +437,52 @@ form {
 
 <script>
 
-const SUPABASE_URL = "https://acfbuegbalkdajregyhi.supabase.co";
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://acfbuegbalkdajregyhi.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
 
-const db = supabase.createClient(
+const db =
+supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
 
-/* ---------------- NAVIGATION ---------------- */
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function showSection(id, button) {
 
-    document.querySelectorAll(".section")
-        .forEach(section => section.classList.remove("active"));
+    document
+        .querySelectorAll(".section")
+        .forEach(section =>
+            section.classList.remove("active")
+        );
 
-    document.getElementById(id).classList.add("active");
+    document
+        .getElementById(id)
+        .classList.add("active");
 
-    document.querySelectorAll("nav button")
-        .forEach(btn => btn.classList.remove("active"));
+    document
+        .querySelectorAll("nav button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
 
     button.classList.add("active");
 }
 
 
-/* ---------------- GRINDERS ---------------- */
-
-async function loadGrinders() {
-
-    const { data, error } = await db
-        .from("grinder_fees")
-        .select("*")
-        .order("id", { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    const list = document.getElementById("grinderList");
-
-    list.innerHTML = "";
-
-    document.getElementById("grinderCount").textContent =
-        `${data.length} grinder${data.length === 1 ? "" : "s"}`;
-
-    data.forEach(grinder => {
-
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const paidUntil = grinder.paid_until
-            ? new Date(grinder.paid_until)
-            : null;
-
-        const expired = !paidUntil || paidUntil <= new Date();
-
-        card.innerHTML = `
-            <h3>${escapeHTML(grinder.server_name)}</h3>
-
-            <p>💰 Fee: ${Number(grinder.fee).toLocaleString()}</p>
-
-            <p>
-                Paid until:
-                ${paidUntil ? paidUntil.toLocaleString() : "Not paid"}
-            </p>
-
-            <p class="status ${expired ? "expired" : "paid"}">
-                ${expired ? "❌ EXPIRED" : "✅ PAID"}
-            </p>
-
-            <button class="green"
-                onclick="payGrinder(${grinder.id}, 7)">
-                PAY 7 DAYS
-            </button>
-
-            <button class="gray"
-                onclick="payGrinder(${grinder.id}, ${grinder.duration_days})">
-                PAY ${grinder.duration_days} DAYS
-            </button>
-
-            <button class="red"
-                onclick="deleteGrinder(${grinder.id})">
-                DELETE
-            </button>
-        `;
-
-        list.appendChild(card);
-    });
-}
-
-
-async function addGrinder(event) {
-
-    event.preventDefault();
-
-    const serverName =
-        document.getElementById("serverName").value;
-
-    const fee =
-        Number(document.getElementById("fee").value);
-
-    const duration =
-        Number(document.getElementById("duration").value);
-
-    const { error } = await db
-        .from("grinder_fees")
-        .insert({
-            server_name: serverName,
-            fee: fee,
-            duration_days: duration
-        });
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    event.target.reset();
-
-    document.getElementById("duration").value = 7;
-
-    loadGrinders();
-}
-
-
-async function payGrinder(id, days) {
-
-    const { data, error } = await db
-        .from("grinder_fees")
-        .select("paid_until")
-        .eq("id", id)
-        .single();
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    let startDate = new Date();
-
-    if (data.paid_until) {
-
-        const oldDate = new Date(data.paid_until);
-
-        if (oldDate > startDate) {
-            startDate = oldDate;
-        }
-    }
-
-    startDate.setDate(startDate.getDate() + days);
-
-    const { error: updateError } = await db
-        .from("grinder_fees")
-        .update({
-            paid_until: startDate.toISOString()
-        })
-        .eq("id", id);
-
-    if (updateError) {
-        alert(updateError.message);
-        return;
-    }
-
-    loadGrinders();
-}
-
-
-async function deleteGrinder(id) {
-
-    if (!confirm("Delete this grinder?")) return;
-
-    await db
-        .from("grinder_fees")
-        .delete()
-        .eq("id", id);
-
-    loadGrinders();
-}
-
-
-/* ---------------- HEISTS ---------------- */
-
-async function loadHeists() {
-
-    const { data, error } = await db
-        .from("heist_timers")
-        .select("*")
-        .order("id", { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    const list = document.getElementById("heistList");
-
-    list.innerHTML = "";
-
-    document.getElementById("heistCount").textContent =
-        `${data.length} heist${data.length === 1 ? "" : "s"}`;
-
-    data.forEach(heist => {
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <h3>${escapeHTML(heist.name)}</h3>
-
-            <div class="timer" id="timer-${heist.id}">
-                Loading...
-            </div>
-
-            <button class="green"
-                onclick="startHeist(${heist.id})">
-                START
-            </button>
-
-            <button class="gray"
-                onclick="resetHeist(${heist.id})">
-                RESET
-            </button>
-
-            <button class="red"
-                onclick="deleteHeist(${heist.id})">
-                DELETE
-            </button>
-        `;
-
-        list.appendChild(card);
-    });
-
-    updateTimers(data);
-}
-
-
-async function addHeist(event) {
-
-    event.preventDefault();
-
-    const name =
-        document.getElementById("heistName").value;
-
-    const duration =
-        Number(document.getElementById("heistDuration").value);
-
-    const { error } = await db
-        .from("heist_timers")
-        .insert({
-            name: name,
-            duration_seconds: duration
-        });
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    event.target.reset();
-
-    loadHeists();
-}
-
-
-async function startHeist(id) {
-
-    const { data, error } = await db
-        .from("heist_timers")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    const endTime =
-        new Date(
-            Date.now() +
-            data.duration_seconds * 1000
-        ).toISOString();
-
-    await db
-        .from("heist_timers")
-        .update({
-            end_time: endTime
-        })
-        .eq("id", id);
-
-    loadHeists();
-}
-
-
-async function resetHeist(id) {
-
-    await db
-        .from("heist_timers")
-        .update({
-            end_time: null
-        })
-        .eq("id", id);
-
-    loadHeists();
-}
-
-
-async function deleteHeist(id) {
-
-    if (!confirm("Delete this heist?")) return;
-
-    await db
-        .from("heist_timers")
-        .delete()
-        .eq("id", id);
-
-    loadHeists();
-}
-
-
-function updateTimers(heists) {
-
-    setInterval(() => {
-
-        heists.forEach(heist => {
-
-            const element =
-                document.getElementById(`timer-${heist.id}`);
-
-            if (!element) return;
-
-            if (!heist.end_time) {
-                element.textContent = "READY";
-                return;
-            }
-
-            const remaining =
-                new Date(heist.end_time).getTime() -
-                Date.now();
-
-            if (remaining <= 0) {
-                element.textContent = "🔥 HEIST READY!";
-                return;
-            }
-
-            const totalSeconds =
-                Math.floor(remaining / 1000);
-
-            const hours =
-                Math.floor(totalSeconds / 3600);
-
-            const minutes =
-                Math.floor((totalSeconds % 3600) / 60);
-
-            const seconds =
-                totalSeconds % 60;
-
-            element.textContent =
-                `${hours}h ${minutes}m ${seconds}s`;
-        });
-
-    }, 1000);
-}
-
-
-/* ---------------- BADGES ---------------- */
-
-async function loadBadges() {
-
-    const { data, error } = await db
-        .from("badges")
-        .select("*")
-        .order("id", { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    const completed =
-        data.filter(x => x.completed).length;
-
-    document.getElementById("badgeCount").textContent =
-        `${completed}/${data.length} completed`;
-
-    document.getElementById("badgeProgress").textContent =
-        `${completed} / ${data.length} completed`;
-
-    const list =
-        document.getElementById("badgeList");
-
-    list.innerHTML = "";
-
-    data.forEach(badge => {
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <h3>${badge.completed ? "✅" : "⬜"} ${escapeHTML(badge.name)}</h3>
-
-            <button
-                class="${badge.completed ? "gray" : "green"}"
-                onclick="toggleBadge(${badge.id}, ${!badge.completed})">
-                ${badge.completed ? "Completed" : "Mark Complete"}
-            </button>
-        `;
-
-        list.appendChild(card);
-    });
-}
-
-
-async function toggleBadge(id, completed) {
-
-    await db
-        .from("badges")
-        .update({ completed })
-        .eq("id", id);
-
-    loadBadges();
-}
-
-
-/* ---------------- ACHIEVEMENTS ---------------- */
-
-async function loadAchievements() {
-
-    const { data, error } = await db
-        .from("achievements")
-        .select("*")
-        .order("id", { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    const completed =
-        data.filter(x => x.completed).length;
-
-    document.getElementById("achievementCount").textContent =
-        `${completed}/${data.length} completed`;
-
-    document.getElementById("achievementProgress").textContent =
-        `${completed} / ${data.length} completed`;
-
-    const list =
-        document.getElementById("achievementList");
-
-    list.innerHTML = "";
-
-    data.forEach(achievement => {
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <h3>
-                ${achievement.completed ? "✅" : "⬜"}
-                ${escapeHTML(achievement.name)}
-            </h3>
-
-            <button
-                class="${achievement.completed ? "gray" : "green"}"
-                onclick="toggleAchievement(${achievement.id}, ${!achievement.completed})">
-                ${achievement.completed ? "Completed" : "Mark Complete"}
-            </button>
-        `;
-
-        list.appendChild(card);
-    });
-}
-
-
-async function toggleAchievement(id, completed) {
-
-    await db
-        .from("achievements")
-        .update({ completed })
-        .eq("id", id);
-
-    loadAchievements();
-}
-
-
-/* ---------------- SECURITY ---------------- */
+/* =====================================================
+   SECURITY
+===================================================== */
 
 function escapeHTML(text) {
 
@@ -771,15 +495,1246 @@ function escapeHTML(text) {
 }
 
 
-/* ---------------- START ---------------- */
+/* =====================================================
+   GRINDER FEES
+===================================================== */
+
+let grinderCountdownInterval = null;
+
+
+async function loadGrinders() {
+
+    const { data, error } =
+        await db
+            .from("grinder_fees")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Failed to load grinders:\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    const list =
+        document.getElementById(
+            "grinderList"
+        );
+
+    list.innerHTML = "";
+
+    document.getElementById(
+        "grinderCount"
+    ).textContent = data.length;
+
+
+    if (data.length === 0) {
+
+        list.innerHTML = `
+            <div class="card">
+                <h3>No grinders yet</h3>
+                <p>Add your first server above.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(grinder => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+            <h3>
+                💳
+                ${escapeHTML(
+                    grinder.server_name
+                )}
+            </h3>
+
+            <p>
+                💰 Fee:
+                <strong>
+                    ${Number(
+                        grinder.fee
+                    ).toLocaleString()}
+                </strong>
+            </p>
+
+            <p>
+                📅 Paid until:
+                <strong id="date-${grinder.id}">
+                    ${
+                        grinder.paid_until
+                        ? formatDate(
+                            grinder.paid_until
+                        )
+                        : "Not paid"
+                    }
+                </strong>
+            </p>
+
+            <p>⏳ Remaining:</p>
+
+            <div
+                class="timer"
+                id="grinder-timer-${grinder.id}">
+                ${
+                    grinder.paid_until
+                    ? "Loading..."
+                    : "NOT PAID"
+                }
+            </div>
+
+            <p
+                id="status-${grinder.id}"
+                class="status">
+                Checking...
+            </p>
+
+            <div class="action-row">
+
+                <button
+                    class="green"
+                    onclick="
+                        payGrinder(
+                            ${grinder.id},
+                            7
+                        )
+                    ">
+                    ⚡ PAY 7 DAYS
+                </button>
+
+                <button
+                    class="primary"
+                    onclick="
+                        customPayGrinder(
+                            ${grinder.id}
+                        )
+                    ">
+                    ✏️ CUSTOM PAY
+                </button>
+
+                <button
+                    class="red"
+                    onclick="
+                        deleteGrinder(
+                            ${grinder.id}
+                        )
+                    ">
+                    🗑️ DELETE
+                </button>
+
+            </div>
+        `;
+
+        list.appendChild(card);
+
+    });
+
+    startGrinderCountdowns(data);
+}
+
+
+function formatDate(dateString) {
+
+    return new Date(
+        dateString
+    ).toLocaleString(
+        "en-MY",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+function getGrinderStatus(paidUntil) {
+
+    if (!paidUntil) {
+
+        return {
+            text: "🔴 NOT PAID",
+            className: "expired"
+        };
+    }
+
+    const remaining =
+        new Date(paidUntil).getTime()
+        - Date.now();
+
+    if (remaining <= 0) {
+
+        return {
+            text: "🔴 EXPIRED",
+            className: "expired"
+        };
+    }
+
+    const days =
+        remaining /
+        (1000 * 60 * 60 * 24);
+
+    if (days <= 2) {
+
+        return {
+            text: "🟡 EXPIRING SOON",
+            className: "warning"
+        };
+    }
+
+    return {
+        text: "🟢 ACTIVE",
+        className: "paid"
+    };
+}
+
+
+function startGrinderCountdowns(grinders) {
+
+    if (grinderCountdownInterval) {
+
+        clearInterval(
+            grinderCountdownInterval
+        );
+    }
+
+
+    function update() {
+
+        grinders.forEach(grinder => {
+
+            const timer =
+                document.getElementById(
+                    `grinder-timer-${grinder.id}`
+                );
+
+            const status =
+                document.getElementById(
+                    `status-${grinder.id}`
+                );
+
+            if (!timer || !status)
+                return;
+
+
+            if (!grinder.paid_until) {
+
+                timer.textContent =
+                    "NOT PAID";
+
+                status.textContent =
+                    "🔴 NOT PAID";
+
+                status.className =
+                    "status expired";
+
+                return;
+            }
+
+
+            const remaining =
+                new Date(
+                    grinder.paid_until
+                ).getTime()
+                - Date.now();
+
+
+            if (remaining <= 0) {
+
+                timer.textContent =
+                    "EXPIRED";
+
+                status.textContent =
+                    "🔴 EXPIRED";
+
+                status.className =
+                    "status expired";
+
+                return;
+            }
+
+
+            const totalSeconds =
+                Math.floor(
+                    remaining / 1000
+                );
+
+            const days =
+                Math.floor(
+                    totalSeconds / 86400
+                );
+
+            const hours =
+                Math.floor(
+                    (totalSeconds % 86400)
+                    / 3600
+                );
+
+            const minutes =
+                Math.floor(
+                    (totalSeconds % 3600)
+                    / 60
+                );
+
+            const seconds =
+                totalSeconds % 60;
+
+
+            timer.textContent =
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+
+            const state =
+                getGrinderStatus(
+                    grinder.paid_until
+                );
+
+            status.textContent =
+                state.text;
+
+            status.className =
+                `status ${state.className}`;
+
+        });
+    }
+
+
+    update();
+
+    grinderCountdownInterval =
+        setInterval(
+            update,
+            1000
+        );
+}
+
+
+async function addGrinder(event) {
+
+    event.preventDefault();
+
+    const serverName =
+        document
+            .getElementById("serverName")
+            .value
+            .trim();
+
+    const fee =
+        Number(
+            document
+                .getElementById("fee")
+                .value
+        );
+
+    const duration =
+        Number(
+            document
+                .getElementById("duration")
+                .value
+        );
+
+
+    if (
+        !serverName ||
+        fee < 0 ||
+        duration < 1
+    ) {
+
+        alert(
+            "Please enter valid information."
+        );
+
+        return;
+    }
+
+
+    const { error } =
+        await db
+            .from("grinder_fees")
+            .insert({
+                server_name:
+                    serverName,
+
+                fee:
+                    fee,
+
+                duration_days:
+                    duration,
+
+                paid_until:
+                    null
+            });
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    event.target.reset();
+
+    document.getElementById(
+        "duration"
+    ).value = 7;
+
+    await loadGrinders();
+}
+
+
+async function payGrinder(id, days) {
+
+    const { data, error } =
+        await db
+            .from("grinder_fees")
+            .select("paid_until")
+            .eq("id", id)
+            .single();
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    let startDate =
+        new Date();
+
+
+    if (data.paid_until) {
+
+        const oldDate =
+            new Date(
+                data.paid_until
+            );
+
+        if (
+            oldDate > startDate
+        ) {
+            startDate = oldDate;
+        }
+    }
+
+
+    startDate.setDate(
+        startDate.getDate()
+        + days
+    );
+
+
+    const { error: updateError } =
+        await db
+            .from("grinder_fees")
+            .update({
+                paid_until:
+                    startDate.toISOString()
+            })
+            .eq("id", id);
+
+
+    if (updateError) {
+
+        alert(
+            updateError.message
+        );
+
+        return;
+    }
+
+
+    await loadGrinders();
+}
+
+
+async function customPayGrinder(id) {
+
+    const input =
+        prompt(
+            "How many days do you want to pay?\n\nExample: 30, 60, 90, 180"
+        );
+
+
+    if (input === null)
+        return;
+
+
+    const days =
+        Number(input);
+
+
+    if (
+        !Number.isInteger(days)
+        || days <= 0
+    ) {
+
+        alert(
+            "Please enter a valid number of days."
+        );
+
+        return;
+    }
+
+
+    await payGrinder(
+        id,
+        days
+    );
+}
+
+
+async function deleteGrinder(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this grinder?"
+        )
+    ) {
+        return;
+    }
+
+
+    const { error } =
+        await db
+            .from("grinder_fees")
+            .delete()
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    await loadGrinders();
+}
+
+
+/* =====================================================
+   HEIST TIMER
+===================================================== */
+
+let heistInterval = null;
+
+
+async function loadHeists() {
+
+    const { data, error } =
+        await db
+            .from("heist_timers")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Failed to load heists:\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    const list =
+        document.getElementById(
+            "heistList"
+        );
+
+    list.innerHTML = "";
+
+
+    document.getElementById(
+        "heistCount"
+    ).textContent = data.length;
+
+
+    if (data.length === 0) {
+
+        list.innerHTML = `
+            <div class="card">
+                <h3>No timers yet</h3>
+                <p>Add a heist timer above.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(heist => {
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "card";
+
+
+        card.innerHTML = `
+
+            <h3>
+                🔥
+                ${escapeHTML(
+                    heist.name
+                )}
+            </h3>
+
+            <p>
+                Duration:
+                ${formatDuration(
+                    heist.duration_seconds
+                )}
+            </p>
+
+            <div
+                class="timer"
+                id="heist-timer-${heist.id}">
+                READY
+            </div>
+
+            <div class="action-row">
+
+                <button
+                    class="green"
+                    onclick="
+                        startHeist(
+                            ${heist.id}
+                        )
+                    ">
+                    ▶ START
+                </button>
+
+                <button
+                    class="gray"
+                    onclick="
+                        resetHeist(
+                            ${heist.id}
+                        )
+                    ">
+                    🔄 RESET
+                </button>
+
+                <button
+                    class="red"
+                    onclick="
+                        deleteHeist(
+                            ${heist.id}
+                        )
+                    ">
+                    🗑️ DELETE
+                </button>
+
+            </div>
+        `;
+
+        list.appendChild(card);
+
+    });
+
+
+    updateHeistTimers(data);
+}
+
+
+function formatDuration(seconds) {
+
+    const hours =
+        Math.floor(
+            seconds / 3600
+        );
+
+    const minutes =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+    const secs =
+        seconds % 60;
+
+
+    if (hours > 0) {
+
+        return `${hours}h ${minutes}m ${secs}s`;
+
+    }
+
+    if (minutes > 0) {
+
+        return `${minutes}m ${secs}s`;
+
+    }
+
+    return `${secs}s`;
+}
+
+
+async function addHeist(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document
+            .getElementById(
+                "heistName"
+            )
+            .value
+            .trim();
+
+
+    const duration =
+        Number(
+            document
+                .getElementById(
+                    "heistDuration"
+                )
+                .value
+        );
+
+
+    if (
+        !name ||
+        duration <= 0
+    ) {
+
+        alert(
+            "Please enter valid information."
+        );
+
+        return;
+    }
+
+
+    const { error } =
+        await db
+            .from("heist_timers")
+            .insert({
+                name: name,
+                duration_seconds:
+                    duration
+            });
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    event.target.reset();
+
+    await loadHeists();
+}
+
+
+async function startHeist(id) {
+
+    const { data, error } =
+        await db
+            .from("heist_timers")
+            .select(
+                "duration_seconds"
+            )
+            .eq("id", id)
+            .single();
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    const endTime =
+        new Date(
+            Date.now()
+            + data.duration_seconds
+            * 1000
+        ).toISOString();
+
+
+    const { error: updateError } =
+        await db
+            .from("heist_timers")
+            .update({
+                end_time:
+                    endTime
+            })
+            .eq("id", id);
+
+
+    if (updateError) {
+
+        alert(
+            updateError.message
+        );
+
+        return;
+    }
+
+
+    await loadHeists();
+}
+
+
+async function resetHeist(id) {
+
+    const { error } =
+        await db
+            .from("heist_timers")
+            .update({
+                end_time: null
+            })
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    await loadHeists();
+}
+
+
+async function deleteHeist(id) {
+
+    if (
+        !confirm(
+            "Delete this timer?"
+        )
+    ) {
+        return;
+    }
+
+
+    const { error } =
+        await db
+            .from("heist_timers")
+            .delete()
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    await loadHeists();
+}
+
+
+function updateHeistTimers(heists) {
+
+    if (heistInterval) {
+
+        clearInterval(
+            heistInterval
+        );
+    }
+
+
+    function update() {
+
+        heists.forEach(heist => {
+
+            const element =
+                document.getElementById(
+                    `heist-timer-${heist.id}`
+                );
+
+
+            if (!element)
+                return;
+
+
+            if (!heist.end_time) {
+
+                element.textContent =
+                    "READY";
+
+                return;
+            }
+
+
+            const remaining =
+                new Date(
+                    heist.end_time
+                ).getTime()
+                - Date.now();
+
+
+            if (remaining <= 0) {
+
+                element.textContent =
+                    "🔥 HEIST READY!";
+
+                return;
+            }
+
+
+            element.textContent =
+                formatDuration(
+                    Math.ceil(
+                        remaining / 1000
+                    )
+                );
+        });
+    }
+
+
+    update();
+
+
+    heistInterval =
+        setInterval(
+            update,
+            1000
+        );
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+async function loadBadges() {
+
+    const { data, error } =
+        await db
+            .from("badges")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const completed =
+        data.filter(
+            x => x.completed
+        ).length;
+
+
+    document.getElementById(
+        "badgeCount"
+    ).textContent =
+        `${completed}/${data.length}`;
+
+
+    document.getElementById(
+        "badgeProgress"
+    ).textContent =
+        `${completed} / ${data.length} completed`;
+
+
+    const list =
+        document.getElementById(
+            "badgeList"
+        );
+
+    list.innerHTML = "";
+
+
+    if (data.length === 0) {
+
+        list.innerHTML = `
+            <div class="card">
+                <h3>No badges added</h3>
+                <p>Your badge list will appear here.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(badge => {
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "card";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${
+                    badge.completed
+                    ? "✅"
+                    : "⬜"
+                }
+
+                ${escapeHTML(
+                    badge.name
+                )}
+            </h3>
+
+            <button
+                class="${
+                    badge.completed
+                    ? "gray"
+                    : "green"
+                }"
+                onclick="
+                    toggleBadge(
+                        ${badge.id},
+                        ${!badge.completed}
+                    )
+                ">
+
+                ${
+                    badge.completed
+                    ? "Completed"
+                    : "Mark Complete"
+                }
+
+            </button>
+        `;
+
+
+        list.appendChild(card);
+
+    });
+}
+
+
+async function toggleBadge(
+    id,
+    completed
+) {
+
+    const { error } =
+        await db
+            .from("badges")
+            .update({
+                completed:
+                    completed
+            })
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    await loadBadges();
+}
+
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+async function loadAchievements() {
+
+    const { data, error } =
+        await db
+            .from("achievements")
+            .select("*")
+            .order("id", {
+                ascending: true
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const completed =
+        data.filter(
+            x => x.completed
+        ).length;
+
+
+    document.getElementById(
+        "achievementCount"
+    ).textContent =
+        `${completed}/${data.length}`;
+
+
+    document.getElementById(
+        "achievementProgress"
+    ).textContent =
+        `${completed} / ${data.length} completed`;
+
+
+    const list =
+        document.getElementById(
+            "achievementList"
+        );
+
+    list.innerHTML = "";
+
+
+    if (data.length === 0) {
+
+        list.innerHTML = `
+            <div class="card">
+                <h3>No achievements added</h3>
+                <p>Your achievement list will appear here.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(achievement => {
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "card";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${
+                    achievement.completed
+                    ? "✅"
+                    : "⬜"
+                }
+
+                ${escapeHTML(
+                    achievement.name
+                )}
+            </h3>
+
+            <button
+                class="${
+                    achievement.completed
+                    ? "gray"
+                    : "green"
+                }"
+                onclick="
+                    toggleAchievement(
+                        ${achievement.id},
+                        ${!achievement.completed}
+                    )
+                ">
+
+                ${
+                    achievement.completed
+                    ? "Completed"
+                    : "Mark Complete"
+                }
+
+            </button>
+        `;
+
+
+        list.appendChild(card);
+
+    });
+}
+
+
+async function toggleAchievement(
+    id,
+    completed
+) {
+
+    const { error } =
+        await db
+            .from("achievements")
+            .update({
+                completed:
+                    completed
+            })
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    await loadAchievements();
+}
+
+
+/* =====================================================
+   START EVERYTHING
+===================================================== */
 
 async function loadEverything() {
 
     await loadGrinders();
+
     await loadHeists();
+
     await loadBadges();
+
     await loadAchievements();
 }
+
 
 loadEverything();
 
