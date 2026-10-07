@@ -14,69 +14,233 @@
  --shadow:0 12px 35px rgba(0,0,0,.28)
 }
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 80% 0,#5865f218,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{
+ margin:0;
+ background:radial-gradient(circle at 80% 0,#5865f218,transparent 30%),var(--bg);
+ color:var(--text);
+ font-family:Inter,system-ui,sans-serif
+}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:#0d1017f5;border-right:1px solid var(--border);padding:20px 14px;z-index:20}
+
+.sidebar{
+ position:fixed;inset:0 auto 0 0;width:230px;
+ background:#0d1017f5;border-right:1px solid var(--border);
+ padding:20px 14px;z-index:20
+}
 .brand{display:flex;gap:11px;align-items:center;padding:8px 9px 25px}
-.brand-logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#5865f2,#8b5cf6);display:grid;place-items:center;font-weight:900}
+.brand-logo{
+ width:42px;height:42px;border-radius:13px;
+ background:linear-gradient(135deg,#5865f2,#8b5cf6);
+ display:grid;place-items:center;font-weight:900
+}
 .brand-title{font-weight:800}.brand-sub{font-size:11px;color:var(--muted)}
 .nav{display:flex;flex-direction:column;gap:6px}
-.nav button,.mobile-nav button{border:0;background:transparent;color:var(--muted);padding:12px;border-radius:10px;text-align:left}
-.nav button:hover,.nav button.active,.mobile-nav button.active{background:#5865f21c;color:white}
+.nav button,.mobile-nav button{
+ border:0;background:transparent;color:var(--muted);
+ padding:12px;border-radius:10px;text-align:left
+}
+.nav button:hover,.nav button.active,.mobile-nav button.active{
+ background:#5865f21c;color:white
+}
 .sidebar-bottom{position:absolute;bottom:18px;left:14px;right:14px}
-.connection{border:1px solid var(--border);background:var(--panel);padding:11px;border-radius:10px;font-size:12px}
-.connection-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--yellow);margin-right:6px}
-.connection.ok .connection-dot{background:var(--green)}.connection.bad .connection-dot{background:var(--red)}
+.connection{
+ border:1px solid var(--border);background:var(--panel);
+ padding:11px;border-radius:10px;font-size:12px
+}
+.connection-dot{
+ display:inline-block;width:8px;height:8px;border-radius:50%;
+ background:var(--yellow);margin-right:6px
+}
+.connection.ok .connection-dot{background:var(--green)}
+.connection.bad .connection-dot{background:var(--red)}
+
 .main{margin-left:230px;padding:28px;min-height:100vh}
 .topbar{display:flex;justify-content:space-between;gap:15px;margin-bottom:22px}
-.page-title{margin:0;font-size:27px}.page-subtitle{color:var(--muted);font-size:13px;margin-top:5px}
+.page-title{margin:0;font-size:27px}
+.page-subtitle{color:var(--muted);font-size:13px;margin-top:5px}
 .top-actions,.toolbar,.card-actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:9px 13px;border-radius:9px}
-.btn:hover{background:var(--panel3)}.btn.primary{background:var(--accent);border-color:var(--accent)}
-.btn.danger{color:#ff8585}.btn.small{padding:7px 10px;font-size:12px}
-.hero{background:linear-gradient(135deg,#5865f21f,#7c3aed0c),var(--panel);border:1px solid var(--border);border-radius:17px;padding:25px;margin-bottom:18px;box-shadow:var(--shadow)}
-.hero-row{display:flex;justify-content:space-between;gap:20px}.hero h2{margin:0 0 7px}.hero p{color:var(--muted);margin:0}
-.hero-date{text-align:right;color:var(--muted);font-size:11px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
-.stat,.section-card,.card{background:var(--panel);border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow)}
-.stat{padding:17px}.stat-label{font-size:11px;color:var(--muted)}.stat-value{font-size:25px;font-weight:850;margin-top:6px}.stat-note{font-size:11px;color:var(--muted);margin-top:4px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:17px}
-.section-card{padding:17px}.section-head{display:flex;justify-content:space-between;margin-bottom:13px}.section-head h3{margin:0;font-size:15px}.section-head span{font-size:11px;color:var(--muted)}
-.list{display:flex;flex-direction:column;gap:8px}
-.list-item{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:10px}
-.list-title{font-weight:700;font-size:13px}.list-sub{font-size:11px;color:var(--muted);margin-top:3px}.countdown{font-weight:800;white-space:nowrap}.urgent{color:var(--red)}.warning{color:var(--yellow)}.safe{color:var(--green)}
-.hidden{display:none!important}
-.toolbar{margin-bottom:15px}.search{flex:1;min-width:210px}
-.input,.select,.textarea{width:100%;background:#0d1017;color:var(--text);border:1px solid var(--border);border-radius:9px;padding:10px;outline:0}
-.input:focus,.select:focus,.textarea:focus{border-color:var(--accent)}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.card{padding:15px}.card.urgent-card{border-color:#ff62624d}
-.card-head{display:flex;justify-content:space-between;gap:10px}
-.server-info{display:flex;align-items:center;gap:11px;min-width:0}
-.server-icon-wrap{width:48px;height:48px;min-width:48px;border-radius:13px;overflow:hidden;background:linear-gradient(135deg,#5865f2,#7c3aed);display:grid;place-items:center}
-.server-icon{width:100%;height:100%;object-fit:cover}.server-fallback{font-weight:900;font-size:18px}
-.card-title{font-weight:800;font-size:15px}.card-sub{color:var(--muted);font-size:11px;margin-top:3px}
-.status{padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap;background:#8f98aa18;color:var(--muted)}
-.status.green{color:var(--green);background:#43d17a14}.status.yellow{color:var(--yellow);background:#f4c95d14}.status.red{color:var(--red);background:#ff626214}
-.card-body{margin-top:13px}.card-line{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin:7px 0}.card-line strong{color:var(--text)}
-.progress{height:8px;background:#090c12;border-radius:99px;overflow:hidden;margin-top:8px}.progress-bar{height:100%;background:linear-gradient(90deg,#5865f2,#8b5cf6);border-radius:99px}.progress-bar.complete{background:var(--green)}
-.progress-text{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:5px}
-.empty{text-align:center;color:var(--muted);padding:35px;border:1px dashed var(--border);border-radius:14px}
-.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
-.modal-backdrop.show{display:flex}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px}
-.modal h3{margin:0 0 16px}.form-grid{display:grid;gap:12px}.form-label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}
-.toast-container{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;flex-direction:column;gap:8px}.toast{background:#181d27;border:1px solid var(--border);padding:12px 14px;border-radius:10px;min-width:230px;font-size:12px;box-shadow:var(--shadow)}
-.mobile-nav{display:none}
-@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}}
-@media(max-width:750px){
- .sidebar{display:none}.main{margin:0;padding:17px;padding-bottom:80px}
- .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:80;background:#0c0f15f7;border-top:1px solid var(--border);padding:6px}
- .mobile-nav button{flex:1;text-align:center;font-size:10px;padding:8px 3px}
- .hero-row,.topbar{flex-direction:column;align-items:flex-start}.hero-date{text-align:left}.grid-2{grid-template-columns:1fr}
+
+.btn{
+ border:1px solid var(--border);background:var(--panel2);
+ color:var(--text);padding:9px 13px;border-radius:9px
 }
-@media(max-width:500px){.stats{gap:8px}.stat{padding:13px}.stat-value{font-size:21px}}
+.btn:hover{background:var(--panel3)}
+.btn.primary{background:var(--accent);border-color:var(--accent)}
+.btn.danger{color:#ff8585}
+.btn.small{padding:7px 10px;font-size:12px}
+
+.hero{
+ background:linear-gradient(135deg,#5865f21f,#7c3aed0c),var(--panel);
+ border:1px solid var(--border);border-radius:17px;
+ padding:25px;margin-bottom:18px;box-shadow:var(--shadow)
+}
+.hero-row{display:flex;justify-content:space-between;gap:20px}
+.hero h2{margin:0 0 7px}.hero p{color:var(--muted);margin:0}
+.hero-date{text-align:right;color:var(--muted);font-size:11px}
+
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:13px;margin-bottom:18px
+}
+.stat,.section-card,.card{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:15px;box-shadow:var(--shadow)
+}
+.stat{padding:17px}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-value{font-size:25px;font-weight:850;margin-top:6px}
+.stat-note{font-size:11px;color:var(--muted);margin-top:4px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.section-card{padding:17px}
+.section-head{display:flex;justify-content:space-between;margin-bottom:13px}
+.section-head h3{margin:0;font-size:15px}
+.section-head span{font-size:11px;color:var(--muted)}
+
+.list{display:flex;flex-direction:column;gap:8px}
+.list-item{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;background:var(--panel2);border:1px solid var(--border);
+ border-radius:10px;padding:10px
+}
+.list-title{font-weight:700;font-size:13px}
+.list-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.countdown{font-weight:800;white-space:nowrap}
+.urgent{color:var(--red)}
+.warning{color:var(--yellow)}
+.safe{color:var(--green)}
+
+.hidden{display:none!important}
+.toolbar{margin-bottom:15px}
+.search{flex:1;min-width:210px}
+
+.input,.select,.textarea{
+ width:100%;background:#0d1017;color:var(--text);
+ border:1px solid var(--border);border-radius:9px;
+ padding:10px;outline:0
+}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--accent)}
+
+.cards{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px
+}
+.card{padding:15px}
+.card.urgent-card{border-color:#ff62624d}
+.card-head{display:flex;justify-content:space-between;gap:10px}
+
+.server-info{
+ display:flex;align-items:center;gap:11px;min-width:0
+}
+.server-icon-wrap{
+ width:48px;height:48px;min-width:48px;border-radius:13px;
+ overflow:hidden;background:linear-gradient(135deg,#5865f2,#7c3aed);
+ display:grid;place-items:center
+}
+.server-icon{
+ width:100%;height:100%;object-fit:cover
+}
+.server-fallback{font-weight:900;font-size:18px}
+
+.card-title{font-weight:800;font-size:15px}
+.card-sub{color:var(--muted);font-size:11px;margin-top:3px}
+
+.status{
+ padding:5px 8px;border-radius:999px;font-size:10px;
+ font-weight:800;white-space:nowrap;
+ background:#8f98aa18;color:var(--muted)
+}
+.status.green{color:var(--green);background:#43d17a14}
+.status.yellow{color:var(--yellow);background:#f4c95d14}
+.status.red{color:var(--red);background:#ff626214}
+
+.card-body{margin-top:13px}
+.card-line{
+ display:flex;justify-content:space-between;gap:10px;
+ color:var(--muted);font-size:12px;margin:7px 0
+}
+.card-line strong{color:var(--text)}
+
+.progress{
+ height:8px;background:#090c12;border-radius:99px;
+ overflow:hidden;margin-top:8px
+}
+.progress-bar{
+ height:100%;
+ background:linear-gradient(90deg,#5865f2,#8b5cf6);
+ border-radius:99px
+}
+.progress-bar.complete{background:var(--green)}
+.progress-text{
+ display:flex;justify-content:space-between;
+ color:var(--muted);font-size:11px;margin-top:5px
+}
+
+.empty{
+ text-align:center;color:var(--muted);padding:35px;
+ border:1px dashed var(--border);border-radius:14px
+}
+
+.modal-backdrop{
+ position:fixed;inset:0;background:#000b;display:none;
+ align-items:center;justify-content:center;padding:20px;z-index:100
+}
+.modal-backdrop.show{display:flex}
+.modal{
+ width:min(520px,100%);max-height:90vh;overflow:auto;
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:16px;padding:20px
+}
+.modal h3{margin:0 0 16px}
+.form-grid{display:grid;gap:12px}
+.form-label{
+ font-size:11px;color:var(--muted);
+ display:block;margin-bottom:5px
+}
+.modal-actions{
+ display:flex;justify-content:flex-end;
+ gap:8px;margin-top:17px
+}
+
+.toast-container{
+ position:fixed;right:18px;bottom:18px;z-index:200;
+ display:flex;flex-direction:column;gap:8px
+}
+.toast{
+ background:#181d27;border:1px solid var(--border);
+ padding:12px 14px;border-radius:10px;
+ min-width:230px;font-size:12px;box-shadow:var(--shadow)
+}
+.toast.error{border-color:#ff626255;color:#ff9a9a}
+
+.mobile-nav{display:none}
+
+@media(max-width:1000px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .cards{grid-template-columns:1fr}
+}
+
+@media(max-width:750px){
+ .sidebar{display:none}
+ .main{margin:0;padding:17px;padding-bottom:80px}
+ .mobile-nav{
+  display:flex;position:fixed;bottom:0;left:0;right:0;
+  z-index:80;background:#0c0f15f7;
+  border-top:1px solid var(--border);padding:6px
+ }
+ .mobile-nav button{
+  flex:1;text-align:center;font-size:10px;padding:8px 3px
+ }
+ .hero-row,.topbar{flex-direction:column;align-items:flex-start}
+ .hero-date{text-align:left}
+ .grid-2{grid-template-columns:1fr}
+}
+
+@media(max-width:500px){
+ .stats{gap:8px}
+ .stat{padding:13px}
+ .stat-value{font-size:21px}
+}
 </style>
 </head>
 
@@ -122,6 +286,7 @@ button{cursor:pointer}
     <h1 class="page-title" id="pageTitle">Dashboard</h1>
     <div class="page-subtitle" id="pageSubtitle">Your Dank Memer progress at a glance</div>
   </div>
+
   <div class="top-actions">
     <button class="btn" onclick="refreshAll()">↻ Refresh</button>
     <button class="btn primary" onclick="quickAdd()">＋ Add</button>
@@ -136,6 +301,7 @@ button{cursor:pointer}
       <h2>Tracker Overview</h2>
       <p>Keep your grinder payments, heists, badges and achievements organized automatically.</p>
     </div>
+
     <div class="hero-date">
       <div id="currentDate"></div>
       <div id="lastUpdated">Not updated yet</div>
@@ -144,88 +310,177 @@ button{cursor:pointer}
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-label">GRINDERS</div><div class="stat-value" id="statGrinders">0</div><div class="stat-note" id="statWeekly">RM 0 / week</div></div>
-  <div class="stat"><div class="stat-label">DUE SOON</div><div class="stat-value" id="statDue">0</div><div class="stat-note">Next 7 days</div></div>
-  <div class="stat"><div class="stat-label">BADGES</div><div class="stat-value" id="statBadges">0%</div><div class="stat-note" id="statBadgesDone">0 completed</div></div>
-  <div class="stat"><div class="stat-label">ACHIEVEMENTS</div><div class="stat-value" id="statAchievements">0%</div><div class="stat-note" id="statAchievementsDone">0 completed</div></div>
+  <div class="stat">
+    <div class="stat-label">GRINDERS</div>
+    <div class="stat-value" id="statGrinders">0</div>
+    <div class="stat-note" id="statWeekly">RM 0 / week</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">DUE SOON</div>
+    <div class="stat-value" id="statDue">0</div>
+    <div class="stat-note">Next 7 days</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">BADGES</div>
+    <div class="stat-value" id="statBadges">0%</div>
+    <div class="stat-note" id="statBadgesDone">0 completed</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">ACHIEVEMENTS</div>
+    <div class="stat-value" id="statAchievements">0%</div>
+    <div class="stat-note" id="statAchievementsDone">0 completed</div>
+  </div>
 </div>
 
 <div class="grid-2">
+
   <div class="section-card">
-    <div class="section-head"><h3>⚠️ Upcoming Grinder Payments</h3><span>Nearest first</span></div>
+    <div class="section-head">
+      <h3>⚠️ Upcoming Grinder Payments</h3>
+      <span>Nearest first</span>
+    </div>
     <div class="list" id="dashboardGrinders"></div>
   </div>
 
   <div class="section-card">
-    <div class="section-head"><h3>💣 Upcoming Heists</h3><span>Ending soonest</span></div>
+    <div class="section-head">
+      <h3>💣 Upcoming Heists</h3>
+      <span>Ending soonest</span>
+    </div>
     <div class="list" id="dashboardHeists"></div>
   </div>
+
 </div>
 
 <div class="grid-2" style="margin-top:17px">
+
   <div class="section-card">
-    <div class="section-head"><h3>🏅 Badge Progress</h3><span>Closest first</span></div>
+    <div class="section-head">
+      <h3>🏅 Badge Progress</h3>
+      <span>Closest first</span>
+    </div>
     <div class="list" id="dashboardBadges"></div>
   </div>
 
   <div class="section-card">
-    <div class="section-head"><h3>🎯 Achievement Progress</h3><span>Closest first</span></div>
+    <div class="section-head">
+      <h3>🎯 Achievement Progress</h3>
+      <span>Closest first</span>
+    </div>
     <div class="list" id="dashboardAchievements"></div>
   </div>
+
 </div>
 
 </section>
 
 <section id="page-grinders" class="hidden">
+
 <div class="toolbar">
-  <div class="search"><input class="input" id="grinderSearch" placeholder="Search grinders..." oninput="renderGrinders()"></div>
-  <select class="select" id="grinderFilter" onchange="renderGrinders()" style="width:180px">
+
+  <div class="search">
+    <input class="input" id="grinderSearch"
+      placeholder="Search grinders..."
+      oninput="renderGrinders()">
+  </div>
+
+  <select class="select" id="grinderFilter"
+    onchange="renderGrinders()" style="width:180px">
     <option value="all">All</option>
     <option value="overdue">Overdue</option>
     <option value="soon">Due within 7 days</option>
     <option value="later">Later</option>
   </select>
-  <button class="btn primary" onclick="openGrinderModal()">＋ Add Grinder</button>
+
+  <button class="btn primary" onclick="openGrinderModal()">
+    ＋ Add Grinder
+  </button>
+
 </div>
+
 <div class="cards" id="grinderCards"></div>
+
 </section>
 
 <section id="page-heists" class="hidden">
+
 <div class="toolbar">
-  <div class="search"><input class="input" id="heistSearch" placeholder="Search heists..." oninput="renderHeists()"></div>
-  <button class="btn primary" onclick="openHeistModal()">＋ Add Heist</button>
+
+  <div class="search">
+    <input class="input" id="heistSearch"
+      placeholder="Search heists..."
+      oninput="renderHeists()">
+  </div>
+
+  <button class="btn primary" onclick="openHeistModal()">
+    ＋ Add Heist
+  </button>
+
 </div>
+
 <div class="cards" id="heistCards"></div>
+
 </section>
 
 <section id="page-badges" class="hidden">
+
 <div class="toolbar">
-  <div class="search"><input class="input" id="badgeSearch" placeholder="Search badges..." oninput="renderBadges()"></div>
-  <select class="select" id="badgeFilter" onchange="renderBadges()" style="width:190px">
+
+  <div class="search">
+    <input class="input" id="badgeSearch"
+      placeholder="Search badges..."
+      oninput="renderBadges()">
+  </div>
+
+  <select class="select" id="badgeFilter"
+    onchange="renderBadges()" style="width:190px">
     <option value="all">All badges</option>
     <option value="near">Near completion</option>
     <option value="progress">In progress</option>
     <option value="notstarted">Not started</option>
     <option value="completed">Completed</option>
   </select>
-  <button class="btn primary" onclick="openBadgeModal()">＋ Add Badge</button>
+
+  <button class="btn primary" onclick="openBadgeModal()">
+    ＋ Add Badge
+  </button>
+
 </div>
+
 <div class="cards" id="badgeCards"></div>
+
 </section>
 
 <section id="page-achievements" class="hidden">
+
 <div class="toolbar">
-  <div class="search"><input class="input" id="achievementSearch" placeholder="Search achievements..." oninput="renderAchievements()"></div>
-  <select class="select" id="achievementFilter" onchange="renderAchievements()" style="width:190px">
+
+  <div class="search">
+    <input class="input" id="achievementSearch"
+      placeholder="Search achievements..."
+      oninput="renderAchievements()">
+  </div>
+
+  <select class="select" id="achievementFilter"
+    onchange="renderAchievements()" style="width:190px">
     <option value="all">All achievements</option>
     <option value="near">Near completion</option>
     <option value="progress">In progress</option>
     <option value="notstarted">Not started</option>
     <option value="completed">Completed</option>
   </select>
-  <button class="btn primary" onclick="openAchievementModal()">＋ Add Achievement</button>
+
+  <button class="btn primary" onclick="openAchievementModal()">
+    ＋ Add Achievement
+  </button>
+
 </div>
+
 <div class="cards" id="achievementCards"></div>
+
 </section>
 
 </main>
@@ -237,11 +492,20 @@ button{cursor:pointer}
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+
 const SUPABASE_URL="https://acfbuegbalkdajregyhi.supabase.co";
 const SUPABASE_KEY="sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-let grinders=[],heists=[],badges=[],achievements=[];
+const db=window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+let grinders=[];
+let heists=[];
+let badges=[];
+let achievements=[];
+
 let currentPage="dashboard";
 let editingId=null;
 
@@ -260,171 +524,302 @@ const grinderDefaults=[
 ];
 
 const badgeDefaults=[
-["Collector",0,28,42,99],["Daily Devotee",36,420,36,666],
-["Poor Little Beggar",1559,10000,1559,15000],["Hide and Seek Champion",4773,10000,4773,15000],
-["Crime Lord",3687,10000,3687,15000],["Meme Connoisseur",174,2000,174,3000],
-["Market Manipulator",2745,5000,2745,10000],["Charity Leader",13,1000,13,1500],
-["Pet Handling Expert",0,4,0,8],["BANG BANG BANG Expert",80,250,80,400],
-["Illegal Pet Fighter",0,4000,0,5000],["Seasoned Angler",84,85,0,1],
-["Master Baiter",14,81,null,null],["Diggin It",22,250,22,400],
+["Collector",0,28,42,99],
+["Daily Devotee",36,420,36,666],
+["Poor Little Beggar",1559,10000,1559,15000],
+["Hide and Seek Champion",4773,10000,4773,15000],
+["Crime Lord",3687,10000,3687,15000],
+["Meme Connoisseur",174,2000,174,3000],
+["Market Manipulator",2745,5000,2745,10000],
+["Charity Leader",13,1000,13,1500],
+["Pet Handling Expert",0,4,0,8],
+["BANG BANG BANG Expert",80,250,80,400],
+["Illegal Pet Fighter",0,4000,0,5000],
+["Seasoned Angler",84,85,0,1],
+["Master Baiter",14,81,null,null],
+["Diggin It",22,250,22,400],
 ["Business Savvy",55734965,20000000,55734965,100000000],
-["Slot Master",62,15000,62,20000],["Metal Tosser",1,5000,1,10000],
-["Slippery Snake",58,5000,58,10000],["Ball Spinning Pro",197,5000,197,10000],
-["BJ Master",231,5000,231,10000],["Always High",649,12500,649,15000],
+["Slot Master",62,15000,62,20000],
+["Metal Tosser",1,5000,1,10000],
+["Slippery Snake",58,5000,58,10000],
+["Ball Spinning Pro",197,5000,197,10000],
+["BJ Master",231,5000,231,10000],
+["Always High",649,12500,649,15000],
 ["Rob Them Blind",239801935,50000000000,239801935,200000000000],
-["Disenfranchised Voter",1,3,1,6],["Bester Quester",9,20,9,40],
-["Bold Adventurer",439,500,439,1000],["Fighter",3,3,2,4],
-["Marital Marvel",0,16,0,52],["XPlosion Expert",153998,10000000,153998,15000000],
-["Goldzilla",0,100000000000,0,300000000000],["Farm Hand",1553,25000,0,100],
-["Skin Collector",82,150,154,370],["Maid Master",427,5000,427,5000],["Haunted",0,20,null,null]
+["Disenfranchised Voter",1,3,1,6],
+["Bester Quester",9,20,9,40],
+["Bold Adventurer",439,500,439,1000],
+["Fighter",3,3,2,4],
+["Marital Marvel",0,16,0,52],
+["XPlosion Expert",153998,10000000,153998,15000000],
+["Goldzilla",0,100000000000,0,300000000000],
+["Farm Hand",1553,25000,0,100],
+["Skin Collector",82,150,154,370],
+["Maid Master",427,5000,427,5000],
+["Haunted",0,20,null,null]
 ];
 
 const achievementDefaults=[
-["Get 10 promotions at one job!",2,10],["Obtain 5 work stars!",0,5],
-["Obtain 25 work stars!",0,25],["Stream 50 days in a row!",9,50],
-["Stream 100 days in a row!",9,100],["Obtain Prestige 25!",0,25],
-["Obtain Pet Prestige 1!",0,1],["Obtain Pet Prestige 5!",0,5],
-["Obtain Pet Prestige 10!",0,10],["Obtain Pet Prestige 15!",0,15],
-["Obtain OMEGA 10!",2,10],["Turn in a bundle!",0,1],
-["Turn in 10 bundles!",0,10],["Reach a 69 daily streak!",36,69],
-["Obtain 10 badges!",7,10],["Die 1000 times!",943,1000],
-["Harvest 5,000 plants!",1600,5000],["Harvest a shiny surprise!",0,1],
-["Harvest 90 times for a friend!",0,90],["Complete 50 weekly quests!",9,50],
-["Have 100 visits on your farm!",2,100],["Win 10 quick fights in a row!",0,10],
-["Use 1,000 items!",966,1000],["Use 10,000 items!",966,10000],
-["Complete the fish guide book",0,1],["Catch all fish bosses",0,15],
-["Reach max reputation with 1 Fish NPC",440,700],["Reach min reputation with 1 Fish NPC",400,700],
-["Complete 30 Fish Pass Tasks",14,30],["Open 25 of any lootbox at once!",1,25],
+["Get 10 promotions at one job!",2,10],
+["Obtain 5 work stars!",0,5],
+["Obtain 25 work stars!",0,25],
+["Stream 50 days in a row!",9,50],
+["Stream 100 days in a row!",9,100],
+["Obtain Prestige 25!",0,25],
+["Obtain Pet Prestige 1!",0,1],
+["Obtain Pet Prestige 5!",0,5],
+["Obtain Pet Prestige 10!",0,10],
+["Obtain Pet Prestige 15!",0,15],
+["Obtain OMEGA 10!",2,10],
+["Turn in a bundle!",0,1],
+["Turn in 10 bundles!",0,10],
+["Reach a 69 daily streak!",36,69],
+["Obtain 10 badges!",7,10],
+["Die 1000 times!",943,1000],
+["Harvest 5,000 plants!",1600,5000],
+["Harvest a shiny surprise!",0,1],
+["Harvest 90 times for a friend!",0,90],
+["Complete 50 weekly quests!",9,50],
+["Have 100 visits on your farm!",2,100],
+["Win 10 quick fights in a row!",0,10],
+["Use 1,000 items!",966,1000],
+["Use 10,000 items!",966,10000],
+["Complete the fish guide book",0,1],
+["Catch all fish bosses",0,15],
+["Reach max reputation with 1 Fish NPC",440,700],
+["Reach min reputation with 1 Fish NPC",400,700],
+["Complete 30 Fish Pass Tasks",14,30],
+["Open 25 of any lootbox at once!",1,25],
 ["Own 5 fishing buckets!",3,5]
 ];
 
 function esc(v){
- return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+ return String(v??"")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;");
 }
 
 function money(n){
  n=Number(n||0);
- if(n>=1e12)return(n/1e12).toFixed(2).replace(/\.00$/,"")+"T";
- if(n>=1e9)return(n/1e9).toFixed(2).replace(/\.00$/,"")+"B";
- if(n>=1e6)return(n/1e6).toFixed(2).replace(/\.00$/,"")+"M";
- if(n>=1e3)return(n/1e3).toFixed(2).replace(/\.00$/,"")+"K";
+
+ if(n>=1e12)
+  return(n/1e12).toFixed(2).replace(/\.00$/,"")+"T";
+
+ if(n>=1e9)
+  return(n/1e9).toFixed(2).replace(/\.00$/,"")+"B";
+
+ if(n>=1e6)
+  return(n/1e6).toFixed(2).replace(/\.00$/,"")+"M";
+
+ if(n>=1e3)
+  return(n/1e3).toFixed(2).replace(/\.00$/,"")+"K";
+
  return n.toLocaleString();
 }
 
 function pct(a,b){
- a=Number(a||0);b=Number(b||0);
- return b>0?Math.min(100,Math.max(0,a/b*100)):(a>0?100:0);
+ a=Number(a||0);
+ b=Number(b||0);
+
+ return b>0
+  ?Math.min(100,Math.max(0,a/b*100))
+  :(a>0?100:0);
 }
 
-function rem(d){return new Date(d).getTime()-Date.now()}
+function rem(d){
+ return new Date(d).getTime()-Date.now();
+}
 
 function cd(d){
  let x=rem(d);
+
  if(x<=0)return"OVERDUE";
- let days=Math.floor(x/86400000);x%=86400000;
- let hours=Math.floor(x/3600000);x%=3600000;
+
+ let days=Math.floor(x/86400000);
+ x%=86400000;
+
+ let hours=Math.floor(x/3600000);
+ x%=3600000;
+
  let mins=Math.floor(x/60000);
+
  if(days)return`${days}d ${hours}h`;
  if(hours)return`${hours}h ${mins}m`;
+
  return`${mins}m`;
 }
 
 function cdClass(d){
- let x=rem(d);
+ const x=rem(d);
+
  if(x<=0)return"urgent";
  if(x<=172800000)return"warning";
+
  return"safe";
 }
 
 function dateText(d){
  if(!d)return"—";
+
  return new Date(d).toLocaleString(undefined,{
-  day:"2-digit",month:"short",year:"numeric",
-  hour:"2-digit",minute:"2-digit"
+  day:"2-digit",
+  month:"short",
+  year:"numeric",
+  hour:"2-digit",
+  minute:"2-digit"
  });
 }
 
 function slug(name){
- return String(name||"").toLowerCase().trim()
- .replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-")
- .replace(/^-+|-+$/g,"");
+ return String(name||"")
+  .toLowerCase()
+  .trim()
+  .replace(/&/g,"and")
+  .replace(/[^a-z0-9]+/g,"-")
+  .replace(/^-+|-+$/g,"");
 }
 
-/* Robust server icon loader.
-   Files should be:
-   server-icons/lunar-society.png
-   server-icons/the-dimension.jpg
-   etc.
-*/
+/* ---------- SERVER ICONS ---------- */
+
 function iconError(img){
+
  const exts=["png","jpg","jpeg","webp"];
+
  let i=Number(img.dataset.i||0)+1;
+
  if(i>=exts.length){
+
   img.style.display="none";
-  img.nextElementSibling.style.display="flex";
+
+  const fallback=img.parentElement.querySelector(".server-fallback");
+
+  if(fallback)fallback.style.display="flex";
+
   return;
  }
+
  img.dataset.i=i;
- img.src=`${img.dataset.base}.${exts[i]}`;
+
+ img.src=new URL(
+  `${img.dataset.base}.${exts[i]}`,
+  document.baseURI
+ ).href;
 }
 
 function grinderIcon(g){
+
  const name=g.server_name||"Server";
- const base="server-icons/"+slug(name);
- const initial=esc(name.charAt(0).toUpperCase());
+
+ const base=new URL(
+  "server-icons/"+slug(name),
+  document.baseURI
+ ).href;
+
+ const initial=esc(
+  name.charAt(0).toUpperCase()
+ );
+
  return`
  <div class="server-icon-wrap">
-  <img class="server-icon"
+
+  <img
+   class="server-icon"
    src="${base}.png"
    data-base="${base}"
    data-i="0"
    onerror="iconError(this)"
    alt="${esc(name)}">
-  <div class="server-fallback" style="display:none">${initial}</div>
+
+  <div
+   class="server-fallback"
+   style="display:none">
+   ${initial}
+  </div>
+
  </div>`;
 }
 
 /* ---------- CONNECTION ---------- */
 
 function setConnection(ok,msg){
+
  const box=document.getElementById("connectionBox");
+
  box.className="connection "+(ok?"ok":"bad");
+
  document.getElementById("connectionText").textContent=msg;
 }
 
 /* ---------- TOAST ---------- */
 
 function toast(msg,type="success"){
+
  const box=document.getElementById("toastContainer");
+
  const el=document.createElement("div");
+
  el.className="toast "+type;
+
  el.textContent=msg;
+
  box.appendChild(el);
- setTimeout(()=>el.remove(),3000);
+
+ setTimeout(()=>el.remove(),3500);
 }
 
 /* ---------- PAGE ---------- */
 
 const pageNames={
- dashboard:["Dashboard","Your Dank Memer progress at a glance"],
- grinders:["Grinders","Server payments sorted by nearest due date"],
- heists:["Heists","Heists sorted by ending time"],
- badges:["Badges","Your closest badge progress"],
- achievements:["Achievements","Your closest achievements"]
+ dashboard:[
+  "Dashboard",
+  "Your Dank Memer progress at a glance"
+ ],
+ grinders:[
+  "Grinders",
+  "Server payments sorted by nearest due date"
+ ],
+ heists:[
+  "Heists",
+  "Heists sorted by ending time"
+ ],
+ badges:[
+  "Badges",
+  "Your closest badge progress"
+ ],
+ achievements:[
+  "Achievements",
+  "Your closest achievements"
+ ]
 };
 
 function showPage(page){
+
  currentPage=page;
 
- document.querySelectorAll("[id^='page-']").forEach(x=>x.classList.add("hidden"));
- document.getElementById("page-"+page).classList.remove("hidden");
+ document
+  .querySelectorAll("[id^='page-']")
+  .forEach(x=>x.classList.add("hidden"));
 
- document.querySelectorAll("[data-page]").forEach(x=>{
-  x.classList.toggle("active",x.dataset.page===page);
- });
+ document
+  .getElementById("page-"+page)
+  .classList.remove("hidden");
 
- document.getElementById("pageTitle").textContent=pageNames[page][0];
- document.getElementById("pageSubtitle").textContent=pageNames[page][1];
+ document
+  .querySelectorAll("[data-page]")
+  .forEach(x=>{
+   x.classList.toggle(
+    "active",
+    x.dataset.page===page
+   );
+  });
+
+ document.getElementById("pageTitle").textContent=
+  pageNames[page][0];
+
+ document.getElementById("pageSubtitle").textContent=
+  pageNames[page][1];
 
  if(page==="dashboard")renderDashboard();
  if(page==="grinders")renderGrinders();
@@ -434,17 +829,45 @@ function showPage(page){
 }
 
 function quickAdd(){
- if(currentPage==="grinders")return openGrinderModal();
- if(currentPage==="heists")return openHeistModal();
- if(currentPage==="badges")return openBadgeModal();
- if(currentPage==="achievements")return openAchievementModal();
+
+ if(currentPage==="grinders")
+  return openGrinderModal();
+
+ if(currentPage==="heists")
+  return openHeistModal();
+
+ if(currentPage==="badges")
+  return openBadgeModal();
+
+ if(currentPage==="achievements")
+  return openAchievementModal();
+
  openGrinderModal();
 }
 
-/* ---------- LOAD ---------- */
+/* ---------- DATABASE LOAD ---------- */
+
+/*
+ IMPORTANT FIX:
+
+ Previously, if ONE table failed, loadAll()
+ threw an error before assigning ANY of the
+ other tables.
+
+ Now every table loads independently.
+
+ Example:
+ grinders ❌
+ heists ✅
+ badges ✅
+ achievements ✅
+
+ The working sections still appear.
+*/
 
 async function loadAll(){
- setConnection(false,"Connecting...");
+
+ setConnection(false,"Loading...");
 
  const results=await Promise.all([
   db.from("grinders").select("*"),
@@ -455,494 +878,1215 @@ async function loadAll(){
 
  const [g,h,b,a]=results;
 
- if(g.error){console.error("Grinders:",g.error);throw g.error}
- if(h.error){console.error("Heists:",h.error);throw h.error}
- if(b.error){console.error("Badges:",b.error);throw b.error}
- if(a.error){console.error("Achievements:",a.error);throw a.error}
+ const errors=[];
 
- grinders=g.data||[];
- heists=h.data||[];
- badges=b.data||[];
- achievements=a.data||[];
+ /* GRINDERS */
+ if(g.error){
 
- if(!grinders.length){
-  const {data,error}=await db.from("grinders").insert(grinderDefaults).select();
-  if(error)console.error("Grinder seed:",error);
-  else grinders=data||[];
+  console.error("Grinders:",g.error);
+
+  errors.push(
+   "Grinders: "+g.error.message
+  );
+
+ }else{
+
+  grinders=g.data||[];
+
+  if(!grinders.length){
+
+   const seed=await db
+    .from("grinders")
+    .insert(grinderDefaults)
+    .select();
+
+   if(seed.error){
+
+    console.error(
+     "Grinder seed:",
+     seed.error
+    );
+
+    errors.push(
+     "Grinder seed: "+seed.error.message
+    );
+
+   }else{
+
+    grinders=seed.data||[];
+
+   }
+  }
  }
 
- if(!badges.length){
-  const rows=badgeDefaults.map(x=>({
-   name:x[0],
-   gold_current:x[1],
-   gold_required:x[2],
-   platinum_current:x[3],
-   platinum_required:x[4]
-  }));
-  const {data,error}=await db.from("badges").insert(rows).select();
-  if(error)console.error("Badge seed:",error);
-  else badges=data||[];
+ /* HEISTS */
+ if(h.error){
+
+  console.error("Heists:",h.error);
+
+  errors.push(
+   "Heists: "+h.error.message
+  );
+
+ }else{
+
+  heists=h.data||[];
+
  }
 
- if(!achievements.length){
-  const rows=achievementDefaults.map(x=>({
-   name:x[0],
-   current:x[1],
-   required:x[2]
-  }));
-  const {data,error}=await db.from("achievements").insert(rows).select();
-  if(error)console.error("Achievement seed:",error);
-  else achievements=data||[];
+ /* BADGES */
+ if(b.error){
+
+  console.error("Badges:",b.error);
+
+  errors.push(
+   "Badges: "+b.error.message
+  );
+
+ }else{
+
+  badges=b.data||[];
+
+  if(!badges.length){
+
+   const rows=badgeDefaults.map(x=>({
+    name:x[0],
+    gold_current:x[1],
+    gold_required:x[2],
+    platinum_current:x[3],
+    platinum_required:x[4]
+   }));
+
+   const seed=await db
+    .from("badges")
+    .insert(rows)
+    .select();
+
+   if(seed.error){
+
+    console.error(
+     "Badge seed:",
+     seed.error
+    );
+
+    errors.push(
+     "Badge seed: "+seed.error.message
+    );
+
+   }else{
+
+    badges=seed.data||[];
+
+   }
+  }
  }
 
- setConnection(true,"Connected");
- document.getElementById("lastUpdated").textContent="Updated "+new Date().toLocaleTimeString();
+ /* ACHIEVEMENTS */
+ if(a.error){
+
+  console.error("Achievements:",a.error);
+
+  errors.push(
+   "Achievements: "+a.error.message
+  );
+
+ }else{
+
+  achievements=a.data||[];
+
+  if(!achievements.length){
+
+   const rows=achievementDefaults.map(x=>({
+    name:x[0],
+    current:x[1],
+    required:x[2]
+   }));
+
+   const seed=await db
+    .from("achievements")
+    .insert(rows)
+    .select();
+
+   if(seed.error){
+
+    console.error(
+     "Achievement seed:",
+     seed.error
+    );
+
+    errors.push(
+     "Achievement seed: "+seed.error.message
+    );
+
+   }else{
+
+    achievements=seed.data||[];
+
+   }
+  }
+ }
+
  renderAll();
+
+ document.getElementById("lastUpdated").textContent=
+  "Updated "+new Date().toLocaleTimeString();
+
+ if(errors.length){
+
+  setConnection(
+   false,
+   `${errors.length} section${errors.length>1?"s":""} has issue${errors.length>1?"s":""}`
+  );
+
+  console.error(
+   "DATABASE ISSUES:",
+   errors
+  );
+
+  toast(
+   errors[0],
+   "error"
+  );
+
+ }else{
+
+  setConnection(
+   true,
+   "Connected"
+  );
+ }
 }
 
 async function refreshAll(){
+
  try{
+
   await loadAll();
-  toast("Tracker refreshed");
+
+  if(
+   document
+    .getElementById("connectionText")
+    .textContent==="Connected"
+  ){
+
+   toast("Tracker refreshed");
+
+  }
+
  }catch(e){
+
   console.error(e);
-  setConnection(false,"Connection error");
-  toast(e.message||"Failed to connect","error");
+
+  setConnection(
+   false,
+   "Connection error"
+  );
+
+  toast(
+   e.message||"Failed to connect",
+   "error"
+  );
  }
 }
 
 /* ---------- SORT ---------- */
 
 function sortedGrinders(){
- return [...grinders].sort((a,b)=>rem(a.paid_until)-rem(b.paid_until));
+
+ return[...grinders].sort(
+  (a,b)=>rem(a.paid_until)-rem(b.paid_until)
+ );
 }
 
 function sortedHeists(){
- return [...heists].sort((a,b)=>rem(a.end_time)-rem(b.end_time));
+
+ return[...heists].sort(
+  (a,b)=>rem(a.end_time)-rem(b.end_time)
+ );
 }
 
 function badgeScore(b){
- const gold=pct(b.gold_current,b.gold_required);
- const plat=b.platinum_required?pct(b.platinum_current,b.platinum_required):gold;
+
+ const gold=pct(
+  b.gold_current,
+  b.gold_required
+ );
+
+ const plat=b.platinum_required
+  ?pct(
+    b.platinum_current,
+    b.platinum_required
+   )
+  :gold;
+
  return Math.max(gold,plat);
 }
 
 function sortedBadges(){
- return [...badges].sort((a,b)=>badgeScore(b)-badgeScore(a));
+
+ return[...badges].sort(
+  (a,b)=>badgeScore(b)-badgeScore(a)
+ );
 }
 
 function sortedAchievements(){
- return [...achievements].sort(
-  (a,b)=>pct(b.current,b.required)-pct(a.current,a.required)
+
+ return[...achievements].sort(
+  (a,b)=>
+   pct(b.current,b.required)-
+   pct(a.current,a.required)
  );
 }
 
 /* ---------- DASHBOARD ---------- */
 
 function renderDashboard(){
+
  document.getElementById("currentDate").textContent=
   new Date().toLocaleDateString(undefined,{
-   weekday:"long",day:"numeric",month:"long",year:"numeric"
+   weekday:"long",
+   day:"numeric",
+   month:"long",
+   year:"numeric"
   });
 
- document.getElementById("statGrinders").textContent=grinders.length;
+ document.getElementById("statGrinders").textContent=
+  grinders.length;
 
- const weekly=grinders.reduce((s,g)=>s+Number(g.fee||0),0);
+ const weekly=grinders.reduce(
+  (s,g)=>s+Number(g.fee||0),
+  0
+ );
+
  document.getElementById("statWeekly").textContent=
   "RM "+money(weekly)+" / week";
 
  const due=grinders.filter(g=>{
+
   const x=rem(g.paid_until);
+
   return x<=7*86400000;
+
  }).length;
 
- document.getElementById("statDue").textContent=due;
+ document.getElementById("statDue").textContent=
+  due;
 
- const bp=badges.length?
-  badges.reduce((s,b)=>s+badgeScore(b),0)/badges.length:0;
+ const bp=badges.length
+  ?badges.reduce(
+    (s,b)=>s+badgeScore(b),
+    0
+   )/badges.length
+  :0;
 
- const ap=achievements.length?
-  achievements.reduce((s,a)=>s+pct(a.current,a.required),0)/achievements.length:0;
+ const ap=achievements.length
+  ?achievements.reduce(
+    (s,a)=>s+pct(a.current,a.required),
+    0
+   )/achievements.length
+  :0;
 
- document.getElementById("statBadges").textContent=Math.round(bp)+"%";
- document.getElementById("statAchievements").textContent=Math.round(ap)+"%";
+ document.getElementById("statBadges").textContent=
+  Math.round(bp)+"%";
+
+ document.getElementById("statAchievements").textContent=
+  Math.round(ap)+"%";
 
  document.getElementById("statBadgesDone").textContent=
-  badges.filter(b=>badgeScore(b)>=100).length+" completed";
+  badges.filter(
+   b=>badgeScore(b)>=100
+  ).length+" completed";
 
  document.getElementById("statAchievementsDone").textContent=
-  achievements.filter(a=>pct(a.current,a.required)>=100).length+" completed";
+  achievements.filter(
+   a=>pct(a.current,a.required)>=100
+  ).length+" completed";
 
  document.getElementById("dashboardGrinders").innerHTML=
-  sortedGrinders().slice(0,5).map(g=>`
+  sortedGrinders()
+   .slice(0,5)
+   .map(g=>`
+
    <div class="list-item">
+
     <div>
-     <div class="list-title">${esc(g.server_name)}</div>
-     <div class="list-sub">RM ${money(g.fee)} · ${dateText(g.paid_until)}</div>
+     <div class="list-title">
+      ${esc(g.server_name)}
+     </div>
+
+     <div class="list-sub">
+      RM ${money(g.fee)} · ${dateText(g.paid_until)}
+     </div>
     </div>
-    <div class="countdown ${cdClass(g.paid_until)}">${cd(g.paid_until)}</div>
+
+    <div class="countdown ${cdClass(g.paid_until)}">
+     ${cd(g.paid_until)}
+    </div>
+
    </div>
-  `).join("")||`<div class="empty">No grinders</div>`;
+
+  `)
+  .join("")
+  ||
+  `<div class="empty">No grinders</div>`;
 
  document.getElementById("dashboardHeists").innerHTML=
-  sortedHeists().slice(0,5).map(h=>`
+  sortedHeists()
+   .slice(0,5)
+   .map(h=>`
+
    <div class="list-item">
+
     <div>
-     <div class="list-title">${esc(h.name)}</div>
-     <div class="list-sub">${dateText(h.end_time)}</div>
+     <div class="list-title">
+      ${esc(h.name)}
+     </div>
+
+     <div class="list-sub">
+      ${dateText(h.end_time)}
+     </div>
     </div>
-    <div class="countdown ${cdClass(h.end_time)}">${cd(h.end_time)}</div>
+
+    <div class="countdown ${cdClass(h.end_time)}">
+     ${cd(h.end_time)}
+    </div>
+
    </div>
-  `).join("")||`<div class="empty">No heists</div>`;
+
+  `)
+  .join("")
+  ||
+  `<div class="empty">No heists</div>`;
 
  document.getElementById("dashboardBadges").innerHTML=
-  sortedBadges().slice(0,5).map(b=>{
-   const p=badgeScore(b);
-   return`
+  sortedBadges()
+   .slice(0,5)
+   .map(b=>{
+
+    const p=badgeScore(b);
+
+    return`
+
     <div class="list-item">
+
      <div style="min-width:0;flex:1">
-      <div class="list-title">${esc(b.name)}</div>
-      <div class="progress"><div class="progress-bar ${p>=100?"complete":""}" style="width:${p}%"></div></div>
+
+      <div class="list-title">
+       ${esc(b.name)}
+      </div>
+
+      <div class="progress">
+
+       <div
+        class="progress-bar ${p>=100?"complete":""}"
+        style="width:${p}%">
+       </div>
+
+      </div>
+
      </div>
+
      <strong>${Math.round(p)}%</strong>
+
     </div>`;
-  }).join("")||`<div class="empty">No badges</div>`;
+
+   })
+   .join("")
+   ||
+   `<div class="empty">No badges</div>`;
 
  document.getElementById("dashboardAchievements").innerHTML=
-  sortedAchievements().slice(0,5).map(a=>{
-   const p=pct(a.current,a.required);
-   return`
+  sortedAchievements()
+   .slice(0,5)
+   .map(a=>{
+
+    const p=pct(
+     a.current,
+     a.required
+    );
+
+    return`
+
     <div class="list-item">
+
      <div style="min-width:0;flex:1">
-      <div class="list-title">${esc(a.name)}</div>
-      <div class="progress"><div class="progress-bar ${p>=100?"complete":""}" style="width:${p}%"></div></div>
+
+      <div class="list-title">
+       ${esc(a.name)}
+      </div>
+
+      <div class="progress">
+
+       <div
+        class="progress-bar ${p>=100?"complete":""}"
+        style="width:${p}%">
+       </div>
+
+      </div>
+
      </div>
+
      <strong>${Math.round(p)}%</strong>
+
     </div>`;
-  }).join("")||`<div class="empty">No achievements</div>`;
+
+   })
+   .join("")
+   ||
+   `<div class="empty">No achievements</div>`;
 }
 
 /* ---------- GRINDERS ---------- */
 
 function renderGrinders(){
- const search=(document.getElementById("grinderSearch")?.value||"").toLowerCase();
- const filter=document.getElementById("grinderFilter")?.value||"all";
 
- let data=sortedGrinders().filter(g=>{
-  const match=(g.server_name||"").toLowerCase().includes(search);
+ const search=(
+  document.getElementById("grinderSearch")?.value||""
+ ).toLowerCase();
+
+ const filter=
+  document.getElementById("grinderFilter")?.value||
+  "all";
+
+ const data=sortedGrinders().filter(g=>{
+
+  const match=
+   (g.server_name||"")
+    .toLowerCase()
+    .includes(search);
+
   const x=rem(g.paid_until);
 
   let f=true;
-  if(filter==="overdue")f=x<=0;
-  if(filter==="soon")f=x>0&&x<=7*86400000;
-  if(filter==="later")f=x>7*86400000;
+
+  if(filter==="overdue")
+   f=x<=0;
+
+  if(filter==="soon")
+   f=x>0&&x<=7*86400000;
+
+  if(filter==="later")
+   f=x>7*86400000;
 
   return match&&f;
  });
 
- document.getElementById("grinderCards").innerHTML=data.map(g=>{
-  const urgent=rem(g.paid_until)<=2*86400000;
+ document.getElementById("grinderCards").innerHTML=
+  data.map(g=>{
 
-  return`
-  <div class="card ${urgent?"urgent-card":""}">
-   <div class="card-head">
-    <div class="server-info">
-     ${grinderIcon(g)}
-     <div>
-      <div class="card-title">${esc(g.server_name)}</div>
-      <div class="card-sub">${esc(g.description||"Grinder server")}</div>
+   const urgent=
+    rem(g.paid_until)<=2*86400000;
+
+   return`
+
+   <div class="card ${urgent?"urgent-card":""}">
+
+    <div class="card-head">
+
+     <div class="server-info">
+
+      ${grinderIcon(g)}
+
+      <div>
+
+       <div class="card-title">
+        ${esc(g.server_name)}
+       </div>
+
+       <div class="card-sub">
+        ${esc(g.description||"Grinder server")}
+       </div>
+
+      </div>
+
      </div>
+
+     <div class="status ${cdClass(g.paid_until)}">
+      ${cd(g.paid_until)}
+     </div>
+
     </div>
 
-    <div class="status ${cdClass(g.paid_until)}">
-     ${cd(g.paid_until)}
-    </div>
-   </div>
+    <div class="card-body">
 
-   <div class="card-body">
-    <div class="card-line"><span>Payment</span><strong>RM ${money(g.fee)}</strong></div>
-    <div class="card-line"><span>Due</span><strong>${dateText(g.paid_until)}</strong></div>
-    <div class="card-line"><span>Duration</span><strong>${g.duration_days||7} days</strong></div>
+     <div class="card-line">
+      <span>Payment</span>
+      <strong>RM ${money(g.fee)}</strong>
+     </div>
 
-    <div class="card-actions">
-     <button class="btn small primary" onclick="markPaid('${g.id}')">✓ Mark Paid</button>
-     <button class="btn small" onclick="openGrinderModal('${g.id}')">Edit</button>
-     <button class="btn small danger" onclick="deleteGrinder('${g.id}')">Delete</button>
+     <div class="card-line">
+      <span>Due</span>
+      <strong>${dateText(g.paid_until)}</strong>
+     </div>
+
+     <div class="card-line">
+      <span>Duration</span>
+      <strong>${g.duration_days||7} days</strong>
+     </div>
+
+     <div class="card-actions">
+
+      <button
+       class="btn small primary"
+       onclick="markPaid('${g.id}')">
+       ✓ Mark Paid
+      </button>
+
+      <button
+       class="btn small"
+       onclick="openGrinderModal('${g.id}')">
+       Edit
+      </button>
+
+      <button
+       class="btn small danger"
+       onclick="deleteGrinder('${g.id}')">
+       Delete
+      </button>
+
+     </div>
+
     </div>
-   </div>
+
+   </div>`;
+
+  }).join("")
+  ||
+  `<div class="empty" style="grid-column:1/-1">
+   <strong>No grinders found</strong><br>
+   Try another search or add a grinder.
   </div>`;
- }).join("")||`<div class="empty" style="grid-column:1/-1"><strong>No grinders found</strong>Try another search or add a grinder.</div>`;
 }
 
 /* ---------- HEISTS ---------- */
 
 function renderHeists(){
- const search=(document.getElementById("heistSearch")?.value||"").toLowerCase();
+
+ const search=(
+  document.getElementById("heistSearch")?.value||""
+ ).toLowerCase();
 
  const data=sortedHeists().filter(h=>
-  (h.name||"").toLowerCase().includes(search)
+  (h.name||"")
+   .toLowerCase()
+   .includes(search)
  );
 
- document.getElementById("heistCards").innerHTML=data.map(h=>{
-  const urgent=rem(h.end_time)<=2*86400000;
+ document.getElementById("heistCards").innerHTML=
+  data.map(h=>{
 
-  return`
-  <div class="card ${urgent?"urgent-card":""}">
-   <div class="card-head">
-    <div>
-     <div class="card-title">💣 ${esc(h.name)}</div>
-     <div class="card-sub">${esc(h.notes||"No notes")}</div>
-    </div>
-    <div class="status ${cdClass(h.end_time)}">${cd(h.end_time)}</div>
-   </div>
+   const urgent=
+    rem(h.end_time)<=2*86400000;
 
-   <div class="card-body">
-    <div class="card-line">
-     <span>Ends</span>
-     <strong>${dateText(h.end_time)}</strong>
+   return`
+
+   <div class="card ${urgent?"urgent-card":""}">
+
+    <div class="card-head">
+
+     <div>
+
+      <div class="card-title">
+       💣 ${esc(h.name)}
+      </div>
+
+      <div class="card-sub">
+       ${esc(h.notes||"No notes")}
+      </div>
+
+     </div>
+
+     <div class="status ${cdClass(h.end_time)}">
+      ${cd(h.end_time)}
+     </div>
+
     </div>
 
-    <div class="card-actions">
-     <button class="btn small" onclick="openHeistModal('${h.id}')">Edit</button>
-     <button class="btn small danger" onclick="deleteHeist('${h.id}')">Delete</button>
+    <div class="card-body">
+
+     <div class="card-line">
+      <span>Ends</span>
+      <strong>${dateText(h.end_time)}</strong>
+     </div>
+
+     <div class="card-actions">
+
+      <button
+       class="btn small"
+       onclick="openHeistModal('${h.id}')">
+       Edit
+      </button>
+
+      <button
+       class="btn small danger"
+       onclick="deleteHeist('${h.id}')">
+       Delete
+      </button>
+
+     </div>
+
     </div>
-   </div>
+
+   </div>`;
+
+  }).join("")
+  ||
+  `<div class="empty" style="grid-column:1/-1">
+   <strong>No heists found</strong><br>
+   Add your next heist.
   </div>`;
- }).join("")||`<div class="empty" style="grid-column:1/-1"><strong>No heists found</strong>Add your next heist.</div>`;
 }
 
 /* ---------- BADGES ---------- */
 
 function badgeFilterMatch(b,filter){
+
  const p=badgeScore(b);
- if(filter==="completed")return p>=100;
- if(filter==="notstarted")return p<=0;
- if(filter==="near")return p>=75&&p<100;
- if(filter==="progress")return p>0&&p<75;
+
+ if(filter==="completed")
+  return p>=100;
+
+ if(filter==="notstarted")
+  return p<=0;
+
+ if(filter==="near")
+  return p>=75&&p<100;
+
+ if(filter==="progress")
+  return p>0&&p<75;
+
  return true;
 }
 
 function renderBadges(){
- const search=(document.getElementById("badgeSearch")?.value||"").toLowerCase();
- const filter=document.getElementById("badgeFilter")?.value||"all";
+
+ const search=(
+  document.getElementById("badgeSearch")?.value||""
+ ).toLowerCase();
+
+ const filter=
+  document.getElementById("badgeFilter")?.value||
+  "all";
 
  const data=sortedBadges().filter(b=>
-  (b.name||"").toLowerCase().includes(search)&&badgeFilterMatch(b,filter)
+  (b.name||"")
+   .toLowerCase()
+   .includes(search)
+  &&
+  badgeFilterMatch(b,filter)
  );
 
- document.getElementById("badgeCards").innerHTML=data.map(b=>{
-  const gold=pct(b.gold_current,b.gold_required);
-  const plat=b.platinum_required?pct(b.platinum_current,b.platinum_required):null;
-  const p=badgeScore(b);
+ document.getElementById("badgeCards").innerHTML=
+  data.map(b=>{
 
-  return`
-  <div class="card">
-   <div class="card-head">
-    <div>
-     <div class="card-title">🏅 ${esc(b.name)}</div>
-     <div class="card-sub">${p>=100?"Completed":"Progress"}</div>
-    </div>
-    <div class="status ${p>=100?"green":p>=75?"yellow":""}">
-     ${Math.round(p)}%
-    </div>
-   </div>
+   const gold=pct(
+    b.gold_current,
+    b.gold_required
+   );
 
-   <div class="card-body">
-    <div class="card-line">
-     <span>Gold</span>
-     <strong>${money(b.gold_current)} / ${money(b.gold_required)}</strong>
-    </div>
-    <div class="progress"><div class="progress-bar ${gold>=100?"complete":""}" style="width:${gold}%"></div></div>
+   const plat=
+    b.platinum_required
+     ?pct(
+       b.platinum_current,
+       b.platinum_required
+      )
+     :null;
 
-    ${b.platinum_required?`
-    <div class="card-line" style="margin-top:13px">
-     <span>Platinum</span>
-     <strong>${money(b.platinum_current)} / ${money(b.platinum_required)}</strong>
-    </div>
-    <div class="progress"><div class="progress-bar ${plat>=100?"complete":""}" style="width:${plat}%"></div></div>
-    `:""}
+   const p=badgeScore(b);
 
-    <div class="card-actions">
-     <button class="btn small" onclick="openBadgeModal('${b.id}')">Edit</button>
-     <button class="btn small danger" onclick="deleteBadge('${b.id}')">Delete</button>
+   return`
+
+   <div class="card">
+
+    <div class="card-head">
+
+     <div>
+
+      <div class="card-title">
+       🏅 ${esc(b.name)}
+      </div>
+
+      <div class="card-sub">
+       ${p>=100?"Completed":"Progress"}
+      </div>
+
+     </div>
+
+     <div class="status ${
+      p>=100?"green":
+      p>=75?"yellow":""
+     }">
+      ${Math.round(p)}%
+     </div>
+
     </div>
-   </div>
+
+    <div class="card-body">
+
+     <div class="card-line">
+      <span>Gold</span>
+      <strong>
+       ${money(b.gold_current)}
+       /
+       ${money(b.gold_required)}
+      </strong>
+     </div>
+
+     <div class="progress">
+      <div
+       class="progress-bar ${gold>=100?"complete":""}"
+       style="width:${gold}%">
+      </div>
+     </div>
+
+     ${b.platinum_required?`
+
+      <div class="card-line" style="margin-top:13px">
+       <span>Platinum</span>
+       <strong>
+        ${money(b.platinum_current)}
+        /
+        ${money(b.platinum_required)}
+       </strong>
+      </div>
+
+      <div class="progress">
+       <div
+        class="progress-bar ${plat>=100?"complete":""}"
+        style="width:${plat}%">
+       </div>
+      </div>
+
+     `:""}
+
+     <div class="card-actions">
+
+      <button
+       class="btn small"
+       onclick="openBadgeModal('${b.id}')">
+       Edit
+      </button>
+
+      <button
+       class="btn small danger"
+       onclick="deleteBadge('${b.id}')">
+       Delete
+      </button>
+
+     </div>
+
+    </div>
+
+   </div>`;
+
+  }).join("")
+  ||
+  `<div class="empty" style="grid-column:1/-1">
+   <strong>No badges found</strong>
   </div>`;
- }).join("")||`<div class="empty" style="grid-column:1/-1"><strong>No badges found</strong></div>`;
 }
 
 /* ---------- ACHIEVEMENTS ---------- */
 
 function achievementFilterMatch(a,filter){
- const p=pct(a.current,a.required);
- if(filter==="completed")return p>=100;
- if(filter==="notstarted")return p<=0;
- if(filter==="near")return p>=75&&p<100;
- if(filter==="progress")return p>0&&p<75;
+
+ const p=pct(
+  a.current,
+  a.required
+ );
+
+ if(filter==="completed")
+  return p>=100;
+
+ if(filter==="notstarted")
+  return p<=0;
+
+ if(filter==="near")
+  return p>=75&&p<100;
+
+ if(filter==="progress")
+  return p>0&&p<75;
+
  return true;
 }
 
 function renderAchievements(){
- const search=(document.getElementById("achievementSearch")?.value||"").toLowerCase();
- const filter=document.getElementById("achievementFilter")?.value||"all";
+
+ const search=(
+  document.getElementById("achievementSearch")?.value||""
+ ).toLowerCase();
+
+ const filter=
+  document.getElementById("achievementFilter")?.value||
+  "all";
 
  const data=sortedAchievements().filter(a=>
-  (a.name||"").toLowerCase().includes(search)&&achievementFilterMatch(a,filter)
+  (a.name||"")
+   .toLowerCase()
+   .includes(search)
+  &&
+  achievementFilterMatch(a,filter)
  );
 
- document.getElementById("achievementCards").innerHTML=data.map(a=>{
-  const p=pct(a.current,a.required);
+ document.getElementById("achievementCards").innerHTML=
+  data.map(a=>{
 
-  return`
-  <div class="card">
-   <div class="card-head">
-    <div>
-     <div class="card-title">🎯 ${esc(a.name)}</div>
-     <div class="card-sub">${money(a.current)} / ${money(a.required)}</div>
-    </div>
-    <div class="status ${p>=100?"green":p>=75?"yellow":""}">
-     ${Math.round(p)}%
-    </div>
-   </div>
+   const p=pct(
+    a.current,
+    a.required
+   );
 
-   <div class="card-body">
-    <div class="progress"><div class="progress-bar ${p>=100?"complete":""}" style="width:${p}%"></div></div>
+   return`
 
-    <div class="card-line">
-     <span>Progress</span>
-     <strong>${money(a.current)} / ${money(a.required)}</strong>
+   <div class="card">
+
+    <div class="card-head">
+
+     <div>
+
+      <div class="card-title">
+       🎯 ${esc(a.name)}
+      </div>
+
+      <div class="card-sub">
+       ${money(a.current)}
+       /
+       ${money(a.required)}
+      </div>
+
+     </div>
+
+     <div class="status ${
+      p>=100?"green":
+      p>=75?"yellow":""
+     }">
+      ${Math.round(p)}%
+     </div>
+
     </div>
 
-    <div class="card-actions">
-     <button class="btn small" onclick="openAchievementModal('${a.id}')">Edit</button>
-     <button class="btn small danger" onclick="deleteAchievement('${a.id}')">Delete</button>
+    <div class="card-body">
+
+     <div class="progress">
+
+      <div
+       class="progress-bar ${p>=100?"complete":""}"
+       style="width:${p}%">
+      </div>
+
+     </div>
+
+     <div class="card-line">
+      <span>Progress</span>
+      <strong>
+       ${money(a.current)}
+       /
+       ${money(a.required)}
+      </strong>
+     </div>
+
+     <div class="card-actions">
+
+      <button
+       class="btn small"
+       onclick="openAchievementModal('${a.id}')">
+       Edit
+      </button>
+
+      <button
+       class="btn small danger"
+       onclick="deleteAchievement('${a.id}')">
+       Delete
+      </button>
+
+     </div>
+
     </div>
-   </div>
+
+   </div>`;
+
+  }).join("")
+  ||
+  `<div class="empty" style="grid-column:1/-1">
+   <strong>No achievements found</strong>
   </div>`;
- }).join("")||`<div class="empty" style="grid-column:1/-1"><strong>No achievements found</strong></div>`;
 }
 
 /* ---------- MODAL ---------- */
 
 function openModal(html){
+
  document.getElementById("modal").innerHTML=html;
- document.getElementById("modalBackdrop").classList.add("show");
+
+ document
+  .getElementById("modalBackdrop")
+  .classList.add("show");
 }
 
 function closeModal(){
- document.getElementById("modalBackdrop").classList.remove("show");
+
+ document
+  .getElementById("modalBackdrop")
+  .classList.remove("show");
+
  editingId=null;
 }
 
 function backdropClick(e){
- if(e.target.id==="modalBackdrop")closeModal();
+
+ if(e.target.id==="modalBackdrop")
+  closeModal();
 }
 
-document.addEventListener("keydown",e=>{
- if(e.key==="Escape")closeModal();
-});
+document.addEventListener(
+ "keydown",
+ e=>{
+  if(e.key==="Escape")
+   closeModal();
+ }
+);
 
 /* ---------- GRINDER MODAL ---------- */
 
 function openGrinderModal(id=null){
+
  editingId=id;
 
- const g=id?grinders.find(x=>String(x.id)===String(id)):null;
+ const g=id
+  ?grinders.find(
+   x=>String(x.id)===String(id)
+  )
+  :null;
 
  openModal(`
+
  <h3>${g?"Edit Grinder":"Add Grinder"}</h3>
 
  <form class="form-grid" onsubmit="saveGrinder(event)">
+
   <div>
-   <label class="form-label">Server name</label>
-   <input class="input" id="fServer" required value="${esc(g?.server_name||"")}">
+   <label class="form-label">
+    Server name
+   </label>
+
+   <input
+    class="input"
+    id="fServer"
+    required
+    value="${esc(g?.server_name||"")}">
   </div>
 
   <div>
-   <label class="form-label">Fee</label>
-   <input class="input" id="fFee" type="number" min="0" required value="${g?.fee||""}">
+   <label class="form-label">
+    Fee
+   </label>
+
+   <input
+    class="input"
+    id="fFee"
+    type="number"
+    min="0"
+    required
+    value="${g?.fee||""}">
   </div>
 
   <div>
-   <label class="form-label">Next payment</label>
-   <input class="input" id="fPaid" type="datetime-local" required value="${g?toLocalInput(g.paid_until):""}">
+   <label class="form-label">
+    Next payment
+   </label>
+
+   <input
+    class="input"
+    id="fPaid"
+    type="datetime-local"
+    required
+    value="${g?toLocalInput(g.paid_until):""}">
   </div>
 
   <div>
-   <label class="form-label">Duration (days)</label>
-   <input class="input" id="fDuration" type="number" min="1" value="${g?.duration_days||7}">
+   <label class="form-label">
+    Duration (days)
+   </label>
+
+   <input
+    class="input"
+    id="fDuration"
+    type="number"
+    min="1"
+    value="${g?.duration_days||7}">
   </div>
 
   <div>
-   <label class="form-label">Description</label>
-   <textarea class="textarea" id="fDescription">${esc(g?.description||"")}</textarea>
+   <label class="form-label">
+    Description
+   </label>
+
+   <textarea
+    class="textarea"
+    id="fDescription">${esc(g?.description||"")}</textarea>
   </div>
 
   <div class="modal-actions">
-   <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-   <button class="btn primary">${g?"Save Changes":"Add Grinder"}</button>
+
+   <button
+    type="button"
+    class="btn"
+    onclick="closeModal()">
+    Cancel
+   </button>
+
+   <button class="btn primary">
+    ${g?"Save Changes":"Add Grinder"}
+   </button>
+
   </div>
+
  </form>
  `);
 }
 
 function toLocalInput(d){
+
  if(!d)return"";
+
  const x=new Date(d);
- const pad=n=>String(n).padStart(2,"0");
- return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}T${pad(x.getHours())}:${pad(x.getMinutes())}`;
+
+ const pad=n=>
+  String(n).padStart(2,"0");
+
+ return`${x.getFullYear()}-${
+  pad(x.getMonth()+1)
+ }-${
+  pad(x.getDate())
+ }T${
+  pad(x.getHours())
+ }:${
+  pad(x.getMinutes())
+ }`;
 }
 
 async function saveGrinder(e){
+
  e.preventDefault();
 
+ const savedId=editingId;
+ const wasEditing=Boolean(savedId);
+
  const row={
-  server_name:document.getElementById("fServer").value.trim(),
-  fee:Number(document.getElementById("fFee").value||0),
-  paid_until:new Date(document.getElementById("fPaid").value).toISOString(),
-  duration_days:Number(document.getElementById("fDuration").value||7),
-  description:document.getElementById("fDescription").value.trim()
+  server_name:
+   document.getElementById("fServer").value.trim(),
+
+  fee:
+   Number(
+    document.getElementById("fFee").value||0
+   ),
+
+  paid_until:
+   new Date(
+    document.getElementById("fPaid").value
+   ).toISOString(),
+
+  duration_days:
+   Number(
+    document.getElementById("fDuration").value||7
+   ),
+
+  description:
+   document.getElementById("fDescription").value.trim()
  };
 
  let result;
 
- if(editingId){
-  result=await db.from("grinders").update(row).eq("id",editingId);
+ if(savedId){
+
+  result=await db
+   .from("grinders")
+   .update(row)
+   .eq("id",savedId);
+
  }else{
-  result=await db.from("grinders").insert(row);
+
+  result=await db
+   .from("grinders")
+   .insert(row);
  }
 
  if(result.error){
+
   console.error(result.error);
-  toast(result.error.message,"error");
+
+  toast(
+   result.error.message,
+   "error"
+  );
+
   return;
  }
 
  closeModal();
+
  await loadAll();
- toast(editingId?"Grinder updated":"Grinder added");
+
+ toast(
+  wasEditing
+   ?"Grinder updated"
+   :"Grinder added"
+ );
 }
 
 async function markPaid(id){
- const g=grinders.find(x=>String(x.id)===String(id));
+
+ const g=grinders.find(
+  x=>String(x.id)===String(id)
+ );
+
  if(!g)return;
 
  const now=new Date();
- const old=new Date(g.paid_until);
- const base=old>now?old:now;
- const next=new Date(base.getTime()+Number(g.duration_days||7)*86400000);
 
- const {error}=await db.from("grinders")
-  .update({paid_until:next.toISOString()})
+ const old=new Date(
+  g.paid_until
+ );
+
+ const base=
+  old>now
+   ?old
+   :now;
+
+ const next=new Date(
+  base.getTime()+
+  Number(g.duration_days||7)*
+  86400000
+ );
+
+ const {error}=await db
+  .from("grinders")
+  .update({
+   paid_until:next.toISOString()
+  })
   .eq("id",id);
 
  if(error){
-  toast(error.message,"error");
+
+  toast(
+   error.message,
+   "error"
+  );
+
   return;
  }
 
  let history=[];
- try{history=JSON.parse(localStorage.getItem("dank_payment_history")||"[]")}catch{}
+
+ try{
+
+  history=JSON.parse(
+   localStorage.getItem(
+    "dank_payment_history"
+   )||"[]"
+  );
+
+ }catch{}
 
  history.unshift({
   server:g.server_name,
@@ -953,277 +2097,594 @@ async function markPaid(id){
 
  localStorage.setItem(
   "dank_payment_history",
-  JSON.stringify(history.slice(0,50))
+  JSON.stringify(
+   history.slice(0,50)
+  )
  );
 
  await loadAll();
- toast(`${g.server_name} marked paid`);
+
+ toast(
+  `${g.server_name} marked paid`
+ );
 }
 
 async function deleteGrinder(id){
- if(!confirm("Delete this grinder?"))return;
 
- const {error}=await db.from("grinders").delete().eq("id",id);
+ if(!confirm("Delete this grinder?"))
+  return;
+
+ const {error}=await db
+  .from("grinders")
+  .delete()
+  .eq("id",id);
 
  if(error){
-  toast(error.message,"error");
+
+  toast(
+   error.message,
+   "error"
+  );
+
   return;
  }
 
  await loadAll();
+
  toast("Grinder deleted");
 }
 
 /* ---------- HEIST MODAL ---------- */
-/*
- IMPORTANT:
- Your Supabase table is:
- id
- name
- end_time
- notes
-*/
 
 function openHeistModal(id=null){
+
  editingId=id;
 
- const h=id?heists.find(x=>String(x.id)===String(id)):null;
+ const h=id
+  ?heists.find(
+   x=>String(x.id)===String(id)
+  )
+  :null;
 
  openModal(`
+
  <h3>${h?"Edit Heist":"Add Heist"}</h3>
 
  <form class="form-grid" onsubmit="saveHeist(event)">
+
   <div>
-   <label class="form-label">Heist name</label>
-   <input class="input" id="hName" required value="${esc(h?.name||"")}">
+
+   <label class="form-label">
+    Heist name
+   </label>
+
+   <input
+    class="input"
+    id="hName"
+    required
+    value="${esc(h?.name||"")}">
+
   </div>
 
   <div>
-   <label class="form-label">End time</label>
-   <input class="input" id="hEnd" type="datetime-local" required value="${h?toLocalInput(h.end_time):""}">
+
+   <label class="form-label">
+    End time
+   </label>
+
+   <input
+    class="input"
+    id="hEnd"
+    type="datetime-local"
+    required
+    value="${h?toLocalInput(h.end_time):""}">
+
   </div>
 
   <div>
-   <label class="form-label">Notes</label>
-   <textarea class="textarea" id="hNotes">${esc(h?.notes||"")}</textarea>
+
+   <label class="form-label">
+    Notes
+   </label>
+
+   <textarea
+    class="textarea"
+    id="hNotes">${esc(h?.notes||"")}</textarea>
+
   </div>
 
   <div class="modal-actions">
-   <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-   <button class="btn primary">${h?"Save Changes":"Add Heist"}</button>
+
+   <button
+    type="button"
+    class="btn"
+    onclick="closeModal()">
+    Cancel
+   </button>
+
+   <button class="btn primary">
+    ${h?"Save Changes":"Add Heist"}
+   </button>
+
   </div>
+
  </form>
  `);
 }
 
 async function saveHeist(e){
+
  e.preventDefault();
 
- /*
-   EXACT database columns:
-   name
-   end_time
-   notes
- */
+ const savedId=editingId;
+ const wasEditing=Boolean(savedId);
+
  const row={
-  name:document.getElementById("hName").value.trim(),
-  end_time:new Date(document.getElementById("hEnd").value).toISOString(),
-  notes:document.getElementById("hNotes").value.trim()
+  name:
+   document.getElementById("hName")
+    .value.trim(),
+
+  end_time:
+   new Date(
+    document.getElementById("hEnd").value
+   ).toISOString(),
+
+  notes:
+   document.getElementById("hNotes")
+    .value.trim()
  };
 
  let result;
 
- if(editingId){
-  result=await db.from("heists").update(row).eq("id",editingId);
+ if(savedId){
+
+  result=await db
+   .from("heists")
+   .update(row)
+   .eq("id",savedId);
+
  }else{
-  result=await db.from("heists").insert(row);
+
+  result=await db
+   .from("heists")
+   .insert(row);
  }
 
  if(result.error){
-  console.error("Heist save error:",result.error);
-  toast(result.error.message,"error");
+
+  console.error(
+   "Heist save error:",
+   result.error
+  );
+
+  toast(
+   result.error.message,
+   "error"
+  );
+
   return;
  }
 
  closeModal();
+
  await loadAll();
- toast(editingId?"Heist updated":"Heist added");
+
+ toast(
+  wasEditing
+   ?"Heist updated"
+   :"Heist added"
+ );
 }
 
 async function deleteHeist(id){
- if(!confirm("Delete this heist?"))return;
 
- const {error}=await db.from("heists").delete().eq("id",id);
+ if(!confirm("Delete this heist?"))
+  return;
+
+ const {error}=await db
+  .from("heists")
+  .delete()
+  .eq("id",id);
 
  if(error){
-  toast(error.message,"error");
+
+  toast(
+   error.message,
+   "error"
+  );
+
   return;
  }
 
  await loadAll();
+
  toast("Heist deleted");
 }
 
 /* ---------- BADGE MODAL ---------- */
 
 function openBadgeModal(id=null){
+
  editingId=id;
 
- const b=id?badges.find(x=>String(x.id)===String(id)):null;
+ const b=id
+  ?badges.find(
+   x=>String(x.id)===String(id)
+  )
+  :null;
 
  openModal(`
+
  <h3>${b?"Edit Badge":"Add Badge"}</h3>
 
  <form class="form-grid" onsubmit="saveBadge(event)">
+
   <div>
-   <label class="form-label">Badge name</label>
-   <input class="input" id="bName" required value="${esc(b?.name||"")}">
+
+   <label class="form-label">
+    Badge name
+   </label>
+
+   <input
+    class="input"
+    id="bName"
+    required
+    value="${esc(b?.name||"")}">
+
   </div>
 
   <div>
-   <label class="form-label">Gold current</label>
-   <input class="input" id="bGC" type="number" min="0" value="${b?.gold_current??0}">
+
+   <label class="form-label">
+    Gold current
+   </label>
+
+   <input
+    class="input"
+    id="bGC"
+    type="number"
+    min="0"
+    value="${b?.gold_current??0}">
+
   </div>
 
   <div>
-   <label class="form-label">Gold required</label>
-   <input class="input" id="bGR" type="number" min="0" value="${b?.gold_required??0}">
+
+   <label class="form-label">
+    Gold required
+   </label>
+
+   <input
+    class="input"
+    id="bGR"
+    type="number"
+    min="0"
+    value="${b?.gold_required??0}">
+
   </div>
 
   <div>
-   <label class="form-label">Platinum current</label>
-   <input class="input" id="bPC" type="number" min="0" value="${b?.platinum_current??""}">
+
+   <label class="form-label">
+    Platinum current
+   </label>
+
+   <input
+    class="input"
+    id="bPC"
+    type="number"
+    min="0"
+    value="${b?.platinum_current??""}">
+
   </div>
 
   <div>
-   <label class="form-label">Platinum required</label>
-   <input class="input" id="bPR" type="number" min="0" value="${b?.platinum_required??""}">
+
+   <label class="form-label">
+    Platinum required
+   </label>
+
+   <input
+    class="input"
+    id="bPR"
+    type="number"
+    min="0"
+    value="${b?.platinum_required??""}">
+
   </div>
 
   <div class="modal-actions">
-   <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-   <button class="btn primary">${b?"Save Changes":"Add Badge"}</button>
+
+   <button
+    type="button"
+    class="btn"
+    onclick="closeModal()">
+    Cancel
+   </button>
+
+   <button class="btn primary">
+    ${b?"Save Changes":"Add Badge"}
+   </button>
+
   </div>
+
  </form>
  `);
 }
 
 async function saveBadge(e){
+
  e.preventDefault();
 
- const pc=document.getElementById("bPC").value;
- const pr=document.getElementById("bPR").value;
+ const savedId=editingId;
+ const wasEditing=Boolean(savedId);
+
+ const pc=
+  document.getElementById("bPC").value;
+
+ const pr=
+  document.getElementById("bPR").value;
 
  const row={
-  name:document.getElementById("bName").value.trim(),
-  gold_current:Number(document.getElementById("bGC").value||0),
-  gold_required:Number(document.getElementById("bGR").value||0),
-  platinum_current:pc===""?null:Number(pc),
-  platinum_required:pr===""?null:Number(pr)
+
+  name:
+   document.getElementById("bName")
+    .value.trim(),
+
+  gold_current:
+   Number(
+    document.getElementById("bGC").value||0
+   ),
+
+  gold_required:
+   Number(
+    document.getElementById("bGR").value||0
+   ),
+
+  platinum_current:
+   pc===""?null:Number(pc),
+
+  platinum_required:
+   pr===""?null:Number(pr)
  };
 
- let result=editingId
-  ?await db.from("badges").update(row).eq("id",editingId)
-  :await db.from("badges").insert(row);
+ let result;
+
+ if(savedId){
+
+  result=await db
+   .from("badges")
+   .update(row)
+   .eq("id",savedId);
+
+ }else{
+
+  result=await db
+   .from("badges")
+   .insert(row);
+ }
 
  if(result.error){
-  toast(result.error.message,"error");
+
+  toast(
+   result.error.message,
+   "error"
+  );
+
   return;
  }
 
  closeModal();
+
  await loadAll();
- toast(editingId?"Badge updated":"Badge added");
+
+ toast(
+  wasEditing
+   ?"Badge updated"
+   :"Badge added"
+ );
 }
 
 async function deleteBadge(id){
- if(!confirm("Delete this badge?"))return;
 
- const {error}=await db.from("badges").delete().eq("id",id);
+ if(!confirm("Delete this badge?"))
+  return;
+
+ const {error}=await db
+  .from("badges")
+  .delete()
+  .eq("id",id);
 
  if(error){
-  toast(error.message,"error");
+
+  toast(
+   error.message,
+   "error"
+  );
+
   return;
  }
 
  await loadAll();
+
  toast("Badge deleted");
 }
 
 /* ---------- ACHIEVEMENT MODAL ---------- */
 
 function openAchievementModal(id=null){
+
  editingId=id;
 
- const a=id?achievements.find(x=>String(x.id)===String(id)):null;
+ const a=id
+  ?achievements.find(
+   x=>String(x.id)===String(id)
+  )
+  :null;
 
  openModal(`
+
  <h3>${a?"Edit Achievement":"Add Achievement"}</h3>
 
- <form class="form-grid" onsubmit="saveAchievement(event)">
+ <form
+  class="form-grid"
+  onsubmit="saveAchievement(event)">
+
   <div>
-   <label class="form-label">Achievement</label>
-   <input class="input" id="aName" required value="${esc(a?.name||"")}">
+
+   <label class="form-label">
+    Achievement
+   </label>
+
+   <input
+    class="input"
+    id="aName"
+    required
+    value="${esc(a?.name||"")}">
+
   </div>
 
   <div>
-   <label class="form-label">Current</label>
-   <input class="input" id="aCurrent" type="number" min="0" value="${a?.current??0}">
+
+   <label class="form-label">
+    Current
+   </label>
+
+   <input
+    class="input"
+    id="aCurrent"
+    type="number"
+    min="0"
+    value="${a?.current??0}">
+
   </div>
 
   <div>
-   <label class="form-label">Required</label>
-   <input class="input" id="aRequired" type="number" min="1" value="${a?.required??1}">
+
+   <label class="form-label">
+    Required
+   </label>
+
+   <input
+    class="input"
+    id="aRequired"
+    type="number"
+    min="1"
+    value="${a?.required??1}">
+
   </div>
 
   <div class="modal-actions">
-   <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-   <button class="btn primary">${a?"Save Changes":"Add Achievement"}</button>
+
+   <button
+    type="button"
+    class="btn"
+    onclick="closeModal()">
+    Cancel
+   </button>
+
+   <button class="btn primary">
+    ${a?"Save Changes":"Add Achievement"}
+   </button>
+
   </div>
+
  </form>
  `);
 }
 
 async function saveAchievement(e){
+
  e.preventDefault();
 
+ const savedId=editingId;
+ const wasEditing=Boolean(savedId);
+
  const row={
-  name:document.getElementById("aName").value.trim(),
-  current:Number(document.getElementById("aCurrent").value||0),
-  required:Number(document.getElementById("aRequired").value||1)
+
+  name:
+   document.getElementById("aName")
+    .value.trim(),
+
+  current:
+   Number(
+    document.getElementById("aCurrent")
+     .value||0
+   ),
+
+  required:
+   Number(
+    document.getElementById("aRequired")
+     .value||1
+   )
  };
 
- let result=editingId
-  ?await db.from("achievements").update(row).eq("id",editingId)
-  :await db.from("achievements").insert(row);
+ let result;
+
+ if(savedId){
+
+  result=await db
+   .from("achievements")
+   .update(row)
+   .eq("id",savedId);
+
+ }else{
+
+  result=await db
+   .from("achievements")
+   .insert(row);
+ }
 
  if(result.error){
-  toast(result.error.message,"error");
+
+  toast(
+   result.error.message,
+   "error"
+  );
+
   return;
  }
 
  closeModal();
+
  await loadAll();
- toast(editingId?"Achievement updated":"Achievement added");
+
+ toast(
+  wasEditing
+   ?"Achievement updated"
+   :"Achievement added"
+ );
 }
 
 async function deleteAchievement(id){
- if(!confirm("Delete this achievement?"))return;
 
- const {error}=await db.from("achievements").delete().eq("id",id);
+ if(!confirm("Delete this achievement?"))
+  return;
+
+ const {error}=await db
+  .from("achievements")
+  .delete()
+  .eq("id",id);
 
  if(error){
-  toast(error.message,"error");
+
+  toast(
+   error.message,
+   "error"
+  );
+
   return;
  }
 
  await loadAll();
+
  toast("Achievement deleted");
 }
 
 /* ---------- RENDER ---------- */
 
 function renderAll(){
+
  renderDashboard();
  renderGrinders();
  renderHeists();
@@ -1231,23 +2692,54 @@ function renderAll(){
  renderAchievements();
 }
 
+/* ---------- LIVE COUNTDOWN ---------- */
+
 setInterval(()=>{
- if(currentPage==="dashboard")renderDashboard();
- if(currentPage==="grinders")renderGrinders();
- if(currentPage==="heists")renderHeists();
+
+ if(currentPage==="dashboard")
+  renderDashboard();
+
+ if(currentPage==="grinders")
+  renderGrinders();
+
+ if(currentPage==="heists")
+  renderHeists();
+
 },30000);
 
-window.addEventListener("load",async()=>{
- showPage("dashboard");
+/* ---------- START ---------- */
 
- try{
-  await loadAll();
- }catch(e){
-  console.error("INITIAL LOAD ERROR:",e);
-  setConnection(false,"Connection error");
-  toast(e.message||"Failed to connect to Supabase","error");
+window.addEventListener(
+ "load",
+ async()=>{
+
+  showPage("dashboard");
+
+  try{
+
+   await loadAll();
+
+  }catch(e){
+
+   console.error(
+    "INITIAL LOAD ERROR:",
+    e
+   );
+
+   setConnection(
+    false,
+    "Connection error"
+   );
+
+   toast(
+    e.message||
+    "Failed to connect to Supabase",
+    "error"
+   );
+  }
  }
-});
+);
+
 </script>
 
 </body>
