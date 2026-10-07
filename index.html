@@ -8,535 +8,627 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+:root {
+  --bg: #0d1117;
+  --bg-soft: #10161f;
+  --card: #161b22;
+  --card-hover: #1b222c;
+  --border: rgba(255,255,255,.08);
+  --text: #f0f6fc;
+  --muted: #8b949e;
+  --purple: #a78bfa;
+  --cyan: #67e8f9;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --red: #f87171;
+  --shadow: 0 12px 35px rgba(0,0,0,.25);
 }
 
-:root{
-  --bg:#0b0d10;
-  --panel:#11151a;
-  --panel2:#171c22;
-  --panel3:#1d232b;
-  --border:#2a313a;
-  --text:#f1f3f5;
-  --muted:#9aa4af;
-  --accent:#5865f2;
-  --green:#43d17a;
-  --yellow:#f0c75e;
-  --red:#ed6262;
-  --blue:#4ca3ff;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(124,58,237,.12), transparent 30%),
+    radial-gradient(circle at 90% 10%, rgba(34,211,238,.08), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
 
 button,
-input,
-textarea,
-select{
-  font:inherit;
+input {
+  font: inherit;
 }
 
-button{
-  cursor:pointer;
+button {
+  cursor: pointer;
 }
 
-.app{
-  display:flex;
-  min-height:100vh;
+.app {
+  display: flex;
+  min-height: 100vh;
 }
 
 /* SIDEBAR */
-
-.sidebar{
-  width:235px;
-  background:#0d1014;
-  border-right:1px solid var(--border);
-  padding:20px 14px;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  z-index:20;
+.sidebar {
+  width: 235px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 24px 15px;
+  background: rgba(13,17,23,.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-right: 1px solid var(--border);
+  z-index: 20;
 }
 
-.logo{
-  font-size:20px;
-  font-weight:800;
-  padding:8px 10px 22px;
+.logo {
+  font-size: 21px;
+  font-weight: 800;
+  padding: 8px 12px 25px;
+  letter-spacing: -.5px;
 }
 
-.logo span{
-  color:var(--accent);
+.logo span {
+  background: linear-gradient(90deg,var(--purple),var(--cyan));
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-.nav{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.nav button{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  text-align:left;
-  padding:11px 12px;
-  border-radius:8px;
-  transition:.15s;
+.nav button {
+  width: 100%;
+  text-align: left;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 12px 14px;
+  border-radius: 11px;
+  transition: .2s ease;
 }
 
-.nav button:hover{
-  background:var(--panel2);
-  color:var(--text);
+.nav button:hover {
+  color: var(--text);
+  background: rgba(255,255,255,.04);
 }
 
-.nav button.active{
-  background:#20263a;
-  color:#fff;
+.nav button.active {
+  color: white;
+  background: linear-gradient(
+    90deg,
+    rgba(167,139,250,.18),
+    rgba(103,232,249,.08)
+  );
+  border-color: rgba(167,139,250,.18);
 }
 
 /* MAIN */
-
-.main{
-  margin-left:235px;
-  width:calc(100% - 235px);
-  padding:25px;
+.main {
+  margin-left: 235px;
+  width: calc(100% - 235px);
+  padding: 28px;
 }
 
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:22px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-.topbar h1{
-  font-size:26px;
+.header h1 {
+  margin: 0;
+  font-size: 28px;
 }
 
-.status{
-  color:var(--muted);
-  font-size:13px;
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
 }
 
-.status.online{
-  color:var(--green);
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(74,222,128,.7);
 }
 
-.status.offline{
-  color:var(--red);
-}
-
-/* VIEWS */
-
-.view{
-  display:none;
-}
-
-.view.active{
-  display:block;
-}
-
-/* DASHBOARD */
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:20px;
-}
-
-.stat{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:18px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:8px;
-}
-
-.stat-value{
-  font-size:25px;
-  font-weight:800;
-}
-
-.section{
-  margin-top:20px;
-}
-
-.section-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:12px;
-}
-
-.section-header h2{
-  font-size:18px;
-}
-
-/* TOOLBAR */
-
-.toolbar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.search{
-  flex:1;
-  min-width:220px;
-}
-
-input,
-textarea,
-select{
-  width:100%;
-  background:#0d1116;
-  border:1px solid var(--border);
-  color:var(--text);
-  border-radius:8px;
-  padding:10px 11px;
-  outline:none;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:var(--accent);
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-.btn{
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:var(--text);
-  padding:9px 13px;
-  border-radius:8px;
-}
-
-.btn:hover{
-  background:var(--panel3);
-}
-
-.btn.primary{
-  background:var(--accent);
-  border-color:var(--accent);
-}
-
-.btn.success{
-  background:#174c31;
-  border-color:#236c45;
-}
-
-.btn.danger{
-  background:#4b2020;
-  border-color:#6b2929;
-}
-
-/* CARDS */
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:13px;
-}
-
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:15px;
-}
-
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.card-title{
-  font-weight:750;
-  font-size:16px;
-}
-
-.card-sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
-}
-
-.card-actions{
-  display:flex;
-  gap:6px;
-  margin-top:14px;
-}
-
-.card-actions .btn{
-  flex:1;
-  font-size:12px;
-}
-
-.server-info{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.server-icon{
-  width:42px;
-  height:42px;
-  border-radius:11px;
-  object-fit:cover;
-  background:#252b33;
-  flex:none;
-}
-
-.server-fallback{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  width:42px;
-  height:42px;
-  border-radius:11px;
-  background:#252b33;
-}
-
-.money{
-  color:var(--yellow);
-  font-weight:750;
-}
-
-.good{
-  color:var(--green);
-}
-
-.bad{
-  color:var(--red);
-}
-
-.info-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:10px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.info-row strong{
-  color:var(--text);
-}
-
-/* PROGRESS */
-
-.progress-wrap{
-  margin-top:13px;
-}
-
-.progress-label{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  margin-bottom:6px;
-  color:var(--muted);
-}
-
-.progress{
-  height:8px;
-  background:#252b32;
-  border-radius:99px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  background:var(--accent);
-  border-radius:99px;
-}
-
-/* EMPTY */
-
-.empty{
-  background:var(--panel);
-  border:1px dashed var(--border);
-  border-radius:12px;
-  padding:30px;
-  text-align:center;
-  color:var(--muted);
-}
-
-/* MODAL */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:100;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modal-box{
-  width:min(520px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#12171d;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:20px;
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-.modal-header h2{
-  font-size:19px;
-}
-
-.close{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  font-size:24px;
-}
-
-.field{
-  margin-bottom:13px;
-}
-
-.field label{
-  display:block;
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-
-.modal-actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  margin-top:18px;
+.status-dot.error {
+  background: var(--red);
+  box-shadow: 0 0 10px rgba(248,113,113,.7);
 }
 
 /* MOBILE NAV */
-
-.mobile-nav{
-  display:none;
+.mobile-nav {
+  display: none;
 }
 
-/* RESPONSIVE */
+/* PAGES */
+.page {
+  display: none;
+}
 
-@media(max-width:1000px){
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
+.page.active {
+  display: block;
+}
+
+/* CARDS */
+.card,
+.stat-card,
+.item-card {
+  background: rgba(22,27,34,.82);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+  animation: cardFade .45s ease both;
+}
+
+.card:hover,
+.stat-card:hover,
+.item-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(167,139,250,.18);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.32),
+    0 0 25px rgba(124,58,237,.07);
+}
+
+@keyframes cardFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media(max-width:700px){
-  .sidebar{
-    display:none;
-  }
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
 
-  .main{
-    margin-left:0;
-    width:100%;
-    padding:17px;
-    padding-bottom:80px;
-  }
+.stat-card {
+  padding: 20px;
+}
 
-  .topbar h1{
-    font-size:21px;
-  }
+.stat-label {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 9px;
+}
 
-  .mobile-nav{
-    display:flex;
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    height:62px;
-    background:#0d1014;
-    border-top:1px solid var(--border);
-    z-index:50;
-    overflow-x:auto;
-  }
+.stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(90deg,var(--purple),var(--cyan));
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-  .mobile-nav button{
-    flex:1;
-    min-width:75px;
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    font-size:11px;
-  }
+/* SECTION */
+.section {
+  margin-top: 24px;
+}
 
-  .mobile-nav button.active{
-    color:#fff;
-    background:#20263a;
-  }
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 14px;
+}
 
-  .stats-grid{
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-  }
+.section-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
 
-  .stat{
-    padding:13px;
-  }
+.search {
+  width: 240px;
+  max-width: 100%;
+  padding: 10px 13px;
+  border-radius: 10px;
+  color: var(--text);
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--border);
+  outline: none;
+  transition: .2s;
+}
 
-  .stat-value{
-    font-size:20px;
+.search:focus {
+  border-color: rgba(167,139,250,.5);
+  box-shadow: 0 0 15px rgba(167,139,250,.08);
+}
+
+.search::placeholder {
+  color: #66717e;
+}
+
+/* LISTS */
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.item-card {
+  padding: 17px;
+}
+
+.item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.item-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.item-title strong {
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.server-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #202630;
+  border: 1px solid var(--border);
+}
+
+.server-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  background: linear-gradient(135deg,var(--purple),var(--cyan));
+  color: #0d1117;
+}
+
+.actions {
+  display: flex;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.045);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 8px 11px;
+  transition: .2s;
+}
+
+.btn:hover {
+  background: rgba(255,255,255,.09);
+  transform: translateY(-1px);
+}
+
+.btn.primary {
+  border: 0;
+  color: white;
+  background: linear-gradient(135deg,#8b5cf6,#06b6d4);
+}
+
+.btn.danger {
+  color: #fecaca;
+}
+
+.btn.danger:hover {
+  background: rgba(248,113,113,.1);
+}
+
+/* GRINDER */
+.grinder-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tag {
+  font-size: 12px;
+  color: #dbeafe;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(167,139,250,.16),
+    rgba(103,232,249,.1)
+  );
+  border: 1px solid rgba(167,139,250,.12);
+}
+
+.countdown {
+  font-weight: 800;
+  margin-top: 10px;
+  transition: .2s;
+}
+
+.timer-safe {
+  color: var(--green);
+  text-shadow: 0 0 12px rgba(74,222,128,.25);
+}
+
+.timer-warning {
+  color: var(--orange);
+  text-shadow: 0 0 12px rgba(251,146,60,.25);
+}
+
+.timer-danger {
+  color: var(--red);
+  text-shadow: 0 0 12px rgba(248,113,113,.3);
+  animation: urgentPulse 1.3s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%,100% {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(248,113,113,.25);
   }
+  50% {
+    opacity: .55;
+    text-shadow: 0 0 20px rgba(248,113,113,.7);
+  }
+}
+
+/* PROGRESS */
+.progress-wrap {
+  margin-top: 14px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.progress {
+  height: 9px;
+  background: rgba(255,255,255,.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #a78bfa,
+    #67e8f9
+  );
+  box-shadow: 0 0 14px rgba(103,232,249,.18);
+  transition: width .5s ease;
+}
+
+/* EMPTY */
+.empty {
+  padding: 35px 20px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 15px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(7px);
+  z-index: 100;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: min(500px,100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(22,27,34,.95);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 25px 80px rgba(0,0,0,.55);
+  animation: modalIn .2s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-box h2 {
+  margin: 0 0 20px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  color: var(--text);
+  background: rgba(255,255,255,.035);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: rgba(167,139,250,.55);
+  box-shadow: 0 0 15px rgba(167,139,250,.08);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
 }
 
 /* TOAST */
-
-.toast{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  background:#181e25;
-  border:1px solid var(--border);
-  padding:12px 15px;
-  border-radius:9px;
-  z-index:200;
-  display:none;
-  max-width:350px;
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 12px 16px;
+  background: rgba(22,27,34,.95);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.35);
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+  transition: .25s;
+  z-index: 200;
 }
 
-.toast.show{
-  display:block;
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 950px) {
+  .stats-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 18px 14px 85px;
+  }
+
+  .header h1 {
+    font-size: 23px;
+  }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 7px;
+    gap: 4px;
+    background: rgba(13,17,23,.94);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border);
+  }
+
+  .mobile-nav button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 9px 3px;
+    border-radius: 9px;
+    font-size: 11px;
+  }
+
+  .mobile-nav button.active {
+    color: white;
+    background: rgba(167,139,250,.12);
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .item-top {
+    align-items: flex-start;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 450px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-top {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 </style>
 </head>
@@ -549,46 +641,48 @@ textarea{
     <div class="logo">Dank <span>Tracker</span></div>
 
     <nav class="nav">
-      <button data-view="dashboard" class="active">Dashboard</button>
-      <button data-view="statistics">Statistics</button>
-      <button data-view="grinders">Grinders</button>
-      <button data-view="badges">Badges</button>
-      <button data-view="achievements">Achievements</button>
+      <button data-page="dashboard" class="active">Dashboard</button>
+      <button data-page="statistics">Statistics</button>
+      <button data-page="grinders">Grinders</button>
+      <button data-page="badges">Badges</button>
+      <button data-page="achievements">Achievements</button>
     </nav>
   </aside>
 
   <main class="main">
 
-    <div class="topbar">
+    <header class="header">
       <h1 id="pageTitle">Dashboard</h1>
-      <div id="dbStatus" class="status">Connecting...</div>
-    </div>
+
+      <div class="status">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="databaseStatus">Connecting...</span>
+      </div>
+    </header>
 
     <!-- DASHBOARD -->
-    <section id="dashboard" class="view active">
+    <section class="page active" id="page-dashboard">
 
       <div class="stats-grid">
-
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Grinders</div>
-          <div class="stat-value" id="dashGrinders">0</div>
+          <div class="stat-value" id="dashboardGrinders">0</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Upcoming Payments</div>
-          <div class="stat-value" id="dashUpcoming">0</div>
+          <div class="stat-value" id="dashboardPayments">0</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Badges</div>
-          <div class="stat-value" id="dashBadges">0</div>
+          <div class="stat-value" id="dashboardBadges">0</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Achievements</div>
-          <div class="stat-value" id="dashAchievements">0</div>
+          <div class="stat-value" id="dashboardAchievements">0</div>
         </div>
-
       </div>
 
       <div class="section">
@@ -596,115 +690,103 @@ textarea{
           <h2>Upcoming Grinder Payments</h2>
         </div>
 
-        <div id="dashboardGrinders"></div>
+        <div id="dashboardUpcoming" class="list"></div>
       </div>
 
     </section>
 
     <!-- STATISTICS -->
-    <section id="statistics" class="view">
+    <section class="page" id="page-statistics">
 
       <div class="stats-grid">
-
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Total Grinder Fees</div>
-          <div class="stat-value" id="statFees">0</div>
+          <div class="stat-value" id="totalFees">RM0</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Average Badge Progress</div>
-          <div class="stat-value" id="statBadgeProgress">0%</div>
+          <div class="stat-value" id="avgBadgeProgress">0%</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Average Achievement Progress</div>
-          <div class="stat-value" id="statAchievementProgress">0%</div>
+          <div class="stat-value" id="avgAchievementProgress">0%</div>
         </div>
 
-        <div class="stat">
+        <div class="stat-card">
           <div class="stat-label">Upcoming Payments</div>
-          <div class="stat-value" id="statUpcoming">0</div>
+          <div class="stat-value" id="statsUpcoming">0</div>
         </div>
-
       </div>
 
-      <div class="section">
+      <div class="card" style="padding:20px;margin-top:22px;">
         <div class="section-header">
           <h2>Progress Overview</h2>
         </div>
 
-        <div id="statisticsContent"></div>
+        <div id="progressOverview"></div>
       </div>
 
     </section>
 
     <!-- GRINDERS -->
-    <section id="grinders" class="view">
+    <section class="page" id="page-grinders">
 
-      <div class="toolbar">
-        <input
-          id="grinderSearch"
-          class="search"
-          placeholder="Search grinders..."
-        >
+      <div class="section-header">
+        <h2>Grinders</h2>
 
-        <button
-          class="btn primary"
-          onclick="openGrinderModal()"
-        >
-          + Add Grinder
-        </button>
+        <div style="display:flex;gap:8px;width:100%;justify-content:flex-end;">
+          <input
+            class="search"
+            id="grinderSearch"
+            placeholder="Search grinders..."
+          >
+          <button class="btn primary" onclick="openGrinderModal()">+ Add</button>
+        </div>
       </div>
 
-      <div id="grindersList" class="cards"></div>
+      <div id="grindersList" class="list"></div>
 
     </section>
 
     <!-- BADGES -->
-    <section id="badges" class="view">
+    <section class="page" id="page-badges">
 
-      <div class="toolbar">
+      <div class="section-header">
+        <h2>Badges</h2>
 
-        <input
-          id="badgeSearch"
-          class="search"
-          placeholder="Search badges..."
-        >
-
-        <button
-          class="btn primary"
-          onclick="openBadgeModal()"
-        >
-          + Add Badge
-        </button>
-
+        <div style="display:flex;gap:8px;width:100%;justify-content:flex-end;">
+          <input
+            class="search"
+            id="badgeSearch"
+            placeholder="Search badges..."
+          >
+          <button class="btn primary" onclick="openBadgeModal()">+ Add</button>
+        </div>
       </div>
 
-      <div id="badgesList" class="cards"></div>
+      <div id="badgesList" class="list"></div>
 
     </section>
 
     <!-- ACHIEVEMENTS -->
-    <section id="achievements" class="view">
+    <section class="page" id="page-achievements">
 
-      <div class="toolbar">
+      <div class="section-header">
+        <h2>Achievements</h2>
 
-        <input
-          id="achievementSearch"
-          class="search"
-          placeholder="Search achievements..."
-        >
-
-        <button
-          class="btn primary"
-          onclick="openAchievementModal()"
-        >
-          + Add Achievement
-        </button>
-
+        <div style="display:flex;gap:8px;width:100%;justify-content:flex-end;">
+          <input
+            class="search"
+            id="achievementSearch"
+            placeholder="Search achievements..."
+          >
+          <button class="btn primary" onclick="openAchievementModal()">+ Add</button>
+        </div>
       </div>
 
-      <div id="achievementsList" class="cards"></div>
+      <div id="achievementsList" class="list"></div>
 
     </section>
 
@@ -712,2719 +794,1147 @@ textarea{
 </div>
 
 <!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-  <button
-    data-view="dashboard"
-    class="active"
-  >
-    Home
-  </button>
-
-  <button data-view="statistics">
-    Stats
-  </button>
-
-  <button data-view="grinders">
-    Grinders
-  </button>
-
-  <button data-view="badges">
-    Badges
-  </button>
-
-  <button data-view="achievements">
-    Achievements
-  </button>
-
-</div>
+<nav class="mobile-nav">
+  <button data-page="dashboard" class="active">Home</button>
+  <button data-page="statistics">Stats</button>
+  <button data-page="grinders">Grinders</button>
+  <button data-page="badges">Badges</button>
+  <button data-page="achievements">Achieve</button>
+</nav>
 
 <!-- GRINDER MODAL -->
-
-<div id="grinderModal" class="modal">
-
+<div class="modal" id="grinderModal">
   <div class="modal-box">
+    <h2 id="grinderModalTitle">Add Grinder</h2>
 
-    <div class="modal-header">
+    <input type="hidden" id="grinderId">
 
-      <h2 id="grinderModalTitle">
-        Add Grinder
-      </h2>
-
-      <button
-        class="close"
-        onclick="closeModal('grinderModal')"
-      >
-        &times;
-      </button>
-
-    </div>
-
-    <input
-      type="hidden"
-      id="grinderId"
-    >
-
-    <div class="field">
-
+    <div class="form-group">
       <label>Server Name</label>
-
-      <input
-        id="grinderServer"
-        placeholder="Lunar Society"
-      >
-
+      <input id="grinderServer">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Weekly Fee</label>
-
-      <input
-        id="grinderFee"
-        type="number"
-        placeholder="49000000"
-      >
-
+      <input id="grinderFee" type="number">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Paid Until</label>
-
-      <input
-        id="grinderPaidUntil"
-        type="datetime-local"
-      >
-
+      <input id="grinderPaidUntil" type="datetime-local">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Duration (days)</label>
-
-      <input
-        id="grinderDuration"
-        type="number"
-        min="1"
-        value="7"
-      >
-
+      <input id="grinderDuration" type="number" min="1" value="7">
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        onclick="closeModal('grinderModal')"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="btn primary"
-        onclick="saveGrinder()"
-      >
-        Save
-      </button>
-
+      <button class="btn" onclick="closeModals()">Cancel</button>
+      <button class="btn primary" onclick="saveGrinder()">Save</button>
     </div>
-
   </div>
 </div>
 
 <!-- BADGE MODAL -->
-
-<div id="badgeModal" class="modal">
-
+<div class="modal" id="badgeModal">
   <div class="modal-box">
+    <h2 id="badgeModalTitle">Add Badge</h2>
 
-    <div class="modal-header">
+    <input type="hidden" id="badgeId">
 
-      <h2 id="badgeModalTitle">
-        Add Badge
-      </h2>
-
-      <button
-        class="close"
-        onclick="closeModal('badgeModal')"
-      >
-        &times;
-      </button>
-
-    </div>
-
-    <input
-      type="hidden"
-      id="badgeId"
-    >
-
-    <div class="field">
-
+    <div class="form-group">
       <label>Badge Name</label>
-
-      <input
-        id="badgeName"
-        placeholder="Seasoned Angler"
-      >
-
+      <input id="badgeName">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Gold Current</label>
-
-      <input
-        id="badgeGoldCurrent"
-        type="number"
-      >
-
+      <input id="goldCurrent" type="number">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Gold Required</label>
-
-      <input
-        id="badgeGoldRequired"
-        type="number"
-      >
-
+      <input id="goldRequired" type="number">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Platinum Current</label>
-
-      <input
-        id="badgePlatinumCurrent"
-        type="number"
-      >
-
+      <input id="platinumCurrent" type="number">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Platinum Required</label>
-
-      <input
-        id="badgePlatinumRequired"
-        type="number"
-      >
-
+      <input id="platinumRequired" type="number">
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        onclick="closeModal('badgeModal')"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="btn primary"
-        onclick="saveBadge()"
-      >
-        Save
-      </button>
-
+      <button class="btn" onclick="closeModals()">Cancel</button>
+      <button class="btn primary" onclick="saveBadge()">Save</button>
     </div>
-
   </div>
 </div>
 
 <!-- ACHIEVEMENT MODAL -->
-
-<div id="achievementModal" class="modal">
-
+<div class="modal" id="achievementModal">
   <div class="modal-box">
+    <h2 id="achievementModalTitle">Add Achievement</h2>
 
-    <div class="modal-header">
+    <input type="hidden" id="achievementId">
 
-      <h2 id="achievementModalTitle">
-        Add Achievement
-      </h2>
-
-      <button
-        class="close"
-        onclick="closeModal('achievementModal')"
-      >
-        &times;
-      </button>
-
-    </div>
-
-    <input
-      type="hidden"
-      id="achievementId"
-    >
-
-    <div class="field">
-
+    <div class="form-group">
       <label>Name</label>
-
-      <input
-        id="achievementName"
-      >
-
+      <input id="achievementName">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Current</label>
-
-      <input
-        id="achievementCurrent"
-        type="number"
-      >
-
+      <input id="achievementCurrent" type="number">
     </div>
 
-    <div class="field">
-
+    <div class="form-group">
       <label>Required</label>
-
-      <input
-        id="achievementRequired"
-        type="number"
-      >
-
+      <input id="achievementRequired" type="number">
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        onclick="closeModal('achievementModal')"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="btn primary"
-        onclick="saveAchievement()"
-      >
-        Save
-      </button>
-
+      <button class="btn" onclick="closeModals()">Cancel</button>
+      <button class="btn primary" onclick="saveAchievement()">Save</button>
     </div>
-
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
+const SUPABASE_URL = "https://acfbuegbalkdajregyhi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
 
-/* =========================================================
-   SUPABASE
-========================================================= */
-
-const SUPABASE_URL =
-  "https://acfbuegbalkdajregyhi.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-/* =========================================================
-   STATE
-========================================================= */
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 let grinders = [];
 let badges = [];
 let achievements = [];
 
-
-/* =========================================================
-   DEFAULT DATA
-========================================================= */
-
 const grinderDefaults = [
-
-  {
-    server_name:"Lunar Society",
-    fee:49000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Heist Circle",
-    fee:45500000,
-    paid_until:"2026-12-15T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Specials",
-    fee:56000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"The Dimension",
-    fee:49000000,
-    paid_until:"2026-12-16T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Memers Den",
-    fee:42000000,
-    paid_until:"2026-12-12T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"The Kingdom",
-    fee:49000000,
-    paid_until:"2026-12-19T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Heavenly",
-    fee:49000000,
-    paid_until:"2026-10-11T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"REALM",
-    fee:49000000,
-    paid_until:"2026-10-09T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"The Hideout",
-    fee:77000000,
-    paid_until:"2026-11-13T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Dank Beast",
-    fee:84000000,
-    paid_until:"2026-10-12T23:59:59",
-    duration_days:7
-  },
-
-  {
-    server_name:"Dank Craft",
-    fee:70000000,
-    paid_until:"2026-10-14T23:59:59",
-    duration_days:7
-  }
-
+  {server_name:"Lunar Society",fee:49000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
+  {server_name:"Heist Circle",fee:45500000,paid_until:"2026-12-15T23:59:59",duration_days:7},
+  {server_name:"Specials",fee:56000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
+  {server_name:"The Dimension",fee:49000000,paid_until:"2026-12-16T23:59:59",duration_days:7},
+  {server_name:"Memers Den",fee:42000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
+  {server_name:"The Kingdom",fee:49000000,paid_until:"2026-12-19T23:59:59",duration_days:7},
+  {server_name:"Heavenly",fee:49000000,paid_until:"2026-10-11T23:59:59",duration_days:7},
+  {server_name:"REALM",fee:49000000,paid_until:"2026-10-09T23:59:59",duration_days:7},
+  {server_name:"The Hideout",fee:77000000,paid_until:"2026-11-13T23:59:59",duration_days:7},
+  {server_name:"Dank Beast",fee:84000000,paid_until:"2026-10-12T23:59:59",duration_days:7},
+  {server_name:"Dank Craft",fee:70000000,paid_until:"2026-10-14T23:59:59",duration_days:7}
 ];
 
+const serverIcons = {
+  "Lunar Society":"server-icons/lunar-society.png",
+  "The Dimension":"server-icons/the-dimension.jpg",
+  "Memers Den":"server-icons/memers-den.png",
+  "Members Den":"server-icons/memers-den.png"
+};
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function escapeHTML(value){
-
+function escapeHTML(value) {
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
 
-
-function percentage(current,required){
-
-  current = Number(current) || 0;
-  required = Number(required) || 0;
-
-  if(required <= 0){
-    return 0;
-  }
-
-  return Math.min(
-    100,
-    (current / required) * 100
-  );
-
+function percentage(current, required) {
+  if (Number(required) <= 0) return 0;
+  return Math.min(100, Number(current || 0) / Number(required) * 100);
 }
 
+function formatMoney(value) {
+  value = Number(value || 0);
 
-function formatMoney(value){
-
-  value = Number(value) || 0;
-
-  if(value >= 1e9){
-
-    return (
-      value / 1e9
-    ).toFixed(
-      value % 1e9 === 0 ? 0 : 2
-    ) + "B";
-
-  }
-
-  if(value >= 1e6){
-
-    return (
-      value / 1e6
-    ).toFixed(
-      value % 1e6 === 0 ? 0 : 1
-    ) + "M";
-
-  }
-
-  if(value >= 1e3){
-
-    return (
-      value / 1e3
-    ).toFixed(
-      value % 1e3 === 0 ? 0 : 1
-    ) + "K";
-
-  }
+  if (value >= 1e9) return (value / 1e9).toFixed(2).replace(/\.00$/,"") + "B";
+  if (value >= 1e6) return (value / 1e6).toFixed(2).replace(/\.00$/,"") + "M";
+  if (value >= 1e3) return (value / 1e3).toFixed(2).replace(/\.00$/,"") + "K";
 
   return value.toLocaleString();
-
 }
 
+function formatDate(value) {
+  if (!value) return "—";
 
-function formatDate(date){
-
-  if(!date){
-    return "-";
-  }
-
-  const d = new Date(date);
-
-  if(Number.isNaN(d.getTime())){
-    return "-";
-  }
-
-  return d.toLocaleString(
-    "en-MY",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric",
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-
+  return new Date(value).toLocaleString("en-MY", {
+    dateStyle:"medium",
+    timeStyle:"short"
+  });
 }
 
+function toInputDate(value) {
+  if (!value) return "";
 
-function toInputDate(date){
+  const d = new Date(value);
 
-  if(!date){
-    return "";
-  }
+  const pad = n => String(n).padStart(2,"0");
 
-  const d = new Date(date);
-
-  if(Number.isNaN(d.getTime())){
-    return "";
-  }
-
-  const pad =
-    n => String(n).padStart(2,"0");
-
-  return (
-    `${d.getFullYear()}-` +
-    `${pad(d.getMonth()+1)}-` +
-    `${pad(d.getDate())}T` +
-    `${pad(d.getHours())}:` +
-    `${pad(d.getMinutes())}`
-  );
-
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-
-function remainingMs(date){
-
-  const time =
-    new Date(date).getTime();
-
-  if(Number.isNaN(time)){
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  return time - Date.now();
-
+function remainingMs(value) {
+  return new Date(value).getTime() - Date.now();
 }
 
+/*
+  Gemini urgency system:
+  >7 days = green
+  1–7 days = orange
+  <24h / overdue = pulsing red
+*/
+function countdown(value) {
+  const ms = remainingMs(value);
 
-function countdown(date){
-
-  const diff =
-    remainingMs(date);
-
-  if(diff <= 0){
-    return "Due";
+  if (ms <= 0) {
+    return {
+      text:"OVERDUE",
+      className:"timer-danger"
+    };
   }
 
-  let seconds =
-    Math.floor(diff / 1000);
+  const totalSeconds = Math.floor(ms / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
 
-  const days =
-    Math.floor(seconds / 86400);
+  let text;
 
-  seconds %= 86400;
-
-  const hours =
-    Math.floor(seconds / 3600);
-
-  seconds %= 3600;
-
-  const minutes =
-    Math.floor(seconds / 60);
-
-  if(days > 0){
-    return `${days}d ${hours}h`;
+  if (days > 0) {
+    text = `${days}d ${hours}h remaining`;
+  } else if (hours > 0) {
+    text = `${hours}h ${minutes}m remaining`;
+  } else {
+    text = `${minutes}m remaining`;
   }
 
-  if(hours > 0){
-    return `${hours}h ${minutes}m`;
+  let className = "timer-warning";
+
+  if (ms > 7 * 86400000) {
+    className = "timer-safe";
   }
 
-  return `${minutes}m`;
+  if (ms < 86400000) {
+    className = "timer-danger";
+  }
 
+  return {text,className};
 }
 
+function showToast(message) {
+  const toast = document.getElementById("toast");
 
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent =
-    message;
-
+  toast.textContent = message;
   toast.classList.add("show");
 
-  clearTimeout(showToast.timer);
+  clearTimeout(window.toastTimer);
 
-  showToast.timer =
-    setTimeout(
-      ()=>{
-        toast.classList.remove("show");
-      },
-      3000
-    );
-
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  },2500);
 }
 
+function setDatabaseStatus(ok, message) {
+  const dot = document.getElementById("statusDot");
+  const text = document.getElementById("databaseStatus");
 
-function setDatabaseStatus(ok,text){
-
-  const el =
-    document.getElementById("dbStatus");
-
-  el.textContent =
-    text;
-
-  el.className =
-    "status " +
-    (ok ? "online" : "offline");
-
+  dot.classList.toggle("error",!ok);
+  text.textContent = message;
 }
 
+/* SORTING */
 
-/* =========================================================
-   SERVER ICONS
-========================================================= */
-
-const serverIcons = {
-
-  "lunar society":
-    "server-icons/lunar-society.png",
-
-  "the dimension":
-    "server-icons/the-dimension.jpg",
-
-  "memers den":
-    "server-icons/memers-den.png",
-
-  "members den":
-    "server-icons/memers-den.png"
-
-};
-
-
-function serverIcon(name){
-
-  const key =
-    String(name || "")
-      .toLowerCase()
-      .trim();
-
-  return serverIcons[key] || "";
-
-}
-
-
-function serverIconHTML(name){
-
-  const src =
-    serverIcon(name);
-
-  if(src){
-
-    return `
-      <img
-        class="server-icon"
-        src="${src}"
-        alt=""
-        onerror="
-          this.style.display='none';
-          this.nextElementSibling.style.display='flex';
-        "
-      >
-
-      <div
-        class="server-fallback"
-        style="display:none"
-      >
-        ${escapeHTML(
-          String(name || "?")
-            .charAt(0)
-            .toUpperCase()
-        )}
-      </div>
-    `;
-
-  }
-
-  return `
-    <div class="server-fallback">
-      ${escapeHTML(
-        String(name || "?")
-          .charAt(0)
-          .toUpperCase()
-      )}
-    </div>
-  `;
-
-}
-
-
-/* =========================================================
-   SORTING
-========================================================= */
-
-function sortedGrinders(){
-
+function sortedGrinders() {
   return [...grinders].sort(
     (a,b) =>
-      remainingMs(a.paid_until) -
-      remainingMs(b.paid_until)
+      new Date(a.paid_until).getTime() -
+      new Date(b.paid_until).getTime()
   );
-
 }
 
-
-function badgeScore(b){
-
-  const gold =
-    percentage(
-      b.gold_current,
-      b.gold_required
-    );
-
-  const platinum =
-    b.platinum_required
-      ? percentage(
-          b.platinum_current,
-          b.platinum_required
-        )
-      : gold;
-
+function badgeScore(b) {
   return Math.max(
-    gold,
-    platinum
+    percentage(b.gold_current,b.gold_required),
+    percentage(b.platinum_current,b.platinum_required)
   );
-
 }
 
-
-function sortedBadges(){
-
+function sortedBadges() {
   return [...badges].sort(
-    (a,b) =>
-      badgeScore(b) -
-      badgeScore(a)
+    (a,b) => badgeScore(b) - badgeScore(a)
   );
-
 }
 
-
-function sortedAchievements(){
-
+function sortedAchievements() {
   return [...achievements].sort(
     (a,b) =>
-      percentage(
-        b.current,
-        b.required
-      ) -
-      percentage(
-        a.current,
-        a.required
-      )
+      percentage(b.current,b.required) -
+      percentage(a.current,a.required)
   );
-
 }
 
+/* LOAD */
 
-/* =========================================================
-   DATABASE
-========================================================= */
+async function loadAll() {
 
-async function loadAll(){
+  setDatabaseStatus(true,"Loading...");
 
-  setDatabaseStatus(
-    false,
-    "Loading..."
-  );
+  const [gResult,bResult,aResult] = await Promise.all([
+    supabaseClient.from("grinder_fees").select("*"),
+    supabaseClient.from("badges").select("*"),
+    supabaseClient.from("achievements").select("*")
+  ]);
 
-  try{
+  const errors = [];
 
-    const [
-      grinderResult,
-      badgeResult,
-      achievementResult
-    ] = await Promise.all([
+  if (gResult.error) errors.push("Grinders");
+  if (bResult.error) errors.push("Badges");
+  if (aResult.error) errors.push("Achievements");
 
-      supabaseClient
+  if (!gResult.error) {
+    grinders = gResult.data || [];
+
+    if (grinders.length === 0) {
+      const {data,error} = await supabaseClient
         .from("grinder_fees")
-        .select("*"),
+        .insert(grinderDefaults)
+        .select("*");
 
-      supabaseClient
-        .from("badges")
-        .select("*"),
-
-      supabaseClient
-        .from("achievements")
-        .select("*")
-
-    ]);
-
-
-    const errors = [];
-
-
-    if(grinderResult.error){
-
-      errors.push(
-        "Grinders: " +
-        grinderResult.error.message
-      );
-
-    }else{
-
-      grinders =
-        grinderResult.data || [];
-
-    }
-
-
-    if(badgeResult.error){
-
-      errors.push(
-        "Badges: " +
-        badgeResult.error.message
-      );
-
-    }else{
-
-      badges =
-        badgeResult.data || [];
-
-    }
-
-
-    if(achievementResult.error){
-
-      errors.push(
-        "Achievements: " +
-        achievementResult.error.message
-      );
-
-    }else{
-
-      achievements =
-        achievementResult.data || [];
-
-    }
-
-
-    /*
-      Only seed grinders when the table
-      successfully loaded and is empty.
-    */
-
-    if(
-      !grinderResult.error &&
-      grinders.length === 0
-    ){
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("grinder_fees")
-          .insert(grinderDefaults)
-          .select("*");
-
-
-      if(!error){
-
-        grinders =
-          data || [];
-
+      if (!error) {
+        grinders = data || [];
       }
-
     }
-
-
-    if(errors.length){
-
-      console.error(errors);
-
-      setDatabaseStatus(
-        false,
-        "Some tables failed"
-      );
-
-      showToast(
-        errors.join(" | ")
-      );
-
-    }else{
-
-      setDatabaseStatus(
-        true,
-        "Database connected"
-      );
-
-    }
-
-
-    renderAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    setDatabaseStatus(
-      false,
-      "Database error"
-    );
-
-    showToast(
-      error.message
-    );
-
   }
 
+  if (!bResult.error) {
+    badges = bResult.data || [];
+  }
+
+  if (!aResult.error) {
+    achievements = aResult.data || [];
+  }
+
+  if (errors.length) {
+    setDatabaseStatus(false,"Some tables failed");
+    showToast("Failed: " + errors.join(", "));
+  } else {
+    setDatabaseStatus(true,"Database connected");
+  }
+
+  renderAll();
 }
 
+/* RENDER */
 
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
+function renderAll() {
   renderDashboard();
-
   renderStatistics();
-
   renderGrinders();
-
   renderBadges();
-
   renderAchievements();
-
 }
 
+function renderDashboard() {
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function renderDashboard(){
-
-  const upcoming =
-    grinders.filter(
-      g =>
-        remainingMs(g.paid_until)
-        <= 7 * 86400000
-    ).length;
-
-
-  document.getElementById(
-    "dashGrinders"
-  ).textContent =
+  document.getElementById("dashboardGrinders").textContent =
     grinders.length;
 
+  const upcoming = sortedGrinders().filter(g =>
+    remainingMs(g.paid_until) <= 7 * 86400000
+  );
 
-  document.getElementById(
-    "dashUpcoming"
-  ).textContent =
-    upcoming;
+  document.getElementById("dashboardPayments").textContent =
+    upcoming.length;
 
-
-  document.getElementById(
-    "dashBadges"
-  ).textContent =
+  document.getElementById("dashboardBadges").textContent =
     badges.length;
 
-
-  document.getElementById(
-    "dashAchievements"
-  ).textContent =
+  document.getElementById("dashboardAchievements").textContent =
     achievements.length;
 
+  const container = document.getElementById("dashboardUpcoming");
 
-  const grinderItems =
-    sortedGrinders().slice(0,5);
+  if (!upcoming.length) {
+    container.innerHTML =
+      `<div class="empty">No grinder payments due within 7 days.</div>`;
+    return;
+  }
 
-
-  document.getElementById(
-    "dashboardGrinders"
-  ).innerHTML =
-
-    grinderItems.length
-
-      ? `
-        <div class="cards">
-          ${grinderItems
-            .map(grinderHTML)
-            .join("")}
-        </div>
-      `
-
-      : `
-        <div class="empty">
-          No grinders.
-        </div>
-      `;
-
+  container.innerHTML = upcoming
+    .slice(0,5)
+    .map(grinderHTML)
+    .join("");
 }
 
+/* GRINDERS */
 
-/* =========================================================
-   STATISTICS
-========================================================= */
+function grinderHTML(g) {
 
-function renderStatistics(){
+  const timer = countdown(g.paid_until);
+  const icon = serverIcons[g.server_name];
 
-  const totalFees =
-    grinders.reduce(
-      (sum,g) =>
-        sum + Number(g.fee || 0),
-      0
-    );
-
-
-  const avgBadge =
-    badges.length
-
-      ? badges.reduce(
-          (sum,b) =>
-            sum + badgeScore(b),
-          0
-        ) / badges.length
-
-      : 0;
-
-
-  const avgAchievement =
-    achievements.length
-
-      ? achievements.reduce(
-          (sum,a) =>
-            sum +
-            percentage(
-              a.current,
-              a.required
-            ),
-          0
-        ) / achievements.length
-
-      : 0;
-
-
-  const upcoming =
-    grinders.filter(
-      g =>
-        remainingMs(g.paid_until)
-        <= 7 * 86400000
-    ).length;
-
-
-  document.getElementById(
-    "statFees"
-  ).textContent =
-    formatMoney(totalFees);
-
-
-  document.getElementById(
-    "statBadgeProgress"
-  ).textContent =
-    avgBadge.toFixed(1) + "%";
-
-
-  document.getElementById(
-    "statAchievementProgress"
-  ).textContent =
-    avgAchievement.toFixed(1) + "%";
-
-
-  document.getElementById(
-    "statUpcoming"
-  ).textContent =
-    upcoming;
-
-
-  document.getElementById(
-    "statisticsContent"
-  ).innerHTML = `
-
-    <div class="cards">
-
-      <div class="card">
-
-        <div class="card-title">
-          Badge Progress
-        </div>
-
-        <div class="progress-wrap">
-
-          <div class="progress-label">
-            <span>Average</span>
-            <span>
-              ${avgBadge.toFixed(1)}%
-            </span>
-          </div>
-
-          <div class="progress">
-
-            <div
-              class="progress-bar"
-              style="width:${avgBadge}%"
-            ></div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="card-title">
-          Achievement Progress
-        </div>
-
-        <div class="progress-wrap">
-
-          <div class="progress-label">
-            <span>Average</span>
-            <span>
-              ${avgAchievement.toFixed(1)}%
-            </span>
-          </div>
-
-          <div class="progress">
-
-            <div
-              class="progress-bar"
-              style="width:${avgAchievement}%"
-            ></div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   GRINDERS
-========================================================= */
-
-function grinderHTML(g){
-
-  const due =
-    remainingMs(g.paid_until) <= 0;
-
-
-  const duration =
-    Number(g.duration_days || 7);
-
+  const iconHTML = icon
+    ? `<img class="server-icon" src="${icon}" alt="">`
+    : `<div class="server-icon server-placeholder">${
+        escapeHTML((g.server_name || "?")[0].toUpperCase())
+      }</div>`;
 
   return `
+    <div class="item-card">
+      <div class="item-top">
 
-    <div class="card">
-
-      <div class="card-top">
-
-        <div class="server-info">
-
-          ${serverIconHTML(
-            g.server_name
-          )}
+        <div class="item-title">
+          ${iconHTML}
 
           <div>
+            <strong>${escapeHTML(g.server_name)}</strong>
 
-            <div class="card-title">
-              ${escapeHTML(
-                g.server_name
-              )}
+            <div class="grinder-meta">
+              <span class="tag">${formatMoney(g.fee)}</span>
+              <span class="tag">${g.duration_days || 7} days</span>
+              <span class="tag">${formatDate(g.paid_until)}</span>
             </div>
 
-            <div class="card-sub">
-              ${escapeHTML(
-                formatDate(
-                  g.paid_until
-                )
-              )}
+            <div class="countdown ${timer.className}">
+              ${timer.text}
             </div>
-
           </div>
-
         </div>
 
+        <div class="actions">
+          <button
+            class="btn primary"
+            onclick="markGrinderPaid('${g.id}')"
+          >
+            Paid
+          </button>
 
-        <div class="money">
-          ${formatMoney(g.fee)}
+          <button
+            class="btn"
+            onclick="editGrinder('${g.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn danger"
+            onclick="deleteGrinder('${g.id}')"
+          >
+            Delete
+          </button>
         </div>
 
       </div>
-
-
-      <div class="info-row">
-
-        <span>
-          Payment
-        </span>
-
-        <strong
-          class="${due ? "bad" : "good"}"
-        >
-          ${countdown(
-            g.paid_until
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="info-row">
-
-        <span>
-          Duration
-        </span>
-
-        <strong>
-          ${duration}
-          day${duration === 1 ? "" : "s"}
-        </strong>
-
-      </div>
-
-
-      <div class="card-actions">
-
-        <button
-          class="btn success"
-          onclick="markGrinderPaid('${g.id}')"
-        >
-          Paid
-        </button>
-
-        <button
-          class="btn"
-          onclick="editGrinder('${g.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteGrinder('${g.id}')"
-        >
-          Delete
-        </button>
-
-      </div>
-
     </div>
-
   `;
-
 }
 
+function renderGrinders() {
 
-function renderGrinders(){
-
-  const query =
-    document
-      .getElementById(
-        "grinderSearch"
-      )
-      .value
+  const search =
+    document.getElementById("grinderSearch").value
       .toLowerCase()
       .trim();
 
+  const data = sortedGrinders().filter(g =>
+    String(g.server_name || "")
+      .toLowerCase()
+      .includes(search)
+  );
 
-  const list =
-    sortedGrinders()
-      .filter(g =>
+  const container = document.getElementById("grindersList");
 
-        String(
-          g.server_name || ""
-        )
-        .toLowerCase()
-        .includes(query)
-
-      );
-
-
-  document.getElementById(
-    "grindersList"
-  ).innerHTML =
-
-    list.length
-
-      ? list
-          .map(grinderHTML)
-          .join("")
-
-      : `
-        <div class="empty">
-          No grinders found.
-        </div>
-      `;
-
-}
-
-
-function openGrinderModal(){
-
-  document.getElementById(
-    "grinderModalTitle"
-  ).textContent =
-    "Add Grinder";
-
-
-  document.getElementById(
-    "grinderId"
-  ).value = "";
-
-
-  document.getElementById(
-    "grinderServer"
-  ).value = "";
-
-
-  document.getElementById(
-    "grinderFee"
-  ).value = "";
-
-
-  document.getElementById(
-    "grinderPaidUntil"
-  ).value =
-    toInputDate(
-      new Date()
-    );
-
-
-  document.getElementById(
-    "grinderDuration"
-  ).value =
-    7;
-
-
-  document.getElementById(
-    "grinderModal"
-  ).classList.add("open");
-
-}
-
-
-function editGrinder(id){
-
-  const g =
-    grinders.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!g){
+  if (!data.length) {
+    container.innerHTML =
+      `<div class="empty">No grinders found.</div>`;
     return;
   }
 
-
-  document.getElementById(
-    "grinderModalTitle"
-  ).textContent =
-    "Edit Grinder";
-
-
-  document.getElementById(
-    "grinderId"
-  ).value =
-    g.id;
-
-
-  document.getElementById(
-    "grinderServer"
-  ).value =
-    g.server_name || "";
-
-
-  document.getElementById(
-    "grinderFee"
-  ).value =
-    g.fee || 0;
-
-
-  document.getElementById(
-    "grinderPaidUntil"
-  ).value =
-    toInputDate(
-      g.paid_until
-    );
-
-
-  document.getElementById(
-    "grinderDuration"
-  ).value =
-    g.duration_days || 7;
-
-
-  document.getElementById(
-    "grinderModal"
-  ).classList.add("open");
-
+  container.innerHTML = data.map(grinderHTML).join("");
 }
 
+function openGrinderModal(id = null) {
 
-async function saveGrinder(){
+  document.getElementById("grinderModal").classList.add("show");
 
-  const id =
-    document.getElementById(
-      "grinderId"
-    ).value;
+  if (id === null) {
 
+    document.getElementById("grinderModalTitle").textContent =
+      "Add Grinder";
 
-  const duration =
-    Number(
-      document.getElementById(
-        "grinderDuration"
-      ).value || 7
-    );
+    document.getElementById("grinderId").value = "";
+    document.getElementById("grinderServer").value = "";
+    document.getElementById("grinderFee").value = "";
+    document.getElementById("grinderPaidUntil").value = "";
+    document.getElementById("grinderDuration").value = 7;
 
+  } else {
 
-  if(duration <= 0){
+    const g = grinders.find(x => String(x.id) === String(id));
 
-    showToast(
-      "Duration must be at least 1 day."
-    );
+    if (!g) return;
 
-    return;
+    document.getElementById("grinderModalTitle").textContent =
+      "Edit Grinder";
 
+    document.getElementById("grinderId").value = g.id;
+    document.getElementById("grinderServer").value = g.server_name || "";
+    document.getElementById("grinderFee").value = g.fee || 0;
+    document.getElementById("grinderPaidUntil").value =
+      toInputDate(g.paid_until);
+    document.getElementById("grinderDuration").value =
+      g.duration_days || 7;
   }
+}
 
+function editGrinder(id) {
+  openGrinderModal(id);
+}
+
+async function saveGrinder() {
+
+  const id = document.getElementById("grinderId").value;
+
+  const duration = Math.max(
+    1,
+    Number(document.getElementById("grinderDuration").value || 7)
+  );
 
   const payload = {
-
     server_name:
-      document.getElementById(
-        "grinderServer"
-      )
-      .value
-      .trim(),
+      document.getElementById("grinderServer").value.trim(),
 
     fee:
-      Number(
-        document.getElementById(
-          "grinderFee"
-        ).value || 0
-      ),
+      Number(document.getElementById("grinderFee").value || 0),
 
     paid_until:
-      document.getElementById(
-        "grinderPaidUntil"
-      ).value,
+      document.getElementById("grinderPaidUntil").value,
 
     duration_days:
       duration
-
   };
 
-
-  if(!payload.server_name){
-
-    showToast(
-      "Enter a server name."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    let result;
-
-
-    if(id){
-
-      result =
-        await supabaseClient
-          .from("grinder_fees")
-          .update(payload)
-          .eq("id",id)
-          .select("*")
-          .single();
-
-    }else{
-
-      result =
-        await supabaseClient
-          .from("grinder_fees")
-          .insert(payload)
-          .select("*")
-          .single();
-
-    }
-
-
-    if(result.error){
-      throw result.error;
-    }
-
-
-    closeModal(
-      "grinderModal"
-    );
-
-
-    showToast(
-      "Grinder saved."
-    );
-
-
-    await loadAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Failed to save grinder: " +
-      error.message
-    );
-
-  }
-
-}
-
-
-async function markGrinderPaid(id){
-
-  const g =
-    grinders.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!g){
+  if (!payload.server_name || !payload.paid_until) {
+    showToast("Please fill in all required fields.");
     return;
   }
 
+  let result;
 
-  const duration =
-    Number(
-      g.duration_days || 7
-    );
+  if (id) {
 
-
-  let current =
-    new Date(
-      g.paid_until
-    );
-
-
-  const now =
-    new Date();
-
-
-  if(current < now){
-    current = now;
-  }
-
-
-  current.setDate(
-    current.getDate() +
-    duration
-  );
-
-
-  const newDate =
-    current.toISOString();
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
+    result = await supabaseClient
       .from("grinder_fees")
-      .update({
-        paid_until:newDate
-      })
+      .update(payload)
       .eq("id",id)
       .select("*")
       .single();
 
+  } else {
 
-  if(error){
-
-    console.error(error);
-
-    showToast(
-      "Failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  grinders =
-    grinders.map(
-      x =>
-        String(x.id) ===
-        String(id)
-          ? data
-          : x
-    );
-
-
-  renderAll();
-
-
-  showToast(
-    `${g.server_name} paid. +${duration} days`
-  );
-
-}
-
-
-async function deleteGrinder(id){
-
-  if(!confirm(
-    "Delete this grinder?"
-  )){
-    return;
-  }
-
-
-  const {error} =
-    await supabaseClient
+    result = await supabaseClient
       .from("grinder_fees")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    showToast(
-      "Failed: " +
-      error.message
-    );
-
-    return;
-
+      .insert(payload)
+      .select("*")
+      .single();
   }
 
+  if (result.error) {
+    showToast(result.error.message);
+    return;
+  }
 
-  grinders =
-    grinders.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
+  closeModals();
+  showToast("Grinder saved.");
 
-
-  renderAll();
-
-
-  showToast(
-    "Grinder deleted."
-  );
-
+  await loadAll();
 }
 
+async function markGrinderPaid(id) {
 
-/* =========================================================
-   BADGES
-========================================================= */
+  const g = grinders.find(x => String(x.id) === String(id));
 
-function badgeHTML(b){
+  if (!g) return;
 
-  const gold =
-    percentage(
-      b.gold_current,
-      b.gold_required
-    );
+  const duration = Number(g.duration_days || 7);
 
+  let current = new Date(g.paid_until);
+  const now = new Date();
 
-  const platinum =
+  if (current < now) {
+    current = now;
+  }
+
+  current.setDate(current.getDate() + duration);
+
+  const newDate = current.toISOString();
+
+  const {error} = await supabaseClient
+    .from("grinder_fees")
+    .update({
+      paid_until:newDate
+    })
+    .eq("id",id);
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast(`Paid — next payment in ${duration} days.`);
+  await loadAll();
+}
+
+async function deleteGrinder(id) {
+
+  if (!confirm("Delete this grinder?")) return;
+
+  const {error} = await supabaseClient
+    .from("grinder_fees")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast("Grinder deleted.");
+  await loadAll();
+}
+
+/* BADGES */
+
+function badgeHTML(b) {
+
+  const gold = percentage(
+    b.gold_current,
+    b.gold_required
+  );
+
+  const platinum = percentage(
+    b.platinum_current,
     b.platinum_required
-      ? percentage(
-          b.platinum_current,
-          b.platinum_required
-        )
-      : 0;
+  );
 
-
-  const best =
-    Math.max(
-      gold,
-      platinum
-    );
-
+  const best = Math.max(gold,platinum);
 
   return `
+    <div class="item-card">
 
-    <div class="card">
-
-      <div class="card-top">
-
+      <div class="item-top">
         <div>
+          <strong>${escapeHTML(b.badge_name)}</strong>
 
-          <div class="card-title">
-            ${escapeHTML(
-              b.badge_name
-            )}
+          <div class="grinder-meta">
+            <span class="tag">Gold ${gold.toFixed(1)}%</span>
+            <span class="tag">Platinum ${platinum.toFixed(1)}%</span>
           </div>
-
-          <div class="card-sub">
-            ${best.toFixed(1)}%
-            complete
-          </div>
-
         </div>
 
-        <strong>
-          ${best.toFixed(0)}%
-        </strong>
+        <div class="actions">
+          <button class="btn" onclick="editBadge('${b.id}')">
+            Edit
+          </button>
 
+          <button class="btn danger" onclick="deleteBadge('${b.id}')">
+            Delete
+          </button>
+        </div>
       </div>
-
 
       <div class="progress-wrap">
-
-        <div class="progress-label">
-
-          <span>
-            Gold
-          </span>
-
-          <span>
-            ${Number(
-              b.gold_current || 0
-            ).toLocaleString()}
-
-            /
-
-            ${Number(
-              b.gold_required || 0
-            ).toLocaleString()}
-          </span>
-
+        <div class="progress-info">
+          <span>Best progress</span>
+          <span>${best.toFixed(1)}%</span>
         </div>
-
 
         <div class="progress">
-
-          <div
-            class="progress-bar"
-            style="width:${gold}%"
-          ></div>
-
+          <div class="progress-bar" style="width:${best}%"></div>
         </div>
-
-      </div>
-
-
-      ${
-        b.platinum_required
-
-          ? `
-
-            <div class="progress-wrap">
-
-              <div class="progress-label">
-
-                <span>
-                  Platinum
-                </span>
-
-                <span>
-
-                  ${Number(
-                    b.platinum_current || 0
-                  ).toLocaleString()}
-
-                  /
-
-                  ${Number(
-                    b.platinum_required || 0
-                  ).toLocaleString()}
-
-                </span>
-
-              </div>
-
-
-              <div class="progress">
-
-                <div
-                  class="progress-bar"
-                  style="width:${platinum}%"
-                ></div>
-
-              </div>
-
-            </div>
-
-          `
-
-          : ""
-      }
-
-
-      <div class="card-actions">
-
-        <button
-          class="btn"
-          onclick="editBadge('${b.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteBadge('${b.id}')"
-        >
-          Delete
-        </button>
-
       </div>
 
     </div>
-
   `;
-
 }
 
+function renderBadges() {
 
-function renderBadges(){
-
-  const query =
-    document
-      .getElementById(
-        "badgeSearch"
-      )
-      .value
+  const search =
+    document.getElementById("badgeSearch").value
       .toLowerCase()
       .trim();
 
-
-  const list =
-    sortedBadges()
-      .filter(b =>
-        String(
-          b.badge_name || ""
-        )
-        .toLowerCase()
-        .includes(query)
-      );
-
-
-  document.getElementById(
-    "badgesList"
-  ).innerHTML =
-
-    list.length
-
-      ? list
-          .map(badgeHTML)
-          .join("")
-
-      : `
-        <div class="empty">
-          No badges found.
-        </div>
-      `;
-
-}
-
-
-function openBadgeModal(){
-
-  document.getElementById(
-    "badgeModalTitle"
-  ).textContent =
-    "Add Badge";
-
-
-  document.getElementById(
-    "badgeId"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgeName"
-  ).value = "";
-
-
-  document.getElementById(
-    "badgeGoldCurrent"
-  ).value = 0;
-
-
-  document.getElementById(
-    "badgeGoldRequired"
-  ).value = 0;
-
-
-  document.getElementById(
-    "badgePlatinumCurrent"
-  ).value = 0;
-
-
-  document.getElementById(
-    "badgePlatinumRequired"
-  ).value = 0;
-
-
-  document.getElementById(
-    "badgeModal"
-  ).classList.add("open");
-
-}
-
-
-function editBadge(id){
-
-  const b =
-    badges.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!b){
-    return;
-  }
-
-
-  document.getElementById(
-    "badgeModalTitle"
-  ).textContent =
-    "Edit Badge";
-
-
-  document.getElementById(
-    "badgeId"
-  ).value =
-    b.id;
-
-
-  document.getElementById(
-    "badgeName"
-  ).value =
-    b.badge_name || "";
-
-
-  document.getElementById(
-    "badgeGoldCurrent"
-  ).value =
-    b.gold_current || 0;
-
-
-  document.getElementById(
-    "badgeGoldRequired"
-  ).value =
-    b.gold_required || 0;
-
-
-  document.getElementById(
-    "badgePlatinumCurrent"
-  ).value =
-    b.platinum_current || 0;
-
-
-  document.getElementById(
-    "badgePlatinumRequired"
-  ).value =
-    b.platinum_required || 0;
-
-
-  document.getElementById(
-    "badgeModal"
-  ).classList.add("open");
-
-}
-
-
-async function saveBadge(){
-
-  const id =
-    document.getElementById(
-      "badgeId"
-    ).value;
-
-
-  const payload = {
-
-    badge_name:
-      document.getElementById(
-        "badgeName"
-      )
-      .value
-      .trim(),
-
-    gold_current:
-      Number(
-        document.getElementById(
-          "badgeGoldCurrent"
-        ).value || 0
-      ),
-
-    gold_required:
-      Number(
-        document.getElementById(
-          "badgeGoldRequired"
-        ).value || 0
-      ),
-
-    platinum_current:
-      Number(
-        document.getElementById(
-          "badgePlatinumCurrent"
-        ).value || 0
-      ),
-
-    platinum_required:
-      Number(
-        document.getElementById(
-          "badgePlatinumRequired"
-        ).value || 0
-      )
-
-  };
-
-
-  if(!payload.badge_name){
-
-    showToast(
-      "Enter a badge name."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    let result;
-
-
-    if(id){
-
-      result =
-        await supabaseClient
-          .from("badges")
-          .update(payload)
-          .eq("id",id)
-          .select("*")
-          .single();
-
-    }else{
-
-      result =
-        await supabaseClient
-          .from("badges")
-          .insert(payload)
-          .select("*")
-          .single();
-
-    }
-
-
-    if(result.error){
-      throw result.error;
-    }
-
-
-    closeModal(
-      "badgeModal"
-    );
-
-
-    showToast(
-      "Badge saved."
-    );
-
-
-    await loadAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Failed to save badge: " +
-      error.message
-    );
-
-  }
-
-}
-
-
-async function deleteBadge(id){
-
-  if(!confirm(
-    "Delete this badge?"
-  )){
-    return;
-  }
-
-
-  const {error} =
-    await supabaseClient
-      .from("badges")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    showToast(
-      "Failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  badges =
-    badges.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-
-  showToast(
-    "Badge deleted."
+  const data = sortedBadges().filter(b =>
+    String(b.badge_name || "")
+      .toLowerCase()
+      .includes(search)
   );
 
+  const container = document.getElementById("badgesList");
+
+  if (!data.length) {
+    container.innerHTML =
+      `<div class="empty">No badges found.</div>`;
+    return;
+  }
+
+  container.innerHTML = data.map(badgeHTML).join("");
 }
 
+function openBadgeModal(id = null) {
 
-/* =========================================================
-   ACHIEVEMENTS
-========================================================= */
+  document.getElementById("badgeModal").classList.add("show");
 
-function achievementHTML(a){
+  if (id === null) {
 
-  const progress =
-    percentage(
-      a.current,
-      a.required
-    );
+    document.getElementById("badgeModalTitle").textContent =
+      "Add Badge";
 
+    document.getElementById("badgeId").value = "";
+    document.getElementById("badgeName").value = "";
+    document.getElementById("goldCurrent").value = 0;
+    document.getElementById("goldRequired").value = 0;
+    document.getElementById("platinumCurrent").value = 0;
+    document.getElementById("platinumRequired").value = 0;
+
+  } else {
+
+    const b = badges.find(x => String(x.id) === String(id));
+
+    if (!b) return;
+
+    document.getElementById("badgeModalTitle").textContent =
+      "Edit Badge";
+
+    document.getElementById("badgeId").value = b.id;
+    document.getElementById("badgeName").value = b.badge_name || "";
+    document.getElementById("goldCurrent").value =
+      b.gold_current || 0;
+    document.getElementById("goldRequired").value =
+      b.gold_required || 0;
+    document.getElementById("platinumCurrent").value =
+      b.platinum_current || 0;
+    document.getElementById("platinumRequired").value =
+      b.platinum_required || 0;
+  }
+}
+
+function editBadge(id) {
+  openBadgeModal(id);
+}
+
+async function saveBadge() {
+
+  const id = document.getElementById("badgeId").value;
+
+  const payload = {
+    badge_name:
+      document.getElementById("badgeName").value.trim(),
+
+    gold_current:
+      Number(document.getElementById("goldCurrent").value || 0),
+
+    gold_required:
+      Number(document.getElementById("goldRequired").value || 0),
+
+    platinum_current:
+      Number(document.getElementById("platinumCurrent").value || 0),
+
+    platinum_required:
+      Number(document.getElementById("platinumRequired").value || 0)
+  };
+
+  if (!payload.badge_name) {
+    showToast("Badge name is required.");
+    return;
+  }
+
+  let result;
+
+  if (id) {
+    result = await supabaseClient
+      .from("badges")
+      .update(payload)
+      .eq("id",id);
+  } else {
+    result = await supabaseClient
+      .from("badges")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    showToast(result.error.message);
+    return;
+  }
+
+  closeModals();
+  showToast("Badge saved.");
+  await loadAll();
+}
+
+async function deleteBadge(id) {
+
+  if (!confirm("Delete this badge?")) return;
+
+  const {error} = await supabaseClient
+    .from("badges")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast("Badge deleted.");
+  await loadAll();
+}
+
+/* ACHIEVEMENTS */
+
+function achievementHTML(a) {
+
+  const progress = percentage(
+    a.current,
+    a.required
+  );
 
   return `
+    <div class="item-card">
 
-    <div class="card">
-
-      <div class="card-top">
-
+      <div class="item-top">
         <div>
+          <strong>${escapeHTML(a.name)}</strong>
 
-          <div class="card-title">
-            ${escapeHTML(a.name)}
+          <div class="grinder-meta">
+            <span class="tag">
+              ${Number(a.current || 0).toLocaleString()}
+              /
+              ${Number(a.required || 0).toLocaleString()}
+            </span>
+
+            <span class="tag">
+              ${progress.toFixed(1)}%
+            </span>
           </div>
-
-          <div class="card-sub">
-
-            ${Number(
-              a.current || 0
-            ).toLocaleString()}
-
-            /
-
-            ${Number(
-              a.required || 0
-            ).toLocaleString()}
-
-          </div>
-
         </div>
 
+        <div class="actions">
+          <button class="btn" onclick="editAchievement('${a.id}')">
+            Edit
+          </button>
 
-        <strong>
-          ${progress.toFixed(0)}%
-        </strong>
-
+          <button class="btn danger" onclick="deleteAchievement('${a.id}')">
+            Delete
+          </button>
+        </div>
       </div>
 
-
       <div class="progress-wrap">
-
-        <div class="progress-label">
-
-          <span>
-            Progress
-          </span>
-
-          <span>
-            ${progress.toFixed(1)}%
-          </span>
-
-        </div>
-
-
         <div class="progress">
-
           <div
             class="progress-bar"
             style="width:${progress}%"
           ></div>
-
         </div>
-
-      </div>
-
-
-      <div class="card-actions">
-
-        <button
-          class="btn"
-          onclick="editAchievement('${a.id}')"
-        >
-          Edit
-        </button>
-
-        <button
-          class="btn danger"
-          onclick="deleteAchievement('${a.id}')"
-        >
-          Delete
-        </button>
-
       </div>
 
     </div>
-
   `;
-
 }
 
+function renderAchievements() {
 
-function renderAchievements(){
-
-  const query =
-    document
-      .getElementById(
-        "achievementSearch"
-      )
-      .value
+  const search =
+    document.getElementById("achievementSearch").value
       .toLowerCase()
       .trim();
 
+  const data = sortedAchievements().filter(a =>
+    String(a.name || "")
+      .toLowerCase()
+      .includes(search)
+  );
 
-  const list =
-    sortedAchievements()
-      .filter(a =>
-        String(
-          a.name || ""
-        )
-        .toLowerCase()
-        .includes(query)
-      );
+  const container =
+    document.getElementById("achievementsList");
 
-
-  document.getElementById(
-    "achievementsList"
-  ).innerHTML =
-
-    list.length
-
-      ? list
-          .map(achievementHTML)
-          .join("")
-
-      : `
-        <div class="empty">
-          No achievements found.
-        </div>
-      `;
-
-}
-
-
-function openAchievementModal(){
-
-  document.getElementById(
-    "achievementModalTitle"
-  ).textContent =
-    "Add Achievement";
-
-
-  document.getElementById(
-    "achievementId"
-  ).value = "";
-
-
-  document.getElementById(
-    "achievementName"
-  ).value = "";
-
-
-  document.getElementById(
-    "achievementCurrent"
-  ).value = 0;
-
-
-  document.getElementById(
-    "achievementRequired"
-  ).value = 0;
-
-
-  document.getElementById(
-    "achievementModal"
-  ).classList.add("open");
-
-}
-
-
-function editAchievement(id){
-
-  const a =
-    achievements.find(
-      x =>
-        String(x.id) ===
-        String(id)
-    );
-
-
-  if(!a){
+  if (!data.length) {
+    container.innerHTML =
+      `<div class="empty">No achievements found.</div>`;
     return;
   }
 
-
-  document.getElementById(
-    "achievementModalTitle"
-  ).textContent =
-    "Edit Achievement";
-
-
-  document.getElementById(
-    "achievementId"
-  ).value =
-    a.id;
-
-
-  document.getElementById(
-    "achievementName"
-  ).value =
-    a.name || "";
-
-
-  document.getElementById(
-    "achievementCurrent"
-  ).value =
-    a.current || 0;
-
-
-  document.getElementById(
-    "achievementRequired"
-  ).value =
-    a.required || 0;
-
-
-  document.getElementById(
-    "achievementModal"
-  ).classList.add("open");
-
+  container.innerHTML =
+    data.map(achievementHTML).join("");
 }
 
+function openAchievementModal(id = null) {
 
-async function saveAchievement(){
+  document.getElementById("achievementModal")
+    .classList.add("show");
+
+  if (id === null) {
+
+    document.getElementById("achievementModalTitle").textContent =
+      "Add Achievement";
+
+    document.getElementById("achievementId").value = "";
+    document.getElementById("achievementName").value = "";
+    document.getElementById("achievementCurrent").value = 0;
+    document.getElementById("achievementRequired").value = 0;
+
+  } else {
+
+    const a = achievements.find(
+      x => String(x.id) === String(id)
+    );
+
+    if (!a) return;
+
+    document.getElementById("achievementModalTitle").textContent =
+      "Edit Achievement";
+
+    document.getElementById("achievementId").value = a.id;
+    document.getElementById("achievementName").value =
+      a.name || "";
+    document.getElementById("achievementCurrent").value =
+      a.current || 0;
+    document.getElementById("achievementRequired").value =
+      a.required || 0;
+  }
+}
+
+function editAchievement(id) {
+  openAchievementModal(id);
+}
+
+async function saveAchievement() {
 
   const id =
-    document.getElementById(
-      "achievementId"
-    ).value;
-
+    document.getElementById("achievementId").value;
 
   const payload = {
-
     name:
-      document.getElementById(
-        "achievementName"
-      )
-      .value
-      .trim(),
+      document.getElementById("achievementName").value.trim(),
 
     current:
       Number(
-        document.getElementById(
-          "achievementCurrent"
-        ).value || 0
+        document.getElementById("achievementCurrent").value || 0
       ),
 
     required:
       Number(
-        document.getElementById(
-          "achievementRequired"
-        ).value || 0
+        document.getElementById("achievementRequired").value || 0
       )
-
   };
 
-
-  if(!payload.name){
-
-    showToast(
-      "Enter an achievement name."
-    );
-
+  if (!payload.name) {
+    showToast("Achievement name is required.");
     return;
-
   }
 
+  let result;
 
-  try{
-
-    let result;
-
-
-    if(id){
-
-      result =
-        await supabaseClient
-          .from("achievements")
-          .update(payload)
-          .eq("id",id)
-          .select("*")
-          .single();
-
-    }else{
-
-      result =
-        await supabaseClient
-          .from("achievements")
-          .insert(payload)
-          .select("*")
-          .single();
-
-    }
-
-
-    if(result.error){
-      throw result.error;
-    }
-
-
-    closeModal(
-      "achievementModal"
-    );
-
-
-    showToast(
-      "Achievement saved."
-    );
-
-
-    await loadAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      "Failed to save achievement: " +
-      error.message
-    );
-
+  if (id) {
+    result = await supabaseClient
+      .from("achievements")
+      .update(payload)
+      .eq("id",id);
+  } else {
+    result = await supabaseClient
+      .from("achievements")
+      .insert(payload);
   }
 
+  if (result.error) {
+    showToast(result.error.message);
+    return;
+  }
+
+  closeModals();
+  showToast("Achievement saved.");
+  await loadAll();
 }
 
+async function deleteAchievement(id) {
 
-async function deleteAchievement(id){
+  if (!confirm("Delete this achievement?")) return;
 
-  if(!confirm(
-    "Delete this achievement?"
-  )){
+  const {error} = await supabaseClient
+    .from("achievements")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    showToast(error.message);
     return;
   }
 
+  showToast("Achievement deleted.");
+  await loadAll();
+}
 
-  const {error} =
-    await supabaseClient
-      .from("achievements")
-      .delete()
-      .eq("id",id);
+/* STATISTICS */
 
+function renderStatistics() {
 
-  if(error){
-
-    showToast(
-      "Failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  achievements =
-    achievements.filter(
-      x =>
-        String(x.id) !==
-        String(id)
-    );
-
-
-  renderAll();
-
-
-  showToast(
-    "Achievement deleted."
+  const totalFees = grinders.reduce(
+    (sum,g) => sum + Number(g.fee || 0),
+    0
   );
 
+  document.getElementById("totalFees").textContent =
+    "RM" + formatMoney(totalFees);
+
+  const badgeAverage = badges.length
+    ? badges.reduce((sum,b) => sum + badgeScore(b),0) / badges.length
+    : 0;
+
+  const achievementAverage = achievements.length
+    ? achievements.reduce(
+        (sum,a) =>
+          sum + percentage(a.current,a.required),
+        0
+      ) / achievements.length
+    : 0;
+
+  document.getElementById("avgBadgeProgress").textContent =
+    badgeAverage.toFixed(1) + "%";
+
+  document.getElementById("avgAchievementProgress").textContent =
+    achievementAverage.toFixed(1) + "%";
+
+  document.getElementById("statsUpcoming").textContent =
+    grinders.filter(g =>
+      remainingMs(g.paid_until) <= 7 * 86400000
+    ).length;
+
+  const overview =
+    document.getElementById("progressOverview");
+
+  overview.innerHTML = `
+    <div style="margin-bottom:18px;">
+      <div class="progress-info">
+        <span>Badges</span>
+        <span>${badgeAverage.toFixed(1)}%</span>
+      </div>
+
+      <div class="progress">
+        <div
+          class="progress-bar"
+          style="width:${badgeAverage}%"
+        ></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="progress-info">
+        <span>Achievements</span>
+        <span>${achievementAverage.toFixed(1)}%</span>
+      </div>
+
+      <div class="progress">
+        <div
+          class="progress-bar"
+          style="width:${achievementAverage}%"
+        ></div>
+      </div>
+    </div>
+  `;
 }
 
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("open");
-
-}
-
-
-document
-  .querySelectorAll(".modal")
-  .forEach(modal => {
-
-    modal.addEventListener(
-      "click",
-      event => {
-
-        if(event.target === modal){
-
-          modal.classList.remove(
-            "open"
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* NAVIGATION */
 
 const pageTitles = {
-
-  dashboard:
-    "Dashboard",
-
-  statistics:
-    "Statistics",
-
-  grinders:
-    "Grinders",
-
-  badges:
-    "Badges",
-
-  achievements:
-    "Achievements"
-
+  dashboard:"Dashboard",
+  statistics:"Statistics",
+  grinders:"Grinders",
+  badges:"Badges",
+  achievements:"Achievements"
 };
 
+function navigate(page) {
 
-function openView(view){
+  document.querySelectorAll(".page")
+    .forEach(p => p.classList.remove("active"));
 
-  document
-    .querySelectorAll(".view")
-    .forEach(el =>
-      el.classList.remove(
-        "active"
-      )
-    );
-
-
-  document
-    .getElementById(view)
+  document.getElementById("page-" + page)
     .classList.add("active");
 
-
-  document
-    .querySelectorAll("[data-view]")
-    .forEach(btn =>
+  document.querySelectorAll("[data-page]")
+    .forEach(btn => {
       btn.classList.toggle(
         "active",
-        btn.dataset.view === view
-      )
-    );
+        btn.dataset.page === page
+      );
+    });
 
-
-  document.getElementById(
-    "pageTitle"
-  ).textContent =
-    pageTitles[view] || view;
-
+  document.getElementById("pageTitle").textContent =
+    pageTitles[page] || "Dashboard";
 }
 
-
-document
-  .querySelectorAll("[data-view]")
+document.querySelectorAll("[data-page]")
   .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        openView(
-          button.dataset.view
-        );
-
-      }
-    );
-
+    button.addEventListener("click",() => {
+      navigate(button.dataset.page);
+    });
   });
 
+/* SEARCH */
 
-/* =========================================================
-   SEARCH
-========================================================= */
+document.getElementById("grinderSearch")
+  .addEventListener("input",renderGrinders);
 
-document
-  .getElementById(
-    "grinderSearch"
-  )
-  .addEventListener(
-    "input",
-    renderGrinders
-  );
+document.getElementById("badgeSearch")
+  .addEventListener("input",renderBadges);
 
+document.getElementById("achievementSearch")
+  .addEventListener("input",renderAchievements);
 
-document
-  .getElementById(
-    "badgeSearch"
-  )
-  .addEventListener(
-    "input",
-    renderBadges
-  );
+/* MODALS */
 
+function closeModals() {
+  document.querySelectorAll(".modal")
+    .forEach(modal => modal.classList.remove("show"));
+}
 
-document
-  .getElementById(
-    "achievementSearch"
-  )
-  .addEventListener(
-    "input",
-    renderAchievements
-  );
+document.querySelectorAll(".modal")
+  .forEach(modal => {
+    modal.addEventListener("click",e => {
+      if (e.target === modal) {
+        closeModals();
+      }
+    });
+  });
 
+document.addEventListener("keydown",e => {
+  if (e.key === "Escape") {
+    closeModals();
+  }
+});
 
-/* =========================================================
-   LIVE COUNTDOWN
-========================================================= */
+/* LIVE COUNTDOWN */
 
-setInterval(
-  () => {
+setInterval(() => {
+  renderDashboard();
+  renderGrinders();
+},60000);
 
-    renderDashboard();
-
-    renderGrinders();
-
-  },
-  60000
-);
-
-
-/* =========================================================
-   START
-========================================================= */
+/* START */
 
 loadAll();
-
 </script>
 
 </body>
