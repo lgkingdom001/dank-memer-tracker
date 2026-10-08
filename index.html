@@ -1,92 +1,4750 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dank Memer Tracker</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-:root{--bg:#0d1117;--card:#161b22;--hover:#1b222c;--border:rgba(255,255,255,.08);--text:#f0f6fc;--muted:#8b949e;--purple:#a78bfa;--cyan:#67e8f9;--green:#4ade80;--orange:#fb923c;--red:#f87171;--shadow:0 12px 35px rgba(0,0,0,.25)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 0%,rgba(124,58,237,.12),transparent 30%),radial-gradient(circle at 90% 10%,rgba(34,211,238,.08),transparent 30%),var(--bg);color:var(--text);min-height:100vh}button,input{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.sidebar{width:235px;position:fixed;left:0;top:0;bottom:0;padding:24px 15px;background:rgba(13,17,23,.88);backdrop-filter:blur(18px);border-right:1px solid var(--border);z-index:20}.logo{font-size:21px;font-weight:800;padding:8px 12px 25px}.logo span,.stat-value{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;color:transparent}.nav{display:flex;flex-direction:column;gap:6px}.nav button{width:100%;text-align:left;color:var(--muted);background:transparent;border:1px solid transparent;padding:12px 14px;border-radius:11px;transition:.2s}.nav button:hover{color:var(--text);background:rgba(255,255,255,.04)}.nav button.active{color:#fff;background:linear-gradient(90deg,rgba(167,139,250,.18),rgba(103,232,249,.08));border-color:rgba(167,139,250,.18)}.main{margin-left:235px;width:calc(100% - 235px);padding:28px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.header h1{margin:0;font-size:28px}.status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(74,222,128,.7)}.status-dot.error{background:var(--red);box-shadow:0 0 10px rgba(248,113,113,.7)}.mobile-nav{display:none}.page{display:none}.page.active{display:block}.card,.stat-card,.item-card{background:rgba(22,27,34,.82);border:1px solid var(--border);backdrop-filter:blur(14px);box-shadow:var(--shadow);border-radius:16px;transition:.2s;animation:fade .45s ease both}.card:hover,.stat-card:hover,.item-card:hover{transform:translateY(-3px);border-color:rgba(167,139,250,.18)}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}.stat-card{padding:20px}.stat-label{color:var(--muted);font-size:13px;margin-bottom:9px}.stat-value{font-size:26px;font-weight:800}.section{margin-top:24px}.section-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px}.section-header h2{margin:0;font-size:18px}.search{width:240px;max-width:100%;padding:10px 13px;border-radius:10px;color:var(--text);background:rgba(255,255,255,.035);border:1px solid var(--border);outline:none}.search:focus,.form-group input:focus{border-color:rgba(167,139,250,.5)}.list{display:grid;gap:12px}.item-card{padding:17px}.item-top{display:flex;align-items:center;justify-content:space-between;gap:15px}.item-title{display:flex;align-items:center;gap:12px;min-width:0}.item-title strong{font-size:15px;word-break:break-word}.server-icon{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0;background:#202630;border:1px solid var(--border)}.server-placeholder{display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(135deg,var(--purple),var(--cyan));color:#0d1117}.actions{display:flex;gap:7px;flex-shrink:0}.btn{border:1px solid var(--border);background:rgba(255,255,255,.045);color:var(--text);border-radius:9px;padding:8px 11px;transition:.2s}.btn:hover{background:rgba(255,255,255,.09)}.btn.primary{border:0;color:white;background:linear-gradient(135deg,#8b5cf6,#06b6d4)}.btn.danger{color:#fecaca}.grinder-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{font-size:12px;color:#dbeafe;padding:5px 9px;border-radius:999px;background:linear-gradient(90deg,rgba(167,139,250,.16),rgba(103,232,249,.1));border:1px solid rgba(167,139,250,.12)}.countdown{font-weight:800;margin-top:10px}.timer-safe{color:var(--green)}.timer-warning{color:var(--orange)}.timer-danger{color:var(--red);animation:pulse 1.3s infinite}@keyframes pulse{50%{opacity:.55}}.progress-wrap{margin-top:14px}.progress-info{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:7px}.progress{height:9px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}.progress-bar{height:100%;border-radius:inherit;background:linear-gradient(90deg,#a78bfa,#67e8f9);transition:width .5s}.empty{padding:35px 20px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:15px}.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.65);backdrop-filter:blur(7px);z-index:100}.modal.show{display:flex}.modal-box{width:min(500px,100%);max-height:90vh;overflow:auto;background:rgba(22,27,34,.95);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 25px 80px rgba(0,0,0,.55)}.modal-box h2{margin:0 0 20px}.form-group{margin-bottom:14px}.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.form-group input{width:100%;padding:11px 12px;color:var(--text);background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:9px;outline:none}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}.toast{position:fixed;right:20px;bottom:20px;padding:12px 16px;background:rgba(22,27,34,.95);border:1px solid var(--border);border-radius:11px;box-shadow:0 15px 40px rgba(0,0,0,.35);opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s;z-index:200}.toast.show{opacity:1;transform:none}@media(max-width:950px){.stats-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.sidebar{display:none}.main{margin:0;width:100%;padding:18px 14px 85px}.header h1{font-size:23px}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;padding:7px;gap:4px;background:rgba(13,17,23,.94);backdrop-filter:blur(18px);border-top:1px solid var(--border)}.mobile-nav button{flex:1;border:0;background:transparent;color:var(--muted);padding:9px 3px;border-radius:9px;font-size:11px}.mobile-nav button.active{color:#fff;background:rgba(167,139,250,.12)}.section-header{align-items:flex-start;flex-direction:column}.search{width:100%}}@media(max-width:450px){.stats-grid{grid-template-columns:1fr}.item-top{flex-direction:column}.actions{width:100%;justify-content:flex-start}}
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#080a12;
+  --panel:#111827;
+  --panel2:#151d2f;
+  --border:#273149;
+  --text:#f7f8fc;
+  --muted:#8c98b2;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+  --green:#22c55e;
+  --orange:#f59e0b;
+  --red:#ef4444;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#21173b,#080a12 42%);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.side{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:235px;
+  background:#080b13f2;
+  border-right:1px solid var(--border);
+  padding:20px 14px;
+  z-index:10;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:950;
+  padding:8px 10px 25px;
+  background:linear-gradient(
+    90deg,
+    #fff,
+    #a78bfa,
+    #22d3ee
+  );
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.nav{
+  display:grid;
+  gap:6px;
+}
+
+.nav button{
+  border:0;
+  background:none;
+  color:var(--muted);
+  font-weight:800;
+  border-radius:11px;
+  padding:12px;
+  text-align:left;
+}
+
+.nav button.active,
+.nav button:hover{
+  color:#fff;
+  background:#8b5cf61f;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:235px;
+  padding:28px;
+  max-width:1550px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.top h1{
+  margin:0;
+  font-size:30px;
+}
+
+.top p{
+  margin:5px 0;
+  color:var(--muted);
+}
+
+.status{
+  border:1px solid var(--border);
+  border-radius:99px;
+  padding:8px 12px;
+  color:var(--muted);
+  height:max-content;
+  white-space:nowrap;
+}
+
+.ok{
+  color:#86efac;
+}
+
+.bad{
+  color:#fca5a5;
+}
+
+/* PAGES */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* CARDS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.card,
+.item,
+.server,
+.raffle{
+  background:
+    linear-gradient(
+      145deg,
+      #111827f2,
+      #0c111df2
+    );
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+}
+
+.label{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.big{
+  font-size:27px;
+  font-weight:950;
+  margin-top:7px;
+}
+
+/* HEADERS */
+
+.head,
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.head{
+  margin:27px 0 13px;
+}
+
+.head h2{
+  margin:0;
+  font-size:19px;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:1px solid var(--border);
+  background:#182136;
+  color:#fff;
+  border-radius:9px;
+  padding:8px 12px;
+  font-weight:800;
+}
+
+.btn.primary{
+  border:0;
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #0891b2
+    );
+}
+
+.btn.danger{
+  background:#35151b;
+  border-color:#65202a;
+  color:#fecaca;
+}
+
+.btn.sm{
+  padding:6px 9px;
+  font-size:11px;
+}
+
+/* LISTS */
+
+.list{
+  display:grid;
+  gap:10px;
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#0f1625d9;
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.icon{
+  width:42px;
+  height:42px;
+  flex:none;
+  border-radius:11px;
+  background:#202a40;
+  display:grid;
+  place-items:center;
+  font-weight:950;
+  color:#c4b5fd;
+  object-fit:cover;
+}
+
+.name{
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.right{
+  text-align:right;
+}
+
+.money{
+  font-weight:950;
+}
+
+.timer{
+  font-size:12px;
+  font-weight:900;
+  margin-top:3px;
+}
+
+.green{
+  color:#4ade80;
+}
+
+.orange{
+  color:#fbbf24;
+}
+
+.red{
+  color:#f87171;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.actions{
+  display:flex;
+  gap:5px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  margin-top:7px;
+}
+
+/* PROGRESS */
+
+.progress{
+  width:240px;
+}
+
+.bar{
+  height:8px;
+  background:#202a40;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  background:
+    linear-gradient(
+      90deg,
+      var(--purple),
+      var(--cyan)
+    );
+  border-radius:99px;
+}
+
+.meta{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+/* GRIDS */
+
+.grid2,
+.badgegrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+
+.servers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.server{
+  cursor:pointer;
+  transition:.15s;
+}
+
+.server:hover{
+  border-color:#52617f;
+  transform:translateY(-1px);
+}
+
+.server .icon{
+  width:48px;
+  height:48px;
+}
+
+.serverStats{
+  display:flex;
+  justify-content:space-between;
+  margin-top:13px;
+  font-size:11px;
+}
+
+.pos{
+  color:#4ade80;
+}
+
+.neg{
+  color:#f87171;
+}
+
+/* RAFFLES */
+
+.raffleTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.pill{
+  padding:5px 8px;
+  border-radius:99px;
+  font-size:10px;
+  font-weight:950;
+  height:max-content;
+}
+
+.win{
+  background:#0d3c25;
+  color:#86efac;
+}
+
+.loss{
+  background:#42161b;
+  color:#fca5a5;
+}
+
+.pending{
+  background:#3d320e;
+  color:#fde68a;
+}
+
+.values{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.val{
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:9px;
+  background:#0a0f19;
+}
+
+.val span{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.val b{
+  display:block;
+  margin-top:3px;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000b;
+  z-index:50;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.open{
+  display:flex;
+}
+
+.box{
+  width:min(550px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#111827;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:20px;
+}
+
+.box h3{
+  margin-top:0;
+}
+
+.form{
+  display:grid;
+  gap:11px;
+}
+
+.field{
+  display:grid;
+  gap:5px;
+}
+
+.field label{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  background:#090e18;
+  border:1px solid var(--border);
+  color:#fff;
+  border-radius:9px;
+  padding:10px;
+}
+
+.field textarea{
+  min-height:75px;
+  resize:vertical;
+}
+
+.modalActions{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+}
+
+/* EMPTY */
+
+.empty{
+  padding:25px;
+  text-align:center;
+  border:1px dashed var(--border);
+  border-radius:13px;
+  color:var(--muted);
+}
+
+/* MOBILE NAV */
+
+.mobile{
+  display:none;
+}
+
+/* ANIMATION */
+
+.pulse{
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    box-shadow:
+      0 0 0 5px #ef444414;
+  }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .side{
+    display:none;
+  }
+
+  .main{
+    margin:0;
+    padding:17px 15px 80px;
+  }
+
+  .mobile{
+    position:fixed;
+    display:flex;
+    z-index:10;
+    bottom:0;
+    left:0;
+    right:0;
+    height:64px;
+    background:#080a12f7;
+    border-top:1px solid var(--border);
+    justify-content:space-around;
+  }
+
+  .mobile button{
+    border:0;
+    background:none;
+    color:var(--muted);
+    font-size:9px;
+    padding:4px;
+    font-weight:800;
+  }
+
+  .mobile button.active{
+    color:#fff;
+    background:#8b5cf61f;
+  }
+
+  .mobile span{
+    display:block;
+    font-size:17px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .servers{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .progress{
+    width:160px;
+  }
+}
+
+@media(max-width:560px){
+
+  .top h1{
+    font-size:24px;
+  }
+
+  .servers,
+  .grid2,
+  .badgegrid{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .right{
+    text-align:left;
+  }
+
+  .actions{
+    justify-content:flex-start;
+  }
+
+  .progress{
+    width:100%;
+  }
+
+  .values{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .values .val:last-child{
+    grid-column:1/-1;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
-<aside class="sidebar"><div class="logo">Dank <span>Tracker</span></div><nav class="nav"><button data-page="dashboard" class="active">Dashboard</button><button data-page="statistics">Statistics</button><button data-page="grinders">Grinders</button><button data-page="badges">Badges</button><button data-page="achievements">Achievements</button></nav></aside>
-<main class="main"><header class="header"><h1 id="pageTitle">Dashboard</h1><div class="status"><span class="status-dot" id="statusDot"></span><span id="databaseStatus">Connecting...</span></div></header>
-<section class="page active" id="page-dashboard"><div class="stats-grid"><div class="stat-card"><div class="stat-label">Grinders</div><div class="stat-value" id="dashboardGrinders">0</div></div><div class="stat-card"><div class="stat-label">Upcoming Payments</div><div class="stat-value" id="dashboardPayments">0</div></div><div class="stat-card"><div class="stat-label">Badges</div><div class="stat-value" id="dashboardBadges">0</div></div><div class="stat-card"><div class="stat-label">Achievements</div><div class="stat-value" id="dashboardAchievements">0</div></div></div><div class="section"><div class="section-header"><h2>Upcoming Grinder Payments</h2></div><div id="dashboardUpcoming" class="list"></div></div></section>
-<section class="page" id="page-statistics"><div class="stats-grid"><div class="stat-card"><div class="stat-label">Total Grinder Fees</div><div class="stat-value" id="totalFees">⏣0</div></div><div class="stat-card"><div class="stat-label">Average Badge Progress</div><div class="stat-value" id="avgBadgeProgress">0%</div></div><div class="stat-card"><div class="stat-label">Average Achievement Progress</div><div class="stat-value" id="avgAchievementProgress">0%</div></div><div class="stat-card"><div class="stat-label">Upcoming Payments</div><div class="stat-value" id="statsUpcoming">0</div></div></div><div class="card" style="padding:20px;margin-top:22px"><div class="section-header"><h2>Progress Overview</h2></div><div id="progressOverview"></div></div></section>
-<section class="page" id="page-grinders"><div class="section-header"><h2>Grinders</h2><div style="display:flex;gap:8px;width:100%;justify-content:flex-end"><input class="search" id="grinderSearch" placeholder="Search grinders..."><button class="btn primary" onclick="openGrinderModal()">+ Add</button></div></div><div id="grindersList" class="list"></div></section>
-<section class="page" id="page-badges"><div class="section-header"><h2>Badges</h2><div style="display:flex;gap:8px;width:100%;justify-content:flex-end"><input class="search" id="badgeSearch" placeholder="Search badges..."><button class="btn primary" onclick="openBadgeModal()">+ Add</button></div></div><div id="badgesList" class="list"></div></section>
-<section class="page" id="page-achievements"><div class="section-header"><h2>Achievements</h2><div style="display:flex;gap:8px;width:100%;justify-content:flex-end"><input class="search" id="achievementSearch" placeholder="Search achievements..."><button class="btn primary" onclick="openAchievementModal()">+ Add</button></div></div><div id="achievementsList" class="list"></div></section>
-</main></div>
-<nav class="mobile-nav"><button data-page="dashboard" class="active">Home</button><button data-page="statistics">Stats</button><button data-page="grinders">Grinders</button><button data-page="badges">Badges</button><button data-page="achievements">Achieve</button></nav>
-<div class="modal" id="grinderModal"><div class="modal-box"><h2 id="grinderModalTitle">Add Grinder</h2><input type="hidden" id="grinderId"><div class="form-group"><label>Server Name</label><input id="grinderServer"></div><div class="form-group"><label>Fee</label><input id="grinderFee" type="number"></div><div class="form-group"><label>Paid Until</label><input id="grinderPaidUntil" type="datetime-local"></div><div class="form-group"><label>Duration (days)</label><input id="grinderDuration" type="number" min="1" value="7"></div><div class="modal-actions"><button class="btn" onclick="closeModals()">Cancel</button><button class="btn primary" onclick="saveGrinder()">Save</button></div></div></div>
-<div class="modal" id="badgeModal"><div class="modal-box"><h2 id="badgeModalTitle">Add Badge</h2><input type="hidden" id="badgeId"><div class="form-group"><label>Badge Name</label><input id="badgeName"></div><div class="form-group"><label>Gold Current</label><input id="goldCurrent" type="number"></div><div class="form-group"><label>Gold Required</label><input id="goldRequired" type="number"></div><div class="form-group"><label>Platinum Current</label><input id="platinumCurrent" type="number"></div><div class="form-group"><label>Platinum Required</label><input id="platinumRequired" type="number"></div><div class="modal-actions"><button class="btn" onclick="closeModals()">Cancel</button><button class="btn primary" onclick="saveBadge()">Save</button></div></div></div>
-<div class="modal" id="achievementModal"><div class="modal-box"><h2 id="achievementModalTitle">Add Achievement</h2><input type="hidden" id="achievementId"><div class="form-group"><label>Name</label><input id="achievementName"></div><div class="form-group"><label>Current</label><input id="achievementCurrent" type="number"></div><div class="form-group"><label>Required</label><input id="achievementRequired" type="number"></div><div class="modal-actions"><button class="btn" onclick="closeModals()">Cancel</button><button class="btn primary" onclick="saveAchievement()">Save</button></div></div></div>
-<div class="toast" id="toast"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="side">
+
+  <div class="logo">
+    DANK TRACKER
+  </div>
+
+  <nav class="nav">
+
+    <button data-page="dashboard" class="active">
+      ◈ Dashboard
+    </button>
+
+    <button data-page="statistics">
+      ◉ Statistics
+    </button>
+
+    <button data-page="grinders">
+      💰 Grinders
+    </button>
+
+    <button data-page="heists">
+      ⏰ Heists
+    </button>
+
+    <button data-page="raffles">
+      🎰 Raffles
+    </button>
+
+    <button data-page="badges">
+      ◆ Badges
+    </button>
+
+    <button data-page="achievements">
+      ★ Achievements
+    </button>
+
+  </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+  <div class="top">
+
+    <div>
+      <h1 id="title">
+        Dashboard
+      </h1>
+
+      <p id="subtitle">
+        Your Dank Memer progress at a glance.
+      </p>
+    </div>
+
+    <div id="status" class="status">
+      Connecting...
+    </div>
+
+  </div>
+
+
+  <!-- DASHBOARD -->
+
+  <section id="page-dashboard" class="page active">
+
+    <div class="stats">
+
+      <div class="card">
+        <div class="label">
+          GRINDERS
+        </div>
+
+        <div id="sGrinders" class="big">
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          WEEKLY FEES
+        </div>
+
+        <div id="sFees" class="big">
+          ⏣0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          RAFFLE NET
+        </div>
+
+        <div id="sRaffle" class="big">
+          ⏣0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          ACHIEVEMENTS
+        </div>
+
+        <div id="sAch" class="big">
+          0
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="head">
+
+      <h2>
+        Closest Grinder Payments
+      </h2>
+
+      <button
+        class="btn primary"
+        onclick="grinderModal()"
+      >
+        + Add Grinder
+      </button>
+
+    </div>
+
+    <div
+      id="dashGrinders"
+      class="list"
+    ></div>
+
+
+    <div class="head">
+
+      <h2>
+        Heist Timer
+      </h2>
+
+      <button
+        class="btn"
+        onclick="page('heists')"
+      >
+        View all
+      </button>
+
+    </div>
+
+    <div
+      id="dashHeists"
+      class="list"
+    ></div>
+
+
+    <div class="head">
+
+      <h2>
+        Closest Achievements
+      </h2>
+
+      <button
+        class="btn"
+        onclick="page('achievements')"
+      >
+        View all
+      </button>
+
+    </div>
+
+    <div
+      id="dashAch"
+      class="list"
+    ></div>
+
+  </section>
+
+
+  <!-- STATISTICS -->
+
+  <section
+    id="page-statistics"
+    class="page"
+  >
+
+    <div class="stats">
+
+      <div class="card">
+        <div class="label">
+          WEEKLY FEES
+        </div>
+
+        <div
+          id="stFees"
+          class="big"
+        >
+          ⏣0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          AVG BADGE
+        </div>
+
+        <div
+          id="stBadge"
+          class="big"
+        >
+          0%
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          AVG ACHIEVEMENT
+        </div>
+
+        <div
+          id="stAch"
+          class="big"
+        >
+          0%
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          RAFFLE NET
+        </div>
+
+        <div
+          id="stRaffle"
+          class="big"
+        >
+          ⏣0
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="head">
+      <h2>
+        Raffle Statistics
+      </h2>
+    </div>
+
+
+    <div class="stats">
+
+      <div class="card">
+        <div class="label">
+          RAFFLES
+        </div>
+
+        <div
+          id="rCount"
+          class="big"
+        >
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          WINS
+        </div>
+
+        <div
+          id="rWins"
+          class="big"
+        >
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          LOSSES
+        </div>
+
+        <div
+          id="rLoss"
+          class="big"
+        >
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">
+          TOTAL ENTERED
+        </div>
+
+        <div
+          id="rEntered"
+          class="big"
+        >
+          ⏣0
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- GRINDERS -->
+
+  <section
+    id="page-grinders"
+    class="page"
+  >
+
+    <div class="toolbar">
+
+      <span class="muted">
+        Nearest due first.
+      </span>
+
+      <button
+        class="btn primary"
+        onclick="grinderModal()"
+      >
+        + Add Grinder
+      </button>
+
+    </div>
+
+    <div
+      id="grinders"
+      class="list"
+    ></div>
+
+  </section>
+
+
+  <!-- HEISTS -->
+
+  <section
+    id="page-heists"
+    class="page"
+  >
+
+    <div class="toolbar">
+
+      <span class="muted">
+        Nearest ending first. Countdown updates every second.
+      </span>
+
+      <button
+        class="btn primary"
+        onclick="heistModal()"
+      >
+        + Add Heist
+      </button>
+
+    </div>
+
+    <div
+      id="heists"
+      class="list"
+    ></div>
+
+  </section>
+
+
+  <!-- RAFFLES -->
+
+  <section
+    id="page-raffles"
+    class="page"
+  >
+
+    <div
+      id="raffleHome"
+    >
+
+      <div class="toolbar">
+
+        <span class="muted">
+          Click a server to see its raffles.
+        </span>
+
+        <button
+          class="btn primary"
+          onclick="raffleModal()"
+        >
+          + Add Raffle
+        </button>
+
+      </div>
+
+      <div
+        id="servers"
+        class="servers"
+      ></div>
+
+    </div>
+
+
+    <div
+      id="raffleServer"
+      style="display:none"
+    >
+
+      <button
+        class="btn"
+        onclick="raffleHome()"
+      >
+        ← All Servers
+      </button>
+
+      <div class="head">
+
+        <div>
+
+          <h2 id="serverTitle"></h2>
+
+          <div
+            id="serverSub"
+            class="muted"
+          ></div>
+
+        </div>
+
+        <button
+          class="btn primary"
+          onclick="raffleModal()"
+        >
+          + Add Raffle
+        </button>
+
+      </div>
+
+      <div
+        id="serverRaffles"
+        class="list"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BADGES -->
+
+  <section
+    id="page-badges"
+    class="page"
+  >
+
+    <div class="toolbar">
+
+      <span class="muted">
+        Highest progress first. Bot-synced data is auto-refreshed.
+      </span>
+
+      <button
+        class="btn primary"
+        onclick="badgeModal()"
+      >
+        + Add Badge
+      </button>
+
+    </div>
+
+    <div
+      id="badges"
+      class="badgegrid"
+    ></div>
+
+  </section>
+
+
+  <!-- ACHIEVEMENTS -->
+
+  <section
+    id="page-achievements"
+    class="page"
+  >
+
+    <div class="toolbar">
+
+      <span class="muted">
+        Closest to completion first. Bot-synced data is auto-refreshed.
+      </span>
+
+      <button
+        class="btn primary"
+        onclick="achievementModal()"
+      >
+        + Add Achievement
+      </button>
+
+    </div>
+
+    <div
+      id="achievements"
+      class="list"
+    ></div>
+
+  </section>
+
+</main>
+
+</div>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile">
+
+  <button
+    data-page="dashboard"
+    class="active"
+  >
+    <span>◈</span>
+    Home
+  </button>
+
+  <button data-page="statistics">
+    <span>◉</span>
+    Stats
+  </button>
+
+  <button data-page="grinders">
+    <span>💰</span>
+    Grind
+  </button>
+
+  <button data-page="heists">
+    <span>⏰</span>
+    Heist
+  </button>
+
+  <button data-page="raffles">
+    <span>🎰</span>
+    Raffle
+  </button>
+
+  <button data-page="badges">
+    <span>◆</span>
+    Badge
+  </button>
+
+  <button data-page="achievements">
+    <span>★</span>
+    Achieve
+  </button>
+
+</nav>
+
+
+<!-- MODAL -->
+
+<div
+  id="modal"
+  class="modal"
+  onclick="if(event.target===this)closeModal()"
+>
+
+  <div class="box">
+
+    <h3 id="modalTitle"></h3>
+
+    <div id="modalBody"></div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="toast"
+  class="status"
+  style="
+    display:none;
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:100;
+    background:#151d2f;
+  "
+></div>
+
+
 <script>
-const SUPABASE_URL="https://acfbuegbalkdajregyhi.supabase.co";
-const SUPABASE_KEY="sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let grinders=[],badges=[],achievements=[];
-const grinderDefaults=[
-{server_name:"Lunar Society",fee:49000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
-{server_name:"Heist Circle",fee:45500000,paid_until:"2026-12-15T23:59:59",duration_days:7},
-{server_name:"Special",fee:56000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
-{server_name:"The Dimension",fee:49000000,paid_until:"2026-12-16T23:59:59",duration_days:7},
-{server_name:"Members Den",fee:42000000,paid_until:"2026-12-12T23:59:59",duration_days:7},
-{server_name:"The Kingdom",fee:49000000,paid_until:"2026-12-19T23:59:59",duration_days:7},
-{server_name:"Heavenly",fee:49000000,paid_until:"2026-10-11T23:59:59",duration_days:7},
-{server_name:"REALM",fee:49000000,paid_until:"2026-10-09T23:59:59",duration_days:7},
-{server_name:"The Hideout",fee:77000000,paid_until:"2026-11-13T23:59:59",duration_days:7},
-{server_name:"Dank Beast",fee:84000000,paid_until:"2026-10-12T23:59:59",duration_days:7},
-{server_name:"Dank Craft",fee:70000000,paid_until:"2026-10-14T23:59:59",duration_days:7}];
-const serverIcons={"Lunar Society":"server-icons/lunar-society.png","The Dimension":"server-icons/the-dimension.jpg","Members Den":"server-icons/memers-den.png"};
-function escapeHTML(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
-function percentage(c,r){if(Number(r)<=0)return 0;return Math.min(100,Number(c||0)/Number(r)*100)}
-function formatMoney(v){v=Number(v||0);if(v>=1e12)return(v/1e12).toFixed(2).replace(/\.00$/,"T")+"T";if(v>=1e9)return(v/1e9).toFixed(2).replace(/\.00$/,"M")+"B";if(v>=1e6)return(v/1e6).toFixed(2).replace(/\.00$/,"M")+"M";if(v>=1e3)return(v/1e3).toFixed(2).replace(/\.00$/,"K")+"K";return v.toLocaleString()}
-function formatDate(v){if(!v)return"—";return new Date(v).toLocaleString("en-MY",{dateStyle:"medium",timeStyle:"short"})}
-function toInputDate(v){if(!v)return"";const d=new Date(v),p=n=>String(n).padStart(2,"0");return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`}
-function remainingMs(v){return new Date(v).getTime()-Date.now()}
-function countdown(v){const ms=remainingMs(v);if(ms<=0)return{text:"OVERDUE",className:"timer-danger"};const s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);let text=d?`${d}d ${h}h remaining`:h?`${h}h ${m}m remaining`:`${m}m remaining`;return{text,className:ms<86400000?"timer-danger":ms<=7*86400000?"timer-warning":"timer-safe"}}
-function showToast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2500)}
-function setDatabaseStatus(ok,m){document.getElementById("statusDot").classList.toggle("error",!ok);document.getElementById("databaseStatus").textContent=m}
-function sortedGrinders(){return[...grinders].sort((a,b)=>new Date(a.paid_until)-new Date(b.paid_until))}
-function badgeScore(b){return Math.max(percentage(b.gold_current,b.gold_required),percentage(b.platinum_current,b.platinum_required))}
-function sortedBadges(){return[...badges].sort((a,b)=>badgeScore(b)-badgeScore(a))}
-function sortedAchievements(){return[...achievements].sort((a,b)=>percentage(b.current,b.required)-percentage(a.current,a.required))}
-async function loadAll(){setDatabaseStatus(true,"Loading...");const[g,b,a]=await Promise.all([supabaseClient.from("grinder_fees").select("*"),supabaseClient.from("badges").select("*"),supabaseClient.from("achievements").select("*")]);let errors=[];if(g.error)errors.push("Grinders");if(b.error)errors.push("Badges");if(a.error)errors.push("Achievements");if(!g.error){grinders=g.data||[];if(!grinders.length){const r=await supabaseClient.from("grinder_fees").insert(grinderDefaults).select("*");if(!r.error)grinders=r.data||[]}}if(!b.error)badges=b.data||[];if(!a.error)achievements=a.data||[];setDatabaseStatus(!errors.length,errors.length?"Some tables failed":"Database connected");if(errors.length)showToast("Failed: "+errors.join(", "));renderAll()}
-function renderAll(){renderDashboard();renderStatistics();renderGrinders();renderBadges();renderAchievements()}
-function renderDashboard(){document.getElementById("dashboardGrinders").textContent=grinders.length;const u=sortedGrinders().filter(g=>remainingMs(g.paid_until)<=7*86400000);document.getElementById("dashboardPayments").textContent=u.length;document.getElementById("dashboardBadges").textContent=badges.length;document.getElementById("dashboardAchievements").textContent=achievements.length;document.getElementById("dashboardUpcoming").innerHTML=u.length?u.slice(0,5).map(grinderHTML).join(""):`<div class="empty">No grinder payments due within 7 days.</div>`}
-function grinderHTML(g){const t=countdown(g.paid_until),icon=serverIcons[g.server_name],iconHTML=icon?`<img class="server-icon" src="${icon}" alt="">`:`<div class="server-icon server-placeholder">${escapeHTML((g.server_name||"?")[0].toUpperCase())}</div>`;return`<div class="item-card"><div class="item-top"><div class="item-title">${iconHTML}<div><strong>${escapeHTML(g.server_name)}</strong><div class="grinder-meta"><span class="tag">⏣${formatMoney(g.fee)}</span><span class="tag">${g.duration_days||7} days</span><span class="tag">${formatDate(g.paid_until)}</span></div><div class="countdown ${t.className}">${t.text}</div></div></div><div class="actions"><button class="btn primary" onclick="markGrinderPaid('${g.id}')">Paid</button><button class="btn" onclick="editGrinder('${g.id}')">Edit</button><button class="btn danger" onclick="deleteGrinder('${g.id}')">Delete</button></div></div></div>`}
-function renderGrinders(){const s=document.getElementById("grinderSearch").value.toLowerCase().trim(),d=sortedGrinders().filter(g=>String(g.server_name||"").toLowerCase().includes(s));document.getElementById("grindersList").innerHTML=d.length?d.map(grinderHTML).join(""):`<div class="empty">No grinders found.</div>`}
-function openGrinderModal(id=null){document.getElementById("grinderModal").classList.add("show");if(id===null){grinderModalTitle.textContent="Add Grinder";grinderId.value="";grinderServer.value="";grinderFee.value="";grinderPaidUntil.value="";grinderDuration.value=7}else{const g=grinders.find(x=>String(x.id)===String(id));if(!g)return;grinderModalTitle.textContent="Edit Grinder";grinderId.value=g.id;grinderServer.value=g.server_name||"";grinderFee.value=g.fee||0;grinderPaidUntil.value=toInputDate(g.paid_until);grinderDuration.value=g.duration_days||7}}
-function editGrinder(id){openGrinderModal(id)}
-async function saveGrinder(){const id=grinderId.value,duration=Math.max(1,Number(grinderDuration.value||7)),payload={server_name:grinderServer.value.trim(),fee:Number(grinderFee.value||0),paid_until:grinderPaidUntil.value,duration_days:duration};if(!payload.server_name||!payload.paid_until)return showToast("Please fill in all required fields.");const r=id?await supabaseClient.from("grinder_fees").update(payload).eq("id",id).select("*").single():await supabaseClient.from("grinder_fees").insert(payload).select("*").single();if(r.error)return showToast(r.error.message);closeModals();showToast("Grinder saved.");loadAll()}
-async function markGrinderPaid(id){const g=grinders.find(x=>String(x.id)===String(id));if(!g)return;let d=new Date(g.paid_until),now=new Date();if(d<now)d=now;d.setDate(d.getDate()+Number(g.duration_days||7));const r=await supabaseClient.from("grinder_fees").update({paid_until:d.toISOString()}).eq("id",id);if(r.error)return showToast(r.error.message);showToast(`Paid — next payment in ${g.duration_days||7} days.`);loadAll()}
-async function deleteGrinder(id){if(!confirm("Delete this grinder?"))return;const r=await supabaseClient.from("grinder_fees").delete().eq("id",id);if(r.error)return showToast(r.error.message);showToast("Grinder deleted.");loadAll()}
-function badgeHTML(b){const gold=percentage(b.gold_current,b.gold_required),plat=percentage(b.platinum_current,b.platinum_required),best=Math.max(gold,plat),goldDone=gold>=100,platDone=plat>=100;return`<div class="item-card"><div class="item-top"><div><strong>${escapeHTML(b.name)}</strong><div class="grinder-meta"><span class="tag">Gold ${gold.toFixed(1)}%</span>${b.platinum_required!=null?`<span class="tag">Platinum ${plat.toFixed(1)}%</span>`:""}${goldDone?`<span class="tag">Gold ✓</span>`:""}${platDone?`<span class="tag">Platinum ✓</span>`:""}</div></div><div class="actions"><button class="btn" onclick="editBadge('${b.id}')">Edit</button><button class="btn danger" onclick="deleteBadge('${b.id}')">Delete</button></div></div><div class="progress-wrap"><div class="progress-info"><span>Best progress</span><span>${best.toFixed(1)}%</span></div><div class="progress"><div class="progress-bar" style="width:${best}%"></div></div></div></div>`}
-function renderBadges(){const s=document.getElementById("badgeSearch").value.toLowerCase().trim(),d=sortedBadges().filter(b=>String(b.name||"").toLowerCase().includes(s));document.getElementById("badgesList").innerHTML=d.length?d.map(badgeHTML).join(""):`<div class="empty">No badges found.</div>`}
-function openBadgeModal(id=null){document.getElementById("badgeModal").classList.add("show");if(id===null){badgeModalTitle.textContent="Add Badge";badgeId.value="";badgeName.value="";goldCurrent.value=0;goldRequired.value=0;platinumCurrent.value=0;platinumRequired.value=0}else{const b=badges.find(x=>String(x.id)===String(id));if(!b)return;badgeModalTitle.textContent="Edit Badge";badgeId.value=b.id;badgeName.value=b.name||"";goldCurrent.value=b.gold_current||0;goldRequired.value=b.gold_required||0;platinumCurrent.value=b.platinum_current||0;platinumRequired.value=b.platinum_required||0}}
-function editBadge(id){openBadgeModal(id)}
-async function saveBadge(){const id=badgeId.value,payload={name:badgeName.value.trim(),gold_current:Number(goldCurrent.value||0),gold_required:Number(goldRequired.value||0),platinum_current:Number(platinumCurrent.value||0),platinum_required:Number(platinumRequired.value||0),completed:Number(goldCurrent.value||0)>=Number(goldRequired.value||0)};if(!payload.name)return showToast("Badge name is required.");const r=id?await supabaseClient.from("badges").update(payload).eq("id",id):await supabaseClient.from("badges").insert(payload);if(r.error)return showToast(r.error.message);closeModals();showToast("Badge saved.");loadAll()}
-async function deleteBadge(id){if(!confirm("Delete this badge?"))return;const r=await supabaseClient.from("badges").delete().eq("id",id);if(r.error)return showToast(r.error.message);showToast("Badge deleted.");loadAll()}
-function achievementHTML(a){const p=percentage(a.current,a.required),done=p>=100;return`<div class="item-card"><div class="item-top"><div><strong>${escapeHTML(a.name)}</strong><div class="grinder-meta"><span class="tag">${Number(a.current||0).toLocaleString()} / ${Number(a.required||0).toLocaleString()}</span><span class="tag">${p.toFixed(1)}%</span>${done?`<span class="tag">Completed ✓</span>`:""}</div></div><div class="actions"><button class="btn" onclick="editAchievement('${a.id}')">Edit</button><button class="btn danger" onclick="deleteAchievement('${a.id}')">Delete</button></div></div><div class="progress-wrap"><div class="progress"><div class="progress-bar" style="width:${p}%"></div></div></div></div>`}
-function renderAchievements(){const s=document.getElementById("achievementSearch").value.toLowerCase().trim(),d=sortedAchievements().filter(a=>String(a.name||"").toLowerCase().includes(s));document.getElementById("achievementsList").innerHTML=d.length?d.map(achievementHTML).join(""):`<div class="empty">No achievements found.</div>`}
-function openAchievementModal(id=null){document.getElementById("achievementModal").classList.add("show");if(id===null){achievementModalTitle.textContent="Add Achievement";achievementId.value="";achievementName.value="";achievementCurrent.value=0;achievementRequired.value=0}else{const a=achievements.find(x=>String(x.id)===String(id));if(!a)return;achievementModalTitle.textContent="Edit Achievement";achievementId.value=a.id;achievementName.value=a.name||"";achievementCurrent.value=a.current||0;achievementRequired.value=a.required||0}}
-function editAchievement(id){openAchievementModal(id)}
-async function saveAchievement(){const id=achievementId.value,payload={name:achievementName.value.trim(),current:Number(achievementCurrent.value||0),required:Number(achievementRequired.value||0),completed:Number(achievementCurrent.value||0)>=Number(achievementRequired.value||0)};if(!payload.name)return showToast("Achievement name is required.");const r=id?await supabaseClient.from("achievements").update(payload).eq("id",id):await supabaseClient.from("achievements").insert(payload);if(r.error)return showToast(r.error.message);closeModals();showToast("Achievement saved.");loadAll()}
-async function deleteAchievement(id){if(!confirm("Delete this achievement?"))return;const r=await supabaseClient.from("achievements").delete().eq("id",id);if(r.error)return showToast(r.error.message);showToast("Achievement deleted.");loadAll()}
-function renderStatistics(){const total=grinders.reduce((s,g)=>s+Number(g.fee||0),0),ba=badges.length?badges.reduce((s,b)=>s+badgeScore(b),0)/badges.length:0,aa=achievements.length?achievements.reduce((s,a)=>s+percentage(a.current,a.required),0)/achievements.length:0;totalFees.textContent="⏣"+formatMoney(total);avgBadgeProgress.textContent=ba.toFixed(1)+"%";avgAchievementProgress.textContent=aa.toFixed(1)+"%";statsUpcoming.textContent=grinders.filter(g=>remainingMs(g.paid_until)<=7*86400000).length;progressOverview.innerHTML=`<div style="margin-bottom:18px"><div class="progress-info"><span>Badges</span><span>${ba.toFixed(1)}%</span></div><div class="progress"><div class="progress-bar" style="width:${ba}%"></div></div></div><div><div class="progress-info"><span>Achievements</span><span>${aa.toFixed(1)}%</span></div><div class="progress"><div class="progress-bar" style="width:${aa}%"></div></div></div>`}
-const pageTitles={dashboard:"Dashboard",statistics:"Statistics",grinders:"Grinders",badges:"Badges",achievements:"Achievements"};function navigate(p){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById("page-"+p).classList.add("active");document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));document.getElementById("pageTitle").textContent=pageTitles[p]||"Dashboard"}
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
-["grinderSearch","badgeSearch","achievementSearch"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{if(id==="grinderSearch")renderGrinders();if(id==="badgeSearch")renderBadges();if(id==="achievementSearch")renderAchievements()}));
-function closeModals(){document.querySelectorAll(".modal").forEach(m=>m.classList.remove("show"))}document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModals()}));document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModals()});
-setInterval(()=>{renderDashboard();renderGrinders()},60000);
-/* Supabase realtime: website updates when the Discord bot writes a change. */
-supabaseClient.channel("tracker-live").on("postgres_changes",{event:"*",schema:"public",table:"achievements"},()=>loadAll()).on("postgres_changes",{event:"*",schema:"public",table:"badges"},()=>loadAll()).on("postgres_changes",{event:"*",schema:"public",table:"grinder_fees"},()=>loadAll()).subscribe();
-loadAll();
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://acfbuegbalkdajregyhi.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_1lY2QetLi82VKWUmS3OM9Q_5J3EE1Vt";
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+let grinders = [];
+let heists = [];
+let badges = [];
+let achievements = [];
+let raffles = [];
+
+let activeServer = null;
+
+
+/* =========================================================
+   SERVER ICONS
+========================================================= */
+
+const serverIcons = {
+
+  "Lunar Society":
+    "server-icons/lunar-society.png",
+
+  "The Dimension":
+    "server-icons/the-dimension.jpg",
+
+  "Members Den":
+    "server-icons/memers-den.png"
+
+};
+
+
+/* =========================================================
+   DEFAULT GRINDERS
+========================================================= */
+
+const grinderDefaults = [
+
+  ["Crazy dankers",56000000],
+
+  ["Special",56000000],
+
+  ["The Kingdom",49000000],
+
+  ["Members Den",42000000],
+
+  ["Dank Beast",84000000],
+
+  ["The Hideout",77000000],
+
+  ["Heavenly",49000000],
+
+  ["Lost Citadel",49000000],
+
+  ["The Verse",56000000],
+
+  ["Heist Circle",45500000],
+
+  ["The Dimension",49000000],
+
+  ["Dank Victor",49000000],
+
+  ["Meme Empire",70000000],
+
+  ["Lunar Society",49000000]
+
+];
+
+
+/* =========================================================
+   PAGE INFORMATION
+========================================================= */
+
+const pageInfo = {
+
+  dashboard:[
+    "Dashboard",
+    "Your Dank Memer progress at a glance."
+  ],
+
+  statistics:[
+    "Statistics",
+    "Overview of your tracker data."
+  ],
+
+  grinders:[
+    "Grinders",
+    "Manage fees and renewal dates."
+  ],
+
+  heists:[
+    "Heist Timer",
+    "Live countdowns for your heists."
+  ],
+
+  raffles:[
+    "Raffles",
+    "Server-based raffle win/loss tracking."
+  ],
+
+  badges:[
+    "Badges",
+    "Track Gold and Platinum progress."
+  ],
+
+  achievements:[
+    "Achievements",
+    "Track your achievement progress."
+  ]
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g, char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char]));
+
+}
+
+
+/* =========================================================
+   MONEY FORMAT
+========================================================= */
+
+function formatMoney(value){
+
+  value = Number(value || 0);
+
+  if(value >= 1e12){
+
+    return (
+      value / 1e12
+    ).toFixed(2)
+      .replace(/\.00$/,"")
+      + "T";
+
+  }
+
+  if(value >= 1e9){
+
+    return (
+      value / 1e9
+    ).toFixed(2)
+      .replace(/\.00$/,"")
+      + "B";
+
+  }
+
+  if(value >= 1e6){
+
+    return (
+      value / 1e6
+    ).toFixed(2)
+      .replace(/\.00$/,"")
+      + "M";
+
+  }
+
+  if(value >= 1e3){
+
+    return (
+      value / 1e3
+    ).toFixed(2)
+      .replace(/\.00$/,"")
+      + "K";
+
+  }
+
+  return value.toLocaleString();
+
+}
+
+
+/* =========================================================
+   MONEY INPUT PARSER
+
+   Supports:
+   5k
+   500k
+   5m
+   500m
+   1b
+   1.5b
+   1t
+========================================================= */
+
+function parseAmount(value){
+
+  if(typeof value === "number")
+    return value;
+
+  let text =
+    String(value || "")
+      .toLowerCase()
+      .replace(/,/g,"")
+      .trim();
+
+  const match =
+    text.match(
+      /^([\d.]+)\s*([kmbt])?$/
+    );
+
+  if(!match)
+    return Number(text) || 0;
+
+  const number =
+    Number(match[1]);
+
+  const multiplier = {
+
+    k:1e3,
+
+    m:1e6,
+
+    b:1e9,
+
+    t:1e12
+
+  }[match[2]] || 1;
+
+  return number * multiplier;
+
+}
+
+
+/* =========================================================
+   PERCENTAGE
+========================================================= */
+
+function percentage(current,required){
+
+  required = Number(required || 0);
+
+  if(required <= 0)
+    return 0;
+
+  return Math.min(
+    100,
+    Math.max(
+      0,
+      (Number(current || 0) / required) * 100
+    )
+  );
+
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function timestamp(value){
+
+  const time =
+    new Date(value).getTime();
+
+  return Number.isFinite(time)
+    ? time
+    : Infinity;
+
+}
+
+
+function formatDate(value){
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date))
+    return "Invalid date";
+
+  return date.toLocaleString(
+    undefined,
+    {
+      month:"short",
+      day:"numeric",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+function inputDateTime(value){
+
+  let date =
+    new Date(value);
+
+  if(isNaN(date))
+    date = new Date();
+
+  const pad =
+    n => String(n).padStart(2,"0");
+
+  return (
+    date.getFullYear()
+    + "-"
+    + pad(date.getMonth()+1)
+    + "-"
+    + pad(date.getDate())
+    + "T"
+    + pad(date.getHours())
+    + ":"
+    + pad(date.getMinutes())
+  );
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function countdown(value){
+
+  const difference =
+    timestamp(value) - Date.now();
+
+  if(!Number.isFinite(difference))
+    return ["Invalid","red"];
+
+  if(difference <= 0)
+    return ["OVERDUE","red"];
+
+  let seconds =
+    Math.floor(difference / 1000);
+
+  const days =
+    Math.floor(seconds / 86400);
+
+  seconds %= 86400;
+
+  const hours =
+    Math.floor(seconds / 3600);
+
+  seconds %= 3600;
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const secs =
+    seconds % 60;
+
+
+  let text;
+
+  if(days > 0){
+
+    text =
+      `${days}d ${hours}h`;
+
+  }else if(hours > 0){
+
+    text =
+      `${hours}h ${minutes}m`;
+
+  }else if(minutes > 0){
+
+    text =
+      `${minutes}m ${secs}s`;
+
+  }else{
+
+    text =
+      `${secs}s`;
+
+  }
+
+
+  let colour =
+    "green";
+
+  if(days < 1)
+    colour = "red";
+
+  else if(days < 7)
+    colour = "orange";
+
+
+  return [text,colour];
+
+}
+
+
+/* =========================================================
+   SERVER ICON
+========================================================= */
+
+function serverIcon(name){
+
+  if(serverIcons[name]){
+
+    return `
+      <img
+        class="icon"
+        src="${escapeHTML(serverIcons[name])}"
+        onerror="
+          this.outerHTML=
+          '<div class=icon>${escapeHTML(
+            String(name).charAt(0)
+          )}</div>'
+        "
+      >
+    `;
+
+  }
+
+  return `
+    <div class="icon">
+      ${escapeHTML(
+        String(name).charAt(0).toUpperCase()
+      )}
+    </div>
+  `;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  const element =
+    $("toast");
+
+  element.textContent =
+    message;
+
+  element.style.display =
+    "block";
+
+  setTimeout(
+    () => {
+      element.style.display =
+        "none";
+    },
+    2500
+  );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(title,body){
+
+  $("modalTitle").textContent =
+    title;
+
+  $("modalBody").innerHTML =
+    body;
+
+  $("modal").classList.add("open");
+
+}
+
+
+function closeModal(){
+
+  $("modal").classList.remove("open");
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(text,success){
+
+  $("status").textContent =
+    text;
+
+  $("status").className =
+    "status " +
+    (success ? "ok" : "bad");
+
+}
+
+
+/* =========================================================
+   LOAD ALL DATA
+========================================================= */
+
+async function loadData(){
+
+  setStatus(
+    "Auto syncing...",
+    false
+  );
+
+
+  const results =
+    await Promise.all([
+
+      db
+        .from("grinder_fees")
+        .select("*"),
+
+      db
+        .from("heists")
+        .select("*"),
+
+      db
+        .from("badges")
+        .select("*"),
+
+      db
+        .from("achievements")
+        .select("*"),
+
+      db
+        .from("raffles")
+        .select("*")
+
+    ]);
+
+
+  grinders =
+    results[0].error
+      ? []
+      : results[0].data || [];
+
+
+  heists =
+    results[1].error
+      ? []
+      : results[1].data || [];
+
+
+  badges =
+    results[2].error
+      ? []
+      : results[2].data || [];
+
+
+  achievements =
+    results[3].error
+      ? []
+      : results[3].data || [];
+
+
+  raffles =
+    results[4].error
+      ? []
+      : results[4].data || [];
+
+
+  /*
+    Only seed grinders when the table is
+    genuinely empty.
+  */
+
+  if(
+    !results[0].error &&
+    grinders.length === 0
+  ){
+
+    await seedGrinders();
+
+  }
+
+
+  const unavailable =
+    results.some(
+      result => result.error
+    );
+
+
+  if(unavailable){
+
+    setStatus(
+      "Some tables unavailable",
+      false
+    );
+
+    console.error(
+      results
+        .filter(x => x.error)
+        .map(x => x.error)
+    );
+
+  }else{
+
+    setStatus(
+      "Auto-synced",
+      true
+    );
+
+  }
+
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   SEED DEFAULT GRINDERS
+========================================================= */
+
+async function seedGrinders(){
+
+  const rows =
+    grinderDefaults.map(
+      ([server,fee]) => ({
+
+        server_name:
+          server,
+
+        fee:
+          fee,
+
+        paid_until:
+          new Date(
+            Date.now() + 7 * 86400000
+          ).toISOString(),
+
+        duration_days:
+          7
+
+      })
+    );
+
+
+  const result =
+    await db
+      .from("grinder_fees")
+      .insert(rows);
+
+
+  if(result.error){
+
+    console.error(
+      "Could not seed grinders:",
+      result.error
+    );
+
+    return;
+
+  }
+
+
+  const refreshed =
+    await db
+      .from("grinder_fees")
+      .select("*");
+
+
+  grinders =
+    refreshed.data || [];
+
+}
+
+
+/* =========================================================
+   SORTING
+========================================================= */
+
+function sortedGrinders(){
+
+  return [...grinders].sort(
+    (a,b) =>
+      timestamp(a.paid_until)
+      -
+      timestamp(b.paid_until)
+  );
+
+}
+
+
+function sortedHeists(){
+
+  return [...heists].sort(
+    (a,b) =>
+      timestamp(a.end_time)
+      -
+      timestamp(b.end_time)
+  );
+
+}
+
+
+/*
+  Badge sorting:
+  closest Gold OR Platinum completion
+*/
+
+function badgeScore(badge){
+
+  return Math.max(
+
+    percentage(
+      badge.gold_current,
+      badge.gold_required
+    ),
+
+    percentage(
+      badge.platinum_current,
+      badge.platinum_required
+    )
+
+  );
+
+}
+
+
+function sortedBadges(){
+
+  return [...badges].sort(
+    (a,b) =>
+      badgeScore(b)
+      -
+      badgeScore(a)
+  );
+
+}
+
+
+/*
+  Achievement sorting:
+  closest to 100%
+*/
+
+function sortedAchievements(){
+
+  return [...achievements].sort(
+    (a,b) =>
+      percentage(
+        b.current,
+        b.required
+      )
+      -
+      percentage(
+        a.current,
+        a.required
+      )
+  );
+
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+========================================================= */
+
+function renderAll(){
+
+  renderDashboard();
+
+  renderGrinders();
+
+  renderHeists();
+
+  renderBadges();
+
+  renderAchievements();
+
+  renderRaffles();
+
+  renderStatistics();
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+  $("sGrinders").textContent =
+    grinders.length;
+
+
+  $("sFees").textContent =
+    "⏣" +
+    formatMoney(
+      grinders.reduce(
+        (total,item) =>
+          total + Number(item.fee || 0),
+        0
+      )
+    );
+
+
+  $("sRaffle").textContent =
+    signedMoney(
+      raffleNet()
+    );
+
+
+  $("sAch").textContent =
+    achievements.length;
+
+
+  $("dashGrinders").innerHTML =
+    sortedGrinders()
+      .slice(0,6)
+      .map(grinderCard)
+      .join("")
+      ||
+      empty("No grinders.");
+
+
+  $("dashHeists").innerHTML =
+    sortedHeists()
+      .slice(0,4)
+      .map(heistCard)
+      .join("")
+      ||
+      empty("No heists.");
+
+
+  $("dashAch").innerHTML =
+    sortedAchievements()
+      .slice(0,4)
+      .map(achievementCard)
+      .join("")
+      ||
+      empty("No achievements.");
+
+}
+
+
+/* =========================================================
+   GRINDER CARD
+========================================================= */
+
+function grinderCard(item){
+
+  const timer =
+    countdown(item.paid_until);
+
+  const urgent =
+    timer[1] === "red"
+      ? "pulse"
+      : "";
+
+
+  return `
+
+    <div class="row ${urgent}">
+
+      <div class="left">
+
+        ${serverIcon(item.server_name)}
+
+        <div>
+
+          <div class="name">
+            ${escapeHTML(item.server_name)}
+          </div>
+
+          <div class="sub">
+            ${formatDate(item.paid_until)}
+            ·
+            ${item.duration_days || 7} days
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="right">
+
+        <div class="money">
+          ⏣${formatMoney(item.fee)}
+        </div>
+
+        <div class="timer ${timer[1]}">
+          ${timer[0]}
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="btn sm"
+            onclick="renewGrinder('${escapeHTML(item.id)}')"
+          >
+            Pay / Renew
+          </button>
+
+          <button
+            class="btn sm"
+            onclick="grinderModal('${escapeHTML(item.id)}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn sm danger"
+            onclick="deleteRow(
+              'grinder_fees',
+              '${escapeHTML(item.id)}'
+            )"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   HEIST CARD
+========================================================= */
+
+function heistCard(item){
+
+  const timer =
+    countdown(item.end_time);
+
+  const urgent =
+    timer[1] === "red"
+      ? "pulse"
+      : "";
+
+
+  return `
+
+    <div class="row ${urgent}">
+
+      <div class="left">
+
+        ${serverIcon(item.name)}
+
+        <div>
+
+          <div class="name">
+            ${escapeHTML(item.name)}
+          </div>
+
+          <div class="sub">
+            ${escapeHTML(
+              item.notes || "Heist"
+            )}
+            ·
+            ${formatDate(item.end_time)}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="right">
+
+        <div class="timer ${timer[1]}">
+          ${timer[0]}
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="btn sm"
+            onclick="heistModal('${escapeHTML(item.id)}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn sm danger"
+            onclick="deleteRow(
+              'heists',
+              '${escapeHTML(item.id)}'
+            )"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   BADGE CARD
+========================================================= */
+
+function badgeCard(item){
+
+  const progress =
+    badgeScore(item);
+
+
+  return `
+
+    <div class="item">
+
+      <div
+        class="head"
+        style="margin:0"
+      >
+
+        <b>
+          ${escapeHTML(item.badge_name)}
+        </b>
+
+        <span>
+          ${progress.toFixed(1)}%
+        </span>
+
+      </div>
+
+
+      <div
+        class="bar"
+        style="margin-top:12px"
+      >
+
+        <div
+          class="fill"
+          style="width:${progress}%"
+        ></div>
+
+      </div>
+
+
+      <div class="meta">
+
+        <span>
+          Gold
+          ${Number(
+            item.gold_current || 0
+          ).toLocaleString()}
+          /
+          ${Number(
+            item.gold_required || 0
+          ).toLocaleString()}
+        </span>
+
+        <span>
+          Platinum
+          ${Number(
+            item.platinum_current || 0
+          ).toLocaleString()}
+          /
+          ${Number(
+            item.platinum_required || 0
+          ).toLocaleString()}
+        </span>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn sm"
+          onclick="
+            badgeAdd(
+              '${escapeHTML(item.id)}',
+              'gold',
+              1
+            )
+          "
+        >
+          Gold +1
+        </button>
+
+
+        <button
+          class="btn sm"
+          onclick="
+            badgeCustom(
+              '${escapeHTML(item.id)}',
+              'gold'
+            )
+          "
+        >
+          Gold Custom
+        </button>
+
+
+        <button
+          class="btn sm"
+          onclick="
+            badgeAdd(
+              '${escapeHTML(item.id)}',
+              'platinum',
+              1
+            )
+          "
+        >
+          Plat +1
+        </button>
+
+
+        <button
+          class="btn sm"
+          onclick="
+            badgeCustom(
+              '${escapeHTML(item.id)}',
+              'platinum'
+            )
+          "
+        >
+          Plat Custom
+        </button>
+
+
+        <button
+          class="btn sm"
+          onclick="
+            badgeModal(
+              '${escapeHTML(item.id)}'
+            )
+          "
+        >
+          Edit
+        </button>
+
+
+        <button
+          class="btn sm danger"
+          onclick="
+            deleteRow(
+              'badges',
+              '${escapeHTML(item.id)}'
+            )
+          "
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENT CARD
+========================================================= */
+
+function achievementCard(item){
+
+  const progress =
+    percentage(
+      item.current,
+      item.required
+    );
+
+
+  return `
+
+    <div class="row">
+
+      <div class="left">
+
+        <div class="icon">
+          ★
+        </div>
+
+        <div>
+
+          <div class="name">
+            ${escapeHTML(item.name)}
+          </div>
+
+          <div class="sub">
+            ${Number(
+              item.current || 0
+            ).toLocaleString()}
+            /
+            ${Number(
+              item.required || 0
+            ).toLocaleString()}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="progress">
+
+        <div class="bar">
+
+          <div
+            class="fill"
+            style="width:${progress}%"
+          ></div>
+
+        </div>
+
+
+        <div class="meta">
+
+          <span>
+            ${progress.toFixed(1)}%
+          </span>
+
+          <span>
+
+            <button
+              class="btn sm"
+              onclick="
+                achievementAdd(
+                  '${escapeHTML(item.id)}',
+                  1
+                )
+              "
+            >
+              +1
+            </button>
+
+
+            <button
+              class="btn sm"
+              onclick="
+                achievementCustom(
+                  '${escapeHTML(item.id)}'
+                )
+              "
+            >
+              Custom
+            </button>
+
+
+            <button
+              class="btn sm"
+              onclick="
+                achievementModal(
+                  '${escapeHTML(item.id)}'
+                )
+              "
+            >
+              Edit
+            </button>
+
+
+            <button
+              class="btn sm danger"
+              onclick="
+                deleteRow(
+                  'achievements',
+                  '${escapeHTML(item.id)}'
+                )
+              "
+            >
+              Delete
+            </button>
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER PAGES
+========================================================= */
+
+function renderGrinders(){
+
+  $("grinders").innerHTML =
+    sortedGrinders()
+      .map(grinderCard)
+      .join("")
+      ||
+      empty("No grinders.");
+
+}
+
+
+function renderHeists(){
+
+  $("heists").innerHTML =
+    sortedHeists()
+      .map(heistCard)
+      .join("")
+      ||
+      empty("No heists.");
+
+}
+
+
+function renderBadges(){
+
+  $("badges").innerHTML =
+    sortedBadges()
+      .map(badgeCard)
+      .join("")
+      ||
+      empty("No badges.");
+
+}
+
+
+function renderAchievements(){
+
+  $("achievements").innerHTML =
+    sortedAchievements()
+      .map(achievementCard)
+      .join("")
+      ||
+      empty("No achievements.");
+
+}
+
+
+/* =========================================================
+   RAFFLE PROFIT
+========================================================= */
+
+function raffleProfit(item){
+
+  const result =
+    String(
+      item.result || ""
+    ).toLowerCase();
+
+
+  if(
+    result === "win" ||
+    result === "won"
+  ){
+
+    return (
+      Number(
+        item.amount_received || 0
+      )
+      -
+      Number(
+        item.amount_entered || 0
+      )
+    );
+
+  }
+
+
+  if(
+    result === "loss" ||
+    result === "lost"
+  ){
+
+    return -Number(
+      item.amount_entered || 0
+    );
+
+  }
+
+
+  return 0;
+
+}
+
+
+function raffleNet(){
+
+  return raffles.reduce(
+    (total,item) =>
+      total + raffleProfit(item),
+    0
+  );
+
+}
+
+
+function signedMoney(value){
+
+  return (
+    value >= 0
+      ? "+"
+      : "-"
+  )
+  + "⏣"
+  + formatMoney(
+    Math.abs(value)
+  );
+
+}
+
+
+/* =========================================================
+   RENDER RAFFLES
+========================================================= */
+
+function renderRaffles(){
+
+  const grouped = {};
+
+
+  raffles.forEach(item => {
+
+    const server =
+      item.server_name ||
+      "Unknown Server";
+
+    if(!grouped[server])
+      grouped[server] = [];
+
+    grouped[server].push(item);
+
+  });
+
+
+  const servers =
+    Object.entries(grouped);
+
+
+  $("servers").innerHTML =
+    servers
+      .map(
+        ([server,items]) => {
+
+          const net =
+            items.reduce(
+              (total,item) =>
+                total + raffleProfit(item),
+              0
+            );
+
+
+          const wins =
+            items.filter(
+              item =>
+                ["win","won"]
+                  .includes(
+                    String(
+                      item.result
+                    ).toLowerCase()
+                  )
+            ).length;
+
+
+          return `
+
+            <div
+              class="server"
+              onclick="
+                openRaffleServer(
+                  ${JSON.stringify(server)}
+                )
+              "
+            >
+
+              <div class="left">
+
+                ${serverIcon(server)}
+
+                <div>
+
+                  <div class="name">
+                    ${escapeHTML(server)}
+                  </div>
+
+                  <div class="sub">
+                    ${items.length}
+                    raffle${items.length === 1 ? "" : "s"}
+                    ·
+                    ${wins} wins
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="serverStats">
+
+                <span class="muted">
+                  NET
+                </span>
+
+                <b
+                  class="${
+                    net > 0
+                      ? "pos"
+                      : net < 0
+                        ? "neg"
+                        : ""
+                  }"
+                >
+                  ${signedMoney(net)}
+                </b>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("")
+      ||
+      empty(
+        "No raffles yet. Add one."
+      );
+
+}
+
+
+/* =========================================================
+   OPEN RAFFLE SERVER
+========================================================= */
+
+function openRaffleServer(server){
+
+  activeServer =
+    server;
+
+
+  $("raffleHome")
+    .style.display =
+    "none";
+
+
+  $("raffleServer")
+    .style.display =
+    "block";
+
+
+  const items =
+    raffles.filter(
+      item =>
+        (
+          item.server_name ||
+          "Unknown Server"
+        ) === server
+    );
+
+
+  const net =
+    items.reduce(
+      (total,item) =>
+        total + raffleProfit(item),
+      0
+    );
+
+
+  $("serverTitle").textContent =
+    server;
+
+
+  $("serverSub").textContent =
+    `${items.length} raffle${
+      items.length === 1
+        ? ""
+        : "s"
+    } · Net ${signedMoney(net)}`;
+
+
+  $("serverRaffles").innerHTML =
+    items
+      .sort(
+        (a,b) =>
+          new Date(
+            b.date ||
+            b.created_at
+          ).getTime()
+          -
+          new Date(
+            a.date ||
+            a.created_at
+          ).getTime()
+      )
+      .map(raffleCard)
+      .join("")
+      ||
+      empty("No raffles.");
+
+}
+
+
+/* =========================================================
+   BACK TO RAFFLE SERVERS
+========================================================= */
+
+function raffleHome(){
+
+  $("raffleHome")
+    .style.display =
+    "block";
+
+
+  $("raffleServer")
+    .style.display =
+    "none";
+
+
+  activeServer =
+    null;
+
+}
+
+
+/* =========================================================
+   RAFFLE CARD
+========================================================= */
+
+function raffleCard(item){
+
+  const result =
+    String(
+      item.result || ""
+    ).toLowerCase();
+
+
+  let className =
+    "pending";
+
+
+  if(
+    result === "win" ||
+    result === "won"
+  ){
+
+    className =
+      "win";
+
+  }else if(
+    result === "loss" ||
+    result === "lost"
+  ){
+
+    className =
+      "loss";
+
+  }
+
+
+  const profit =
+    raffleProfit(item);
+
+
+  return `
+
+    <div class="raffle">
+
+      <div class="raffleTop">
+
+        <div>
+
+          <b>
+            ${escapeHTML(
+              item.title ||
+              "Raffle"
+            )}
+          </b>
+
+          <div class="sub">
+            ${formatDate(
+              item.date ||
+              item.created_at
+            )}
+          </div>
+
+        </div>
+
+
+        <span
+          class="pill ${className}"
+        >
+          ${className.toUpperCase()}
+        </span>
+
+      </div>
+
+
+      <div class="values">
+
+        <div class="val">
+
+          <span>
+            ENTERED
+          </span>
+
+          <b>
+            ⏣${formatMoney(
+              item.amount_entered
+            )}
+          </b>
+
+        </div>
+
+
+        <div class="val">
+
+          <span>
+            RECEIVED
+          </span>
+
+          <b>
+            ⏣${formatMoney(
+              item.amount_received
+            )}
+          </b>
+
+        </div>
+
+
+        <div class="val">
+
+          <span>
+            NET
+          </span>
+
+          <b
+            class="${
+              profit > 0
+                ? "green"
+                : profit < 0
+                  ? "red"
+                  : "muted"
+            }"
+          >
+            ${signedMoney(profit)}
+          </b>
+
+        </div>
+
+      </div>
+
+
+      ${
+        item.notes
+          ? `
+            <div
+              class="sub"
+              style="margin-top:10px"
+            >
+              ${escapeHTML(
+                item.notes
+              )}
+            </div>
+          `
+          : ""
+      }
+
+
+      <div class="actions">
+
+        <button
+          class="btn sm"
+          onclick="
+            raffleModal(
+              '${escapeHTML(item.id)}'
+            )
+          "
+        >
+          Edit
+        </button>
+
+
+        <button
+          class="btn sm danger"
+          onclick="
+            deleteRow(
+              'raffles',
+              '${escapeHTML(item.id)}'
+            )
+          "
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function renderStatistics(){
+
+  const fees =
+    grinders.reduce(
+      (total,item) =>
+        total + Number(item.fee || 0),
+      0
+    );
+
+
+  const badgeAverage =
+    badges.length
+      ? badges.reduce(
+          (total,item) =>
+            total + badgeScore(item),
+          0
+        ) / badges.length
+      : 0;
+
+
+  const achievementAverage =
+    achievements.length
+      ? achievements.reduce(
+          (total,item) =>
+            total +
+            percentage(
+              item.current,
+              item.required
+            ),
+          0
+        ) / achievements.length
+      : 0;
+
+
+  $("stFees").textContent =
+    "⏣" +
+    formatMoney(fees);
+
+
+  $("stBadge").textContent =
+    badgeAverage.toFixed(1)
+    + "%";
+
+
+  $("stAch").textContent =
+    achievementAverage.toFixed(1)
+    + "%";
+
+
+  $("stRaffle").textContent =
+    signedMoney(
+      raffleNet()
+    );
+
+
+  $("rCount").textContent =
+    raffles.length;
+
+
+  $("rWins").textContent =
+    raffles.filter(
+      item =>
+        ["win","won"].includes(
+          String(
+            item.result
+          ).toLowerCase()
+        )
+    ).length;
+
+
+  $("rLoss").textContent =
+    raffles.filter(
+      item =>
+        ["loss","lost"].includes(
+          String(
+            item.result
+          ).toLowerCase()
+        )
+    ).length;
+
+
+  $("rEntered").textContent =
+    "⏣" +
+    formatMoney(
+      raffles.reduce(
+        (total,item) =>
+          total +
+          Number(
+            item.amount_entered || 0
+          ),
+        0
+      )
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function page(name){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(element =>
+      element.classList.remove(
+        "active"
+      )
+    );
+
+
+  const target =
+    $("page-" + name);
+
+
+  if(target)
+    target.classList.add(
+      "active"
+    );
+
+
+  document
+    .querySelectorAll("[data-page]")
+    .forEach(button =>
+      button.classList.toggle(
+        "active",
+        button.dataset.page === name
+      )
+    );
+
+
+  $("title").textContent =
+    pageInfo[name][0];
+
+
+  $("subtitle").textContent =
+    pageInfo[name][1];
+
+
+  if(name === "raffles")
+    raffleHome();
+
+}
+
+
+/* Navigation buttons */
+
+document
+  .querySelectorAll("[data-page]")
+  .forEach(button => {
+
+    button.onclick = () =>
+      page(
+        button.dataset.page
+      );
+
+  });
+
+
+/* =========================================================
+   GRINDER MODAL
+========================================================= */
+
+function grinderModal(id=""){
+
+  const item =
+    grinders.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  openModal(
+
+    item
+      ? "Edit Grinder"
+      : "Add Grinder",
+
+    `
+
+      <form
+        class="form"
+        onsubmit="
+          saveGrinder(
+            event,
+            '${item?.id || ""}'
+          )
+        "
+      >
+
+        <div class="field">
+
+          <label>
+            Server
+          </label>
+
+          <input
+            id="grinderName"
+            required
+            value="${escapeHTML(
+              item?.server_name || ""
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Fee
+          </label>
+
+          <input
+            id="grinderFee"
+            required
+            placeholder="49m / 500m / 1b"
+            value="${
+              item
+                ? escapeHTML(
+                    item.fee
+                  )
+                : ""
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Paid until
+          </label>
+
+          <input
+            id="grinderDate"
+            type="datetime-local"
+            required
+            value="${inputDateTime(
+              item?.paid_until ||
+              Date.now() +
+              7 * 86400000
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Duration days
+          </label>
+
+          <input
+            id="grinderDuration"
+            type="number"
+            min="1"
+            value="${
+              item?.duration_days ||
+              7
+            }"
+          >
+
+        </div>
+
+
+        <div class="modalActions">
+
+          <button
+            type="button"
+            class="btn"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn primary"
+          >
+            Save
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+
+  );
+
+}
+
+
+/* =========================================================
+   SAVE GRINDER
+========================================================= */
+
+async function saveGrinder(
+  event,
+  id
+){
+
+  event.preventDefault();
+
+
+  const payload = {
+
+    server_name:
+      $("grinderName")
+        .value
+        .trim(),
+
+    fee:
+      parseAmount(
+        $("grinderFee").value
+      ),
+
+    paid_until:
+      new Date(
+        $("grinderDate").value
+      ).toISOString(),
+
+    duration_days:
+      Number(
+        $("grinderDuration").value
+      ) || 7
+
+  };
+
+
+  const result =
+    id
+      ? await db
+          .from("grinder_fees")
+          .update(payload)
+          .eq("id",id)
+
+      : await db
+          .from("grinder_fees")
+          .insert(payload);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  await loadData();
+
+}
+
+
+/* =========================================================
+   RENEW GRINDER
+========================================================= */
+
+async function renewGrinder(id){
+
+  const item =
+    grinders.find(
+      x => x.id === id
+    );
+
+
+  if(!item)
+    return;
+
+
+  let date =
+    new Date(
+      item.paid_until
+    );
+
+
+  if(
+    date.getTime() <
+    Date.now()
+  ){
+
+    date =
+      new Date();
+
+  }
+
+
+  date.setDate(
+    date.getDate() +
+    Number(
+      item.duration_days || 7
+    )
+  );
+
+
+  const result =
+    await db
+      .from("grinder_fees")
+      .update({
+        paid_until:
+          date.toISOString()
+      })
+      .eq("id",id);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadData();
+
+  toast(
+    "Grinder renewed!"
+  );
+
+}
+
+
+/* =========================================================
+   HEIST MODAL
+========================================================= */
+
+function heistModal(id=""){
+
+  const item =
+    heists.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  openModal(
+
+    item
+      ? "Edit Heist"
+      : "Add Heist",
+
+    `
+
+      <form
+        class="form"
+        onsubmit="
+          saveHeist(
+            event,
+            '${item?.id || ""}'
+          )
+        "
+      >
+
+        <div class="field">
+
+          <label>
+            Server / Heist
+          </label>
+
+          <input
+            id="heistName"
+            required
+            value="${escapeHTML(
+              item?.name || ""
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            End time
+          </label>
+
+          <input
+            id="heistDate"
+            type="datetime-local"
+            required
+            value="${inputDateTime(
+              item?.end_time ||
+              Date.now() +
+              3600000
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Notes
+          </label>
+
+          <textarea
+            id="heistNotes"
+          >${escapeHTML(
+            item?.notes || ""
+          )}</textarea>
+
+        </div>
+
+
+        <div class="modalActions">
+
+          <button
+            type="button"
+            class="btn"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn primary"
+          >
+            Save
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+
+  );
+
+}
+
+
+/* =========================================================
+   SAVE HEIST
+========================================================= */
+
+async function saveHeist(
+  event,
+  id
+){
+
+  event.preventDefault();
+
+
+  const payload = {
+
+    name:
+      $("heistName")
+        .value
+        .trim(),
+
+    end_time:
+      new Date(
+        $("heistDate").value
+      ).toISOString(),
+
+    notes:
+      $("heistNotes")
+        .value
+        .trim()
+
+  };
+
+
+  const result =
+    id
+      ? await db
+          .from("heists")
+          .update(payload)
+          .eq("id",id)
+
+      : await db
+          .from("heists")
+          .insert(payload);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  await loadData();
+
+}
+
+
+/* =========================================================
+   BADGE MODAL
+========================================================= */
+
+function badgeModal(id=""){
+
+  const item =
+    badges.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  openModal(
+
+    item
+      ? "Edit Badge"
+      : "Add Badge",
+
+    `
+
+      <form
+        class="form"
+        onsubmit="
+          saveBadge(
+            event,
+            '${item?.id || ""}'
+          )
+        "
+      >
+
+        <div class="field">
+
+          <label>
+            Badge name
+          </label>
+
+          <input
+            id="badgeName"
+            required
+            value="${escapeHTML(
+              item?.badge_name || ""
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Gold current
+          </label>
+
+          <input
+            id="goldCurrent"
+            type="number"
+            min="0"
+            value="${
+              item?.gold_current || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Gold required
+          </label>
+
+          <input
+            id="goldRequired"
+            type="number"
+            min="0"
+            value="${
+              item?.gold_required || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Platinum current
+          </label>
+
+          <input
+            id="platCurrent"
+            type="number"
+            min="0"
+            value="${
+              item?.platinum_current || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Platinum required
+          </label>
+
+          <input
+            id="platRequired"
+            type="number"
+            min="0"
+            value="${
+              item?.platinum_required || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="modalActions">
+
+          <button
+            type="button"
+            class="btn"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn primary"
+          >
+            Save
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+
+  );
+
+}
+
+
+/* =========================================================
+   SAVE BADGE
+
+   IMPORTANT:
+   Uses badge_name.
+   No fake completed field.
+========================================================= */
+
+async function saveBadge(
+  event,
+  id
+){
+
+  event.preventDefault();
+
+
+  const payload = {
+
+    badge_name:
+      $("badgeName")
+        .value
+        .trim(),
+
+    gold_current:
+      Number(
+        $("goldCurrent").value
+      ) || 0,
+
+    gold_required:
+      Number(
+        $("goldRequired").value
+      ) || 0,
+
+    platinum_current:
+      Number(
+        $("platCurrent").value
+      ) || 0,
+
+    platinum_required:
+      Number(
+        $("platRequired").value
+      ) || 0
+
+  };
+
+
+  const result =
+    id
+      ? await db
+          .from("badges")
+          .update(payload)
+          .eq("id",id)
+
+      : await db
+          .from("badges")
+          .insert(payload);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  await loadData();
+
+}
+
+
+/* =========================================================
+   BADGE +1 / CUSTOM
+========================================================= */
+
+async function badgeAdd(
+  id,
+  type,
+  amount
+){
+
+  const item =
+    badges.find(
+      x => x.id === id
+    );
+
+
+  if(!item)
+    return;
+
+
+  const column =
+    type === "platinum"
+      ? "platinum_current"
+      : "gold_current";
+
+
+  const payload = {};
+
+
+  payload[column] =
+    Number(
+      item[column] || 0
+    ) + Number(amount);
+
+
+  const result =
+    await db
+      .from("badges")
+      .update(payload)
+      .eq("id",id);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadData();
+
+}
+
+
+async function badgeCustom(
+  id,
+  type
+){
+
+  const value =
+    prompt(
+      "How much should be added?"
+    );
+
+
+  if(value === null)
+    return;
+
+
+  const amount =
+    parseAmount(value);
+
+
+  if(amount < 0){
+
+    toast(
+      "Invalid amount."
+    );
+
+    return;
+
+  }
+
+
+  await badgeAdd(
+    id,
+    type,
+    amount
+  );
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENT MODAL
+========================================================= */
+
+function achievementModal(id=""){
+
+  const item =
+    achievements.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  openModal(
+
+    item
+      ? "Edit Achievement"
+      : "Add Achievement",
+
+    `
+
+      <form
+        class="form"
+        onsubmit="
+          saveAchievement(
+            event,
+            '${item?.id || ""}'
+          )
+        "
+      >
+
+        <div class="field">
+
+          <label>
+            Achievement name
+          </label>
+
+          <input
+            id="achievementName"
+            required
+            value="${escapeHTML(
+              item?.name || ""
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Current
+          </label>
+
+          <input
+            id="achievementCurrent"
+            type="number"
+            min="0"
+            value="${
+              item?.current || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Required
+          </label>
+
+          <input
+            id="achievementRequired"
+            type="number"
+            min="0"
+            value="${
+              item?.required || 0
+            }"
+          >
+
+        </div>
+
+
+        <div class="modalActions">
+
+          <button
+            type="button"
+            class="btn"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn primary"
+          >
+            Save
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+
+  );
+
+}
+
+
+/* =========================================================
+   SAVE ACHIEVEMENT
+========================================================= */
+
+async function saveAchievement(
+  event,
+  id
+){
+
+  event.preventDefault();
+
+
+  const payload = {
+
+    name:
+      $("achievementName")
+        .value
+        .trim(),
+
+    current:
+      Number(
+        $("achievementCurrent").value
+      ) || 0,
+
+    required:
+      Number(
+        $("achievementRequired").value
+      ) || 0
+
+  };
+
+
+  const result =
+    id
+      ? await db
+          .from("achievements")
+          .update(payload)
+          .eq("id",id)
+
+      : await db
+          .from("achievements")
+          .insert(payload);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  await loadData();
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENT +1 / CUSTOM
+========================================================= */
+
+async function achievementAdd(
+  id,
+  amount
+){
+
+  const item =
+    achievements.find(
+      x => x.id === id
+    );
+
+
+  if(!item)
+    return;
+
+
+  const result =
+    await db
+      .from("achievements")
+      .update({
+        current:
+          Number(
+            item.current || 0
+          ) +
+          Number(amount)
+      })
+      .eq("id",id);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadData();
+
+}
+
+
+async function achievementCustom(
+  id
+){
+
+  const value =
+    prompt(
+      "How much should be added?"
+    );
+
+
+  if(value === null)
+    return;
+
+
+  const amount =
+    parseAmount(value);
+
+
+  if(amount < 0){
+
+    toast(
+      "Invalid amount."
+    );
+
+    return;
+
+  }
+
+
+  await achievementAdd(
+    id,
+    amount
+  );
+
+}
+
+
+/* =========================================================
+   RAFFLE MODAL
+
+   Example:
+   Enter 500m
+   Win → receive 1b
+   Loss → receive 0
+========================================================= */
+
+function raffleModal(id=""){
+
+  const item =
+    raffles.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  const servers =
+    [
+      ...new Set(
+        raffles
+          .map(
+            x =>
+              x.server_name
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  openModal(
+
+    item
+      ? "Edit Raffle"
+      : "Add Raffle",
+
+    `
+
+      <form
+        class="form"
+        onsubmit="
+          saveRaffle(
+            event,
+            '${item?.id || ""}'
+          )
+        "
+      >
+
+        <div class="field">
+
+          <label>
+            Server
+          </label>
+
+          <input
+            id="raffleServerName"
+            required
+            list="raffleServers"
+            value="${escapeHTML(
+              item?.server_name ||
+              activeServer ||
+              ""
+            )}"
+          >
+
+          <datalist id="raffleServers">
+
+            ${servers
+              .map(
+                server =>
+                  `<option
+                    value="${escapeHTML(
+                      server
+                    )}"
+                  >`
+              )
+              .join("")}
+
+          </datalist>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Raffle title
+          </label>
+
+          <input
+            id="raffleTitle"
+            value="${escapeHTML(
+              item?.title ||
+              "Raffle"
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Amount entered
+          </label>
+
+          <input
+            id="raffleEntered"
+            required
+            placeholder="500m"
+            value="${
+              item
+                ? escapeHTML(
+                    item.amount_entered
+                  )
+                : ""
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Result
+          </label>
+
+          <select id="raffleResult">
+
+            <option
+              value="win"
+              ${
+                item?.result === "win"
+                  ? "selected"
+                  : ""
+              }
+            >
+              WIN
+            </option>
+
+            <option
+              value="loss"
+              ${
+                item?.result === "loss"
+                  ? "selected"
+                  : ""
+              }
+            >
+              LOSS
+            </option>
+
+            <option
+              value="pending"
+              ${
+                !item ||
+                item?.result === "pending"
+                  ? "selected"
+                  : ""
+              }
+            >
+              PENDING
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Amount received
+          </label>
+
+          <input
+            id="raffleReceived"
+            placeholder="1b"
+            value="${
+              item
+                ? escapeHTML(
+                    item.amount_received
+                  )
+                : ""
+            }"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Date
+          </label>
+
+          <input
+            id="raffleDate"
+            type="datetime-local"
+            required
+            value="${inputDateTime(
+              item?.date ||
+              Date.now()
+            )}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Notes
+          </label>
+
+          <textarea
+            id="raffleNotes"
+          >${escapeHTML(
+            item?.notes || ""
+          )}</textarea>
+
+        </div>
+
+
+        <div class="modalActions">
+
+          <button
+            type="button"
+            class="btn"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="btn primary"
+          >
+            Save
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+
+  );
+
+}
+
+
+/* =========================================================
+   SAVE RAFFLE
+========================================================= */
+
+async function saveRaffle(
+  event,
+  id
+){
+
+  event.preventDefault();
+
+
+  const resultType =
+    $("raffleResult").value;
+
+
+  const entered =
+    parseAmount(
+      $("raffleEntered").value
+    );
+
+
+  let received =
+    parseAmount(
+      $("raffleReceived").value
+    );
+
+
+  /*
+    A loss means the player gets
+    nothing back.
+  */
+
+  if(resultType === "loss")
+    received = 0;
+
+
+  const payload = {
+
+    server_name:
+      $("raffleServerName")
+        .value
+        .trim(),
+
+    title:
+      $("raffleTitle")
+        .value
+        .trim()
+      ||
+      "Raffle",
+
+    amount_entered:
+      entered,
+
+    amount_received:
+      received,
+
+    result:
+      resultType,
+
+    date:
+      new Date(
+        $("raffleDate").value
+      ).toISOString(),
+
+    notes:
+      $("raffleNotes")
+        .value
+        .trim()
+
+  };
+
+
+  const result =
+    id
+
+      ? await db
+          .from("raffles")
+          .update(payload)
+          .eq("id",id)
+
+      : await db
+          .from("raffles")
+          .insert(payload);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  await loadData();
+
+
+  if(activeServer)
+    openRaffleServer(
+      payload.server_name
+    );
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deleteRow(
+  table,
+  id
+){
+
+  if(
+    !confirm(
+      "Delete this item?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const result =
+    await db
+      .from(table)
+      .delete()
+      .eq("id",id);
+
+
+  if(result.error){
+
+    toast(
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadData();
+
+
+  if(
+    table === "raffles" &&
+    activeServer
+  ){
+
+    openRaffleServer(
+      activeServer
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LIVE COUNTDOWN
+
+   Does NOT hit Supabase every second.
+   It only redraws the countdown.
+========================================================= */
+
+setInterval(
+
+  () => {
+
+    renderDashboard();
+
+    renderGrinders();
+
+    renderHeists();
+
+    if(activeServer)
+      openRaffleServer(
+        activeServer
+      );
+
+  },
+
+  1000
+
+);
+
+
+/* =========================================================
+   AUTO SUPABASE REFRESH
+
+   Every 30 seconds.
+========================================================= */
+
+setInterval(
+
+  () => {
+
+    loadData();
+
+  },
+
+  30000
+
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadData();
+
 </script>
+
 </body>
 </html>
